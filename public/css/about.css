@@ -1,0 +1,142 @@
+header {
+    height: 90vh;
+    overflow: hidden;
+    background: white;
+    margin-bottom: 2rem;
+}
+
+.about-header {
+    background: url("../images/parker-gibbons-kfwPJieZVwI-unsplash.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 85%;
+    margin: auto;
+    height: 100%;
+}
+
+.about-header__container {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.about-header__text {
+    text-align: center;
+    color: #f7f7f7;
+    font-family: 'Montserrat', 'sans-serif';
+    margin: auto;
+}
+
+.about-header__text h1 {
+    font-size: 4rem;
+    margin: 1rem auto;
+}
+
+.about-header__text h3 {
+    font-family: 'Khand', sans-serif;
+    font-size: 2rem;
+}
+
+.intro {
+    font-family: 'Montserrat', 'sans-serif';
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.intro-text {
+    width: 60%;
+    padding: 2rem 0;
+    margin: auto;
+    text-align: center;
+}
+
+.intro-text h1 {
+    font-size: 8rem;
+    color: #73777c;
+}
+
+.intro-text big {
+    font-weight: 500;
+    margin: 1rem auto;
+}
+
+.intro-footer {
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.intro-footer p {
+    font-weight: bolder;
+    color: #333333;
+}
+
+.intro-text .light {
+    font-weight: 200;
+    color: #73777c;
+}
+
+@media screen and (max-width: 800px) {
+    .intro-text {
+        width: 90%;
+    }
+}
+
+.unique {
+    background: url("../images/Pattern-Randomized.svg");
+    background-attachment: fixed;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: fit-content;
+    margin-top: 3rem;
+}
+
+.unique-container {
+    background-color: rgba(252, 186, 3, 0.8);
+    height: 100%;
+    padding: 1rem;
+}
+
+.unique-text {
+    font-family: 'Montserrat', 'sans-serif';
+    color: #333333;
+    margin: auto;
+}
+
+.unique-text__title {
+    padding: 1rem;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+.unique-text__content {
+    display: flex;
+    padding: 1rem 0;
+    width: 80%;
+    margin: auto;
+}
+
+.unique-text__content-item {
+    flex: 0 0 calc(33.33%);
+    margin: 0 .5rem;
+}
+
+.justify-container .button {
+    margin: auto;
+}
+
+@media screen and (max-width: 800px) {
+    .unique-text__content {
+        flex-direction: column;
+    }
+
+    .unique-text__content-item {
+        flex: 0 0 calc(80%);
+        margin: 1rem auto;
+    }
+}

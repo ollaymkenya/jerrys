@@ -1,0 +1,33 @@
+<section class="navigation">
+    <div class="navigation-container">
+        <ul class="navigation-list">
+            <a href="/dashboard">
+                <li class="navigation-list__item <%= path === '/dashboard' ? 'active' : '' %>">
+                    <ion-icon name="home-outline"></ion-icon>
+                </li>
+            </a>
+            <a href="/chat">
+                <li class="navigation-list__item <%= path === '/dash/chat' ? 'active' : '' %>">
+                    <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                </li>
+            </a>
+            <a href="/projects-newProject">
+                <li
+                    class="navigation-list__item <%= path === '/projects-newProject' || path === '/projects' || path === '/projects-newParameter' ? 'active' : '' %>">
+                    <ion-icon name="file-tray-full-outline"></ion-icon>
+                </li>
+            </a>
+            <a href="/content-faq">
+                <li class="navigation-list__item <%= path === '/dash/content' ? 'active' : '' %>">
+                    <ion-icon name="earth-outline"></ion-icon>
+                </li>
+            </a>
+            <form action="/logout" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit">
+                    <ion-icon name="log-out-outline"></ion-icon>
+                </button>
+            </form>
+        </ul>
+    </div>
+</section>

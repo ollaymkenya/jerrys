@@ -1,0 +1,89 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <section class="main">
+        <div id="main-container__projects" class="main-projects__container">
+            <div class="main-projects__nav">
+                <ul class="projects__nav-list">
+                    <a href="/projects-newProject" class="<%= path === '/projects-newProject' ? 'active' :'' %>">
+                        <li>
+                            Place your order
+                        </li>
+                    </a>
+                    <a href="/projects" class="<%= path === '/projects' ? 'active' :'' %>">
+                        <li>
+                            Your Projects
+                        </li>
+                    </a>
+                </ul>
+            </div>
+            <div class="main-project__section">
+                <div class="project-form__container">
+                    <h3 class="project-form__title">Place your Order</h3>
+                    <form action="" method="post" class="user-projects__form">
+                        <label for="typeOfService">Type Of Service</label>
+                        <select name="typeOfService" id="typeOfService">
+                            <option value="0">Academic paper writing</option>
+                            <option value="1">Rewriting</option>
+                        </select>
+                        <label for="typeOfPaper">type Of Paper</label>
+                        <select name="typeOfPaper" id="typeOfPaper">
+                            <option value="0">Essay</option>
+                            <option value="1">TermPaper work</option>
+                        </select>
+                        <label for="typeOfPaper">type Of Paper</label>
+                        <select name="subject" id="subject">
+                            <option value="0">Architecture</option>
+                            <option value="1">Computing and I.T</option>
+                        </select>
+                        <label for="topic">Topic Of Paper</label>
+                        <input type="text" name="topic" id="topic">
+                        <label for="orderInstructions">Additional Information</label>
+                        <textarea name="orderInstructions" id="" cols="30" rows="10"></textarea>
+                        <label for="documentStyle">Document Style</label>
+                        <select name="documentStyle" id="documentStyle">
+                            <option value="0">MLA</option>
+                            <option value="1">APA</option>
+                            <option value="1">Chicago</option>
+                            <option value="1">Harvard</option>
+                            <option value="1">Turabian</option>
+                        </select>
+                        <label for="resources">Resources</label>
+                        <input type="file" name="resources" id="resources">
+                        <label for="urgency">Urgency</label>
+                        <select name="urgency" id="urgency">
+                            <option value="0">urgency</option>
+                            <option value="1">APA</option>
+                        </select>
+                        <label for="noOfSources">Number Of sources</label>
+                        <div class="nofSources">
+                            <button>-</button>
+                            <input type="number" name="noofSources" id="noofSources">
+                            <button>+</button>
+                        </div>
+                        <label for="academicLevel">Academic Level</label>
+                        <select name="academicLevel" id="academicLevel">
+                            <option value="0">High School</option>
+                            <option value="1">University</option>
+                        </select>
+                        <label for="nofPages">Number of pages</label>
+                        <div class="nofPages">
+                            <button>-</button>
+                            <input type="number" name="nofPages" id="nofPages">
+                            <button>+</button>
+                        </div>
+                        <button type="submit">Proceed to Payment</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

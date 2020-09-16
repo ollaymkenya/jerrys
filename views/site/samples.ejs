@@ -1,0 +1,75 @@
+<link rel="stylesheet" href="css/samples.css">
+<%- include('../includes/head.ejs')%>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs')%>
+    <div class="samples-header">
+        <div class="samples-header__text">
+            <h1>My free samples</h1>
+        </div>
+    </div>
+    </header>
+    <main>
+        <div class="samples-wrapper">
+            <div class="samples-content">
+                <p>There Is Absolutely <span class="highlight">No Better Way</span> For Me To Prove To You About My <span
+                        class="highlight">Quality</span>, <br> than To Let You See
+                    My Work.</p>
+            </div>
+            <ul class="sampels-list">
+                <li>
+                    <div class="samples-list__item">
+                        <div class="samples-list__item-info">
+                            <div class="sample-info__item-title">
+                                <p>FRANKIE BURT’S CASE STUDY</p>
+                            </div>
+                            <div class="sample-info__item-field">
+                                <h4>Institutional Affiliations</h4>
+                            </div>
+                        </div>
+                        <div class="samples-list__item-meta">
+                            <small>Date: <span class="highlight">23/05/2014</span></small>
+                            <small>Pages: <span class="highlight">5</span></small>
+                            <a href="#"><small>
+                                    <ion-icon name="cloud-download"></ion-icon>
+                                </small></a>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="samples-list__item">
+                        <div class="samples-list__item-info">
+                            <div class="sample-info__item-title">
+                                <p>I.T. Case Study</p>
+                            </div>
+                            <div class="sample-info__item-field">
+                                <h4>Institutional Affiliations</h4>
+                            </div>
+                        </div>
+                        <div class="samples-list__item-meta">
+                            <small>Date: <span class="highlight">23/05/2014</span></small>
+                            <small>Pages: <span class="highlight">5</span></small>
+                            <a href="#"><small>
+                                    <ion-icon name="cloud-download"></ion-icon>
+                                </small></a>
+
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="justify">
+            <div class="justify-container testimonials">
+                <div class="justify-center__title-container">
+                    <div class="justify-title">
+                        <h1>What my clients have to say about me</h1>
+                    </div>
+                    <%- include('../includes/testimonials.ejs')%>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include('../includes/footer.ejs')%>
+    <script src="js/testimonials.js"></script>
+    <%- include('../includes/end.ejs')%>

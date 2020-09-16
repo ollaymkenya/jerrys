@@ -1,0 +1,65 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/faq.css">
+<%- include('../includes/head.ejs')%>
+
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <section class="main">
+        <div id="main-container__content" class="main-container__content">
+            <div class="main-projects__nav">
+                <ul class="projects__nav-list">
+                    <a href="/content-faq" class="<%= path === '/dash/content-faq' ? 'active' :'' %>">
+                        <li>
+                            <ion-icon name="help-circle-outline"></ion-icon> F.A.Q
+                        </li>
+                    </a>
+                    <a href="/content-testimonials" class="<%= path === '/dash/content-testimonials' ? 'active' :'' %>">
+                        <li>
+                            <ion-icon name="happy-outline"></ion-icon> Testimonilas
+                        </li>
+                    </a>
+                </ul>
+            </div>
+            <div class="main-faq__container">
+                <form action="/content-faq" method="POST" class="main-faq__form">
+                    <select name="faqCategory" id="faqCategory">
+                        <option value="0">General Questions</option>
+                        <option value="1">Ordering Information</option>
+                        <option value="2">Pricing and Payment</option>
+                        <option value="3">Operations and Quality Assuarance</option>
+                    </select>
+                    <input type="text" name="question">
+                    <textarea name="answer" id="answer" cols="30" rows="10"></textarea>
+                    <button type="submit">Add faq</button>
+                </form>
+                <div class="main-faq__faqs">
+                    <ul class="main-faq__faqs-item">
+                        <% for (let faq of faqs ) {%>
+                        <li>
+                            <div class="faq-qanda__list--icons">
+                                <ion-icon name="create-outline"></ion-icon>
+                                <ion-icon name="trash-outline"></ion-icon>
+                            </div>
+                            <div class="faq-qanda__list-item">
+                                <div class="qanda-list__item-title">
+                                    <h4 class="highlight"><%= faq.question %></h4>
+                                    <ion-icon name="close"></ion-icon>
+                                </div>
+                                <p><%= faq.answer %></p>
+                            </div>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script src="js/faq.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

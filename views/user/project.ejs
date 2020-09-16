@@ -1,0 +1,62 @@
+<link rel="stylesheet" href="/css/dashboard.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <section class="main">
+        <div class="main-project__container">
+            <div class="main-project__chats">
+                <div class="main-project__chat-title">
+                    <div class="main-projects__list-item">
+                        <div class="project-header">
+                            <h3>I.T Research Paper</h3>
+                        </div>
+                        <div class="project-footer">
+                            <small>Submitted on: <small class="primary">2 October 2020</small></small>
+                            <small><small class="success">Completed</small></small>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-project__chat-chats">
+                    <div class="message-chat chat-away">
+                        <p>
+                            Hello Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem magni
+                            exercitationem amet.
+                        </p>
+                        <small>9:19 am</small>
+                    </div>
+                    <div class="message-chat chat-home">
+                        <p>
+                            Hello Lorem ipsum, dolor sit amet consectetur adipisicing elit..
+                        </p>
+                        <small>9:19 am</small>
+                    </div>
+                    <div class="message-chat chat-home">
+                        <p>
+                            Nimekumiss mbaya
+                        </p>
+                        <small>9:19 am</small>
+                    </div>
+                    <div class="message-chat chat-away">
+                        <p>
+                            Chocha
+                        </p>
+                        <small>9:19 am</small>
+                    </div>
+                </div>
+                <div class="main-project__chat-input">
+                    <input type="text" name="message" id="message" placeholder="message..." autocomplete="off">
+                    <button>
+                        <ion-icon name="paper-plane-outline"></ion-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!--Nav markup goes here-->
+<header class="main-header">
+    <div class="menu-bar">
+        <span class="bar"></span>
+    </div>
+    <nav>
+        <div class="nav-container">
+            <div class="nav-continer__logo">
+                <a href="/"><span>J.T.T</span></a>
+            </div>
+            <ul class="nav-container__list">
+                <li class="nav-container__list-item"><a href="/about">about me</a></li>
+                <li class="nav-container__list-item"><a href="/sales">write my paper</a></li>
+                <li class="nav-container__list-item"><a href="/faq">f.a.q</a></li>
+                <li class="nav-container__list-item"><a href="/samples">samples</a></li>
+                <li class="nav-container__list-item"><a href="/contacts">contact me</a></li>
+                <li class="nav-container__list-item"><a href="#">
+                        <ion-icon name="search-outline"></ion-icon>
+                    </a></li>
+            </ul>
+            <ul class="nav-container__auth">
+                <% if(!isAuthenticated) {%>
+                <li class="nav-container__auth-item"><a href="/login">
+                        <ion-icon name="person-outline"></ion-icon>Login/SignUp
+                    </a></li>
+                <% } %>
+                <% if(isAuthenticated) {%>
+                <li class="nav-container__auth-item"><a href="/dashboard">
+                        <ion-icon name="cog-outline"></ion-icon>Dashboard
+                    </a>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </nav>

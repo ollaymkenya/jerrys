@@ -1,0 +1,100 @@
+<link rel="stylesheet" href="/css/dashboard.css">
+<%- include('../includes/head.ejs')%>
+
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <section class="main">
+        <div id="main-container__chat" class="main-container">
+            <div class="main-chat__messages">
+                <div class="main-messages__users">
+                    <div class="main-messages__users-title">
+                        <h3>Messages</h3>
+                    </div>
+                    <ul class="ul-messages-users__list">
+                        <!-- <li>
+                            <div class="messages-users__list-item">
+                                <div class="card-header__images">
+                                    <div class="card-header__images-text images-grid__item">+5</div>
+                                    <img src="images/finn-hackshaw-rSOdaQMmzd8-unsplash.jpg" alt=""
+                                        class="images-grid__item image1">
+                                    <img src="images/edu-lauton-TyQ-0lPp6e4-unsplash.jpg" alt=""
+                                        class="images-grid__item image2">
+                                </div>
+                                <div class="messanges-user__text">
+                                    <p>My group</p>
+                                </div>
+                            </div>
+                        </li> -->
+                        <% for(let i = 0; i < user.chatRooms.rooms.length; i++) {%>
+                        <a href="/chat/<%= user.chatRooms.rooms[i].name%>">
+                            <li>
+                                <div class="messages-users__list-item">
+                                    <img src="/images/edu-lauton-TyQ-0lPp6e4-unsplash.jpg" alt=""
+                                        style="width: 40px; height: 40px; border-radius: 50%;">
+                                    <div class="messanges-user__text">
+                                        <p><%= user.email === 'olivermuriithi11@gmail.com' && user.isAdmin === true ? user.chatRooms.rooms[i].name.split('and')[1] : user.chatRooms.rooms[i].name.split('and')[0] %>
+                                        </p>
+                                        <span class="info">online</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </a>
+                        <% } %>
+                    </ul>
+                </div>
+                <% if(path === '/dash/chat'){ %>
+                <div class="main-messages__chats">
+                    <div class="main-messages__chat-title">
+                        <h3 id="username">Say hi</h3>
+                        <p>type something</p>
+                    </div>
+                    <div class="main-messages__chat-chats" id="output">
+                        <div class="message-chat chat-home">
+                            <p>
+                                Say something
+                            </p>
+                            <small>current:time am</small>
+                        </div>
+                    </div>
+                </div>
+                <% } else {%>
+                <div class="main-messages__chats">
+                    <div class="main-messages__chat-title">
+                        <h3 id="username">
+                            <%= user.isAdmin === true && user.email === 'olivermuriithi11@gmail.com' ? userRoom.split('and')[1] : userRoom.split('and')[0]%>
+                        </h3>
+                        <p>online</p>
+                    </div>
+                    <div class="main-messages__chat-chats" id="output">
+                        <% for(let i = 0; i < room.messages.length; i++) {%>
+                        <div
+                            class="message-chat <%= user._id.toString() === room.messages[i].from.toString() ? 'chat-home' : 'chat-away' %>">
+                            <p><%= room.messages[i].message%></p>
+                            <small><%= room.messages[i].time%></small>
+                        </div>
+                        <% } %>
+                    </div>
+                    <form class="main-messages__input">
+                        <input type="text" name="message" id="message" placeholder="message..." autocomplete="off">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="user" value="<%= user._id %>" id="userId">
+                        <input type="hidden" name="userRoom" value="<%= userRoom %>" id="userRoom">
+                        <button id="sendMessage">
+                            <ion-icon name="paper-plane-outline"></ion-icon>
+                        </button>
+                    </form>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </section>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chats.js"></script>
+</body>
+
+</html>

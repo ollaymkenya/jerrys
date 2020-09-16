@@ -1,0 +1,79 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<%- include('../includes/head.ejs')%>
+
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <section class="main">
+        <div id="main-container__content" class="main-container__testimonial">
+            <div class="main-projects__nav">
+                <ul class="projects__nav-list">
+                    <a href="/content-faq" class="<%= path === '/dash/content-faq' ? 'active' :'' %>">
+                        <li>
+                            <ion-icon name="help-circle-outline"></ion-icon>F.A.Q
+                        </li>
+                    </a>
+                    <a href="/content-testimonials" class="<%= path === '/dash/content-testimonials' ? 'active' :'' %>">
+                        <li>
+                            <ion-icon name="happy-outline"></ion-icon> Testimonials
+                        </li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+        <div class="main-testimonial__container">
+            <form action="" class="main-form__testimonial">
+                <input type="text" placeholder="My testimonial...">
+                <button type="submit">Leave a testimonial</button>
+            </form>
+            <div class="main-testimonials__list-container">
+                <ul class="main-testimonials__list">
+                    <li>
+                        <div class="main-testimonial__list-item">
+                            <div class="main-testimonial__header">
+                                <h3>John Doe</h3>
+                            </div>
+                            <div class="main-testimonial__body">
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque blanditiis libero
+                                    exercitationem quo ad fugiat ex mollitia magnam officia.</p>
+                            </div>
+                            <div class="main-testimonial__footer">
+                                <span>
+                                    <ion-icon name="trash-outline" class="danger"></ion-icon> delete
+                                </span>
+                                <span>
+                                    <ion-icon name="push-outline" class="primary"></ion-icon> publish
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="main-testimonial__list-item">
+                            <div class="main-testimonial__header">
+                                <h3>John Doe</h3>
+                            </div>
+                            <div class="main-testimonial__body">
+                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque blanditiis libero
+                                    exercitationem quo ad fugiat ex mollitia magnam officia.</p>
+                            </div>
+                            <div class="main-testimonial__footer">
+                                <span>
+                                    <ion-icon name="trash-outline" class="danger"></ion-icon> delete
+                                </span>
+                                <span>
+                                    <ion-icon name="push-outline" class="primary"></ion-icon> publish
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

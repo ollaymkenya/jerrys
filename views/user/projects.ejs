@@ -1,0 +1,114 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <section class="main">
+        <div class="main-header">
+            <div class="main-header__search">
+                <ion-icon name="search-outline"></ion-icon>
+                <input type="text" name="search" id="searchProject">
+            </div>
+            <div class="main-header__profile">
+                <p>Jeremy</p>
+                <img src="images/edu-lauton-TyQ-0lPp6e4-unsplash.jpg" alt=""
+                    style="width: 35px; height: 35px; border-radius: 50%">
+            </div>
+        </div>
+        <div class="main-projects__nav">
+            <ul class="projects__nav-list">
+                <a href="/projects-newProject" class="<%= path === '/projects-newProject' ? 'active' :'' %>">
+                    <li>
+                        Place your order
+                    </li>
+                </a>
+                <a href="/projects" class="<%= path === '/projects' ? 'active' :'' %>">
+                    <li>
+                        Your Projects
+                    </li>
+                </a>
+            </ul>
+        </div>
+        <div class="main-projects__projects">
+            <div class="main-projects">
+                <div class="main-projects__title">
+                    <h3>Projects</h3>
+                </div>
+                <div class="main-projects__card-container">
+                    <div class="main-projects__card">
+                        <div class="main-projects__card-header">
+                            <div class="card-header__images">
+                                <div class="card-header__images-text images-grid__item">+5</div>
+                                <img src="images/finn-hackshaw-rSOdaQMmzd8-unsplash.jpg" alt=""
+                                    class="images-grid__item image1">
+                                <img src="images/edu-lauton-TyQ-0lPp6e4-unsplash.jpg" alt=""
+                                    class="images-grid__item image2">
+                            </div>
+                            <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                        </div>
+                        <div class="main-projects__card-footer">
+                            <h4>New Projects</h4>
+                            <span>5 May 2021</span>
+                        </div>
+                    </div>
+                    <div class="main-projects__card">
+                        <div class="main-projects__card-header">
+                            <div class="card-header__images">
+                                <div class="card-header__images-text images-grid__item">+5</div>
+                                <img src="images/finn-hackshaw-rSOdaQMmzd8-unsplash.jpg" alt=""
+                                    class="images-grid__item image1">
+                                <img src="images/edu-lauton-TyQ-0lPp6e4-unsplash.jpg" alt=""
+                                    class="images-grid__item image2">
+                            </div>
+                            <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                        </div>
+                        <div class="main-projects__card-footer">
+                            <h4>Finished Projects</h4>
+                            <span>21 April 2021</span>
+                        </div>
+                    </div>
+                </div>
+                <ul class="main-projects__list">
+                    <li>
+                        <a href="/projects/1234">
+                            <div class="main-projects__list-item">
+                                <div class="project-header">
+                                    <h3>I.t Research Paper</h3>
+                                    <span>
+                                        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                                    </span>
+                                </div>
+                                <div class="project-footer">
+                                    <small>Submitted on: <small class="primary">2 October 2020</small></small>
+                                    <small><small class="success">Completed</small></small>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/projects/1234">
+                            <div class="main-projects__list-item">
+                                <div class="project-header">
+                                    <h3>I.t Research Paper</h3>
+                                    <span>
+                                        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+                                    </span>
+                                </div>
+                                <div class="project-footer">
+                                    <small>Submitted on: <small class="primary">2 October 2020</small></small>
+                                    <small>Due on: <small class="danger">12 October 2020</small></small>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="css/contacts.css">
+<%- include('../includes/head.ejs')%>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs')%>
+    <div class="contacts-header">
+        <div class="contact-header__text">
+            <h1>Get in touch</h1>
+            <p class="highlight">I will answer any question you might have. <br> I look foward to hearing from you</p>
+        </div>
+    </div>
+    </header>
+    <main>
+        <div class="contacts-wrapper">
+            <div class="contacts-box">
+                <div class="contact-box__left">
+                    <form action="#" class="contacts-form">
+                        <label for="email">Your email address</label>
+                        <input type="email" name="email" id="email">
+                        <label for="question">How can I help you?</label>
+                        <input type="text" name="question" id="question">
+                        <label for="questionContent">Your question</label>
+                        <textarea name="questionContent" id="questionContent" cols="30" rows="4"></textarea>
+                        <button type="submit">Send message</button>
+                    </form>
+                    <hr>
+                    <div class="contact-information">
+                        <h4>Contact Information</h4>
+                        <div class="contact-information__items">
+                            <div class="contact-information__item">
+                                <img src="./images/call-sharp.svg" alt="">
+                                <div class="contact-information__text">
+                                    <p>+123-45678</p>
+                                </div>
+                            </div>
+                            <div class="contact-information__item">
+                                <img src="./images/mail.svg" alt="">
+                                <div class="contact-information__text">
+                                    <p>myemail@email.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-box__right">
+                    <div class="contacts-box__right-text">
+                        <div class="contacts-box__right-title">
+                            <h2>How can I help you ?</h2>
+                            <big>Please select a topic below related to your Inquiry.If you don't find what you need fill
+                                out the contact form.
+                            </big>
+                        </div>
+                        <ul class="contacts-box__topics">
+                            <li>
+                                <div class="contac-box__topics-item">
+                                    <h4>Media and Podcasts</h4>
+                                    <p>I am not doing any interviews currently but am pondering on doing them in the
+                                        future
+                                    </p>
+                                </div>
+                                <ion-icon name="arrow-forward"></ion-icon>
+                            </li>
+                            <li>
+                                <div class="contac-box__topics-item">
+                                    <h4>When to contact me</h4>
+                                    <p>Get to know when I'm readily available and when I can receive orders</p>
+                                </div>
+                                <ion-icon name="arrow-forward"></ion-icon>
+                            </li>
+                            <li>
+                                <div class="contac-box__topics-item">
+                                    <h4>Urget Requests</h4>
+                                    <p>Get a full explanation about this in my F.A.Q page</p>
+                                </div>
+                                <ion-icon name="arrow-forward"></ion-icon>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include('../includes/footer.ejs')%>
+    <%- include('../includes/end.ejs')%>

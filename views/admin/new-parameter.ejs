@@ -1,0 +1,88 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <section class="main">
+        <div id="main-container__projects" class="main-projects__container">
+            <div class="main-projects__nav">
+                <ul class="projects__nav-list">
+                    <a href="/projects-newParameter" class="<%= path === '/projects-newParameter' ? 'active' :'' %>">
+                        <li>
+                            Add Parameter
+                        </li>
+                    </a>
+                    <a href="/projects" class="<%= path === '/projects' ? 'active' :'' %>">
+                        <li>
+                            Your Projects
+                        </li>
+                    </a>
+                </ul>
+            </div>
+            <div class="main-project__section">
+                <div class="project-form__container">
+                    <h3 class="project-form__title">Change Parameters</h3>
+                    <form action="" method="post" class="user-projects__form">
+                        <label for="typeOfServiceAdmin">Parameter</label>
+                        <select name="typeOfServiceAdmin" id="typeOfServiceAdmin">
+                            <option value="0">Type Of Service</option>
+                            <option value="0">Type Of Paper</option>
+                            <option value="0">Subject</option>
+                            <option value="1">Rewriting</option>
+                        </select>
+                        <label for="nameOfParameter">Name of parameter</label>
+                        <input type="text" name="nameOfParameter" id="nameOfParameter">
+                        <label for="nameOfParameter">Price of Parameter</label>
+                        <div class="nofSources">
+                            <button>-</button>
+                            <input type="number" name="noofSources" id="noofSources">
+                            <button>+</button>
+                        </div>
+                        <button type="submit">Add Parameter</button>
+                    </form>
+                </div> 
+                <div class="project-categories__container">
+                    <div class="project-categories__header">
+                        <ul class="project-categories-list">
+                            <li class="active">Type of Service</li>
+                            <li>Type of Paper</li>
+                            <li>Subject</li>
+                        </ul>
+                    </div>
+                    <div class="project-categories__main">
+                        <ul class="type-of__service">
+                            <li>
+                                <div class="text">
+                                    <p>Academic Paper Writing</p>
+                                    <button>edit</button>
+                                    <span>$50.00</span>
+                                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="text last">
+                                    <p>Rewriting</p>
+                                    <button>edit</button>
+                                    <span>$25.00</span>
+                                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                                </div>
+                            </li>
+                        </ul>
+                        <ul class="type-of__paper">
+                        </ul>
+                        <ul class="subject">
+                        </ul>
+                        <ul class="urgency">
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
