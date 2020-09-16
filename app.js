@@ -38,8 +38,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "public")));
 
+const PORT = process.env.PORT || 5000;
+
 const {
-  PORT = 3000,
   NODE_ENV = "development",
   SESS_SECRET = "jtwisawesome",
   SESS_LIFETIME = 1000 * 60 * 60 * 2,
@@ -109,7 +110,7 @@ io.on("connection", (socket) => {
 mongoose
   .connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
   .then((result) => {
-    http.listen(PORT || 3000);
+    http.listen(PORT);
   })
   .catch((err) => {
     console.log(err);
