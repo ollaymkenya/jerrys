@@ -20,8 +20,6 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
-const csrfProtection = csrf();
-
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
@@ -33,6 +31,7 @@ const errorRoutes = require("./routes/error");
 const User = require("./models/User");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+const csrfProtection = csrf();
 
 app.use(express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "public")));
