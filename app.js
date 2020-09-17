@@ -9,7 +9,7 @@ const csrf = require("csurf");
 const flash = require("connect-flash");
 const { formatMessage, saveMsg } = require("./utils/messages");
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw";
 
 const app = express();
 const http = require("http").Server(app);
@@ -80,7 +80,7 @@ app.use((req, res, next) => {
     });
 });
 
-app.use((req, res, next) =>{
+app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
   res.locals.csrfToken = req.csrfToken();
   next();
