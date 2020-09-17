@@ -54,7 +54,7 @@ app.use(
     cookie: {
       maxAge: SESS_LIFETIME,
       sameSite: true, // 'strict']
-      secure: true,
+      secure: false,
     },
     store: store,
   })
