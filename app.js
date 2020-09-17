@@ -9,7 +9,7 @@ const csrf = require("csurf");
 const flash = require("connect-flash");
 const { formatMessage, saveMsg } = require("./utils/messages");
 
-const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw";
+const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
 const http = require("http").Server(app);
@@ -54,7 +54,7 @@ app.use(
     cookie: {
       maxAge: SESS_LIFETIME,
       sameSite: true, // 'strict']
-      secure: IN_PROD,
+      secure: true,
     },
     store: store,
   })
