@@ -1,4 +1,4 @@
-const Faq = require('../models/faq');
+const Faq = require('../models/Faq');
 
 exports.getAdminNewParameter = (req, res, next) => {
     res.render('admin/new-parameter', {
