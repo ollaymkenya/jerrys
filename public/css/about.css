@@ -98,7 +98,7 @@ header {
 
 .unique-container {
     background-color: rgba(252, 186, 3, 0.8);
-    height: 100%;
+    height: fit-content;
     padding: 1rem;
 }
 

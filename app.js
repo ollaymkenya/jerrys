@@ -9,7 +9,7 @@ const csrf = require("csurf");
 const flash = require("connect-flash");
 const { formatMessage, saveMsg } = require("./utils/messages");
 
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = 'mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw';
 
 const app = express();
 const http = require("http").Server(app);
@@ -36,7 +36,7 @@ const csrfProtection = csrf();
 app.use(express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "public")));
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 
 const {
   NODE_ENV = "development",

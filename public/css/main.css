@@ -19,11 +19,21 @@ body {
     color: #EA4F16 !important;
 }
 
-.highlight-brush{
+li .highlight {
+    color: #EA4F16 !important;
+    font-weight: 500;
+}
+
+.problem-list__item {
+    cursor: pointer;
+    margin: .5rem 0;
+}
+
+.highlight-brush {
     position: relative;
 }
 
-.highlight-brush:before{
+.highlight-brush:before {
     background: url("../images/brush_stroke_underline.svg");
     background-repeat: no-repeat;
     position: absolute;
@@ -79,7 +89,7 @@ ul {
 }
 
 .br-success {
-    border: 1px solid  #006d31 !important;
+    border: 1px solid #006d31 !important;
 }
 
 .br-warm {
@@ -110,13 +120,13 @@ ul {
     min-width: 300px;
 }
 
-.flash-message-danger{
+.flash-message-danger {
     background-color: rgba(255, 68, 0, 0.2);
     border: 1px solid #ff4400;
     border-radius: 5px;
 }
 
-.flash-message-success{
+.flash-message-success {
     background-color: rgba(0, 109, 49, 0.2);
     border: 1px solid #006b30;
     border-radius: 5px;
@@ -779,3 +789,11 @@ footer {
 }
 
 /* end of testimonials */
+
+.center{
+    text-align: center;
+}
+
+.thin{
+    margin-left: 1rem;
+}
