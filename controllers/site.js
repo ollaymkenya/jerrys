@@ -47,3 +47,24 @@ exports.getBooks = (req, res, next) => {
         path: '/books'
     });
 }
+
+exports.getTerms = (req, res, next) => {
+    res.render('site/terms', {
+        title: 'Terms and Conditions',
+        path: '/terms'
+    });
+}
+
+exports.getPolicy = (req, res, next) => {
+    res.render('site/policy', {
+        title: 'Privacy Policy',
+        path: '/policy'
+    });
+}
+
+exports.getGurantee = (req, res, next) => {
+    res.render('site/gurantee', {
+        title: 'MoneyBack gurantee',
+        path: '/gurantee'
+    });
+}

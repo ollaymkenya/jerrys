@@ -358,7 +358,7 @@ nav {
 /* footer */
 footer {
     background-color: #f1f1f1;
-    padding: 6rem 1rem;
+    padding: 6rem 1rem .5rem 1rem;
     font-family: 'Montserrat', sans-serif;
 }
 
@@ -796,4 +796,12 @@ footer {
 
 .thin{
     margin-left: 1rem;
+}
+
+.footer-special{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    margin-top: 2rem;
 }

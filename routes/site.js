@@ -17,4 +17,10 @@ router.get('/sales', siteControllers.getSales);
 
 router.get('/books', siteControllers.getBooks);
 
+router.get('/terms', siteControllers.getTerms);
+
+router.get('/policy', siteControllers.getPolicy);
+
+router.get('/gurantee', siteControllers.getGurantee);
+
 module.exports = router;
