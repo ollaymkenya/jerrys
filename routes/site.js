@@ -15,4 +15,6 @@ router.get('/faq', siteControllers.getFAQ);
 
 router.get('/sales', siteControllers.getSales);
 
+router.get('/books', siteControllers.getBooks);
+
 module.exports = router;

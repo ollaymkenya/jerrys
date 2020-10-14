@@ -39,3 +39,11 @@ exports.getSales = (req, res, next) => {
         path: '/sales'
     });
 }
+
+
+exports.getBooks = (req, res, next) => {
+    res.render('site/books', {
+        title: 'Guide Books',
+        path: '/books'
+    });
+}
