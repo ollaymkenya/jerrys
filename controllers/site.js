@@ -62,9 +62,9 @@ exports.getPolicy = (req, res, next) => {
     });
 }
 
-exports.getGurantee = (req, res, next) => {
-    res.render('site/gurantee', {
-        title: 'MoneyBack gurantee',
-        path: '/gurantee'
+exports.getGuarantee = (req, res, next) => {
+    res.render('site/guarantee', {
+        title: 'MoneyBack guarantee',
+        path: '/guarantee'
     });
 }

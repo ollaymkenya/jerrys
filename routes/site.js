@@ -21,6 +21,6 @@ router.get('/terms', siteControllers.getTerms);
 
 router.get('/policy', siteControllers.getPolicy);
 
-router.get('/gurantee', siteControllers.getGurantee);
+router.get('/guarantee', siteControllers.getGuarantee);
 
 module.exports = router;
