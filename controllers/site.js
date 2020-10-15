@@ -40,6 +40,12 @@ exports.getSales = (req, res, next) => {
     });
 }
 
+exports.getPaper = (req, res, next) => {
+    res.render('site/paper', {
+        title: 'Write My Paper',
+        path: '/paper'
+    });
+}
 
 exports.getBooks = (req, res, next) => {
     res.render('site/books', {

@@ -15,6 +15,8 @@ router.get('/faq', siteControllers.getFAQ);
 
 router.get('/sales', siteControllers.getSales);
 
+router.get('/paper', siteControllers.getPaper);
+
 router.get('/books', siteControllers.getBooks);
 
 router.get('/terms', siteControllers.getTerms);

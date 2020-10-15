@@ -1,0 +1,208 @@
+<%- include('../includes/head.ejs')%>
+<link rel="stylesheet" href="/css/paper.css">
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs')%>
+    <div class="paper-container">
+        <div class="paper-form__container">
+            <form class="paper-form">
+                <div class="paper-form__details">
+                    <div class="paper-form__details-header">
+                        <div class="paper-form__details-index">
+                            1
+                        </div>
+                        <h3>Paper Details</h3>
+                    </div>
+                    <div class="paper-form__details-body">
+                        <div class="paper-form__form-item">
+                            <label for="typeOfPaper">Type Of Paper</label>
+                            <select name="typeOfPaper" id="typeOfPaper">
+                                <option value="">Essay</option>
+                                <option value="">Essay</option>
+                                <option value="">Essay</option>
+                                <option value="">Essay</option>
+                                <option value="">Essay</option>
+                                <option value="">Essay</option>
+                            </select>
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="topic">Topic</label>
+                            <input type="text" id="topic" name="topic">
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="orderInstructions">Order Instructions</label>
+                            <textarea name="orderInstructions" id="orderInstructions" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="service">Style</label>
+                            <input type="radio" name="service" id="service1" value="MLA">
+                            <input type="radio" name="service" id="service2" value="APA">
+                            <input type="radio" name="service" id="service3" value="Chicago">
+                            <input type="radio" name="service" id="service4" value="Harvard">
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="nofSources">Number of Sources</label>
+                            <div class="number-of__sources-container">
+                                <div class="number-of__sources-text"><span class="number-of__sources-minus">
+                                        <ion-icon name="remove-outline"></ion-icon>
+                                    </span>
+                                    <span class="number-of__sources-value"><input type="number" name="nofSources"
+                                            id="nofSources"></span>
+                                    <span class="number-of__sources-add">
+                                        <ion-icon name="add-outline"></ion-icon>
+                                    </span>
+                                </div>
+                                <div class="number-of__sources-toggle">
+                                    <input type="checkbox" name="requiredSources" id="requiredSources">
+                                    <span>Not needed</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="additionalMaterials">Additional Materials</label>
+                            <input type="file" id="additionalMaterials" name="additionalMaterials">
+                        </div>
+                    </div>
+                </div>
+                <div class="paper-form__details">
+                    <div class="paper-form__details-header">
+                        <div class="paper-form__details-index">
+                            2
+                        </div>
+                        <h3>Price Calculation</h3>
+                    </div>
+                    <div class="paper-form__details-body">
+                        <div class="paper-form__form-item">
+                            <label for="urgency">Urgency</label>
+                            <select name="urgency" id="urgency">
+                                <option value="">14 days</option>
+                                <option value="">14 days</option>
+                                <option value="">14 days</option>
+                                <option value="">14 days</option>
+                                <option value="">14 days</option>
+                            </select>
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="academicLevel">Academic Level</label>
+                            <select name="academicLevel" id="academicLevel">
+                                <option value="">High School</option>
+                                <option value="">High School</option>
+                                <option value="">High School</option>
+                                <option value="">High School</option>
+                                <option value="">High School</option>
+                            </select>
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="noOfPages">Number of Pages</label>
+                            <div class="number-of__pages-container">
+                                <div class="number-of__pages-text"><span class="number-of__pages-minus">
+                                        <ion-icon name="remove-outline"></ion-icon>
+                                    </span>
+                                    <span class="number-of__pages-value"><input type="number" name="noOfPages"
+                                            id="noOfPages"></span>
+                                    <span class="number-of__pages-add">
+                                        <ion-icon name="add-outline"></ion-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="discount-code">
+                            <label for="discountCode">Discount Code</label>
+                            <input type="text" id="discountCode" name="discountCode">
+                        </div>
+                        <div class="order-total">
+                            <label for="orderTotal">Order Total</label>
+                            <div class="orderTotal-text">
+                                $0.00
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="paper-form__details">
+                    <div class="paper-form__details-header">
+                        <div class="paper-form__details-index">
+                            3
+                        </div>
+                        <h3>Account</h3>
+                        <div class="account-toggle">
+                            <span>New customer</span>
+                            <input type="checkbox" name="account-type" id="account-type">
+                            true
+                            </input>
+                        </div>
+                    </div>
+                    <div class="paper-form__details-body">
+                        <div class="paper-form__form-item">
+                            <label for="username">Name</label>
+                            <input type="text" id="username" name="username" placeholder="User Name">
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="email">Name</label>
+                            <input type="email" id="email" name="email" placeholder="Your e-mail">
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="password">Create password:</label>
+                            <input type="password" id="password" name="password" placeholder="Create your password">
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="password">Name</label>
+                            <input type="password" id="password" name="password" placeholder="Confirm your password">
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="orderInstructions">Order Instructions</label>
+                            <textarea name="orderInstructions" id="orderInstructions" cols="30" rows="10"></textarea>
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="phone">Phone</label>
+                            <select name="country" id="country">
+                                <option value="Kenya">Kenya</option>
+                                <option value="Kenya">Kenya</option>
+                                <option value="Kenya">Kenya</option>
+                                <option value="Kenya">Kenya</option>
+                                <option value="Kenya">Kenya</option>
+                            </select>
+                            <span>+</span>
+                            <input type="telephone" name="telephone" id="telephone">
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </form>
+    </div>
+    <div class="paper-summary">
+        <div class="paper-summary__order-summary">
+            <div class="paper-summary__order-header">
+                <h3>Your order Summary</h3>
+                <p>Essay</p>
+            </div>
+            <div class="paper-summary__order-body">
+                <span>1 page / 275 words</span>
+                <span>$12.99</span>
+            </div>
+            <div class="paper-summary__order-footer">
+                <div class="summary-order__foter-text"><span><strong>Order total</strong></span>
+                    <span><strong>$12.99</strong></span>
+                </div>
+                <button class="">Proceed to safe payment</button>
+            </div>
+        </div>
+        <div class="paper-methods">
+            <div class="paper-methods-header">
+                <h3>Payment methods</h3>
+            </div>
+            <div class="paper-summary__order-body">
+                <span>1 page / 275 words</span>
+                <span>$12.99</span>
+            </div>
+            <div class="paper-summary__order-footer">
+                <div class="summary-order__foter-text"><span><strong>Order total</strong></span>
+                    <span><strong>$12.99</strong></span>
+                </div>
+                <button class="">Proceed to safe payment</button>
+            </div>
+        </div>
+    </div>
+    </div>
+    <%- include('../includes/footer.ejs')%>
+    <%- include('../includes/end.ejs')%>
