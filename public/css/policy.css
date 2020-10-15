@@ -1,4 +1,4 @@
-.guarantee-container {
+.policy-container {
     font-family: 'Roboto', sans-serif;
     width: 100%;
     font-size: 1.2rem;
@@ -11,10 +11,10 @@
     src: url('../fonts/AirbnbCerealBold.ttf');
 }
 
-.guarantee-container__header {
+.policy-container__header {
     height: 60vh;
     width: 100%;
-    background: url("../images/vitaly-taranov-OCrPJce6GPk-unsplash.jpg");
+    background: url("../images/moja-msanii-vO9-gal54go-unsplash.jpg");
     background-size: cover;
     background-position: center center;
     font-size: 2rem;
@@ -23,7 +23,7 @@
     justify-content: center;
 }
 
-.guarantee-container__text {
+.policy-container__text {
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;
     justify-content: center;
@@ -32,7 +32,7 @@
     height: 100%;
 }
 
-.guarantee-container__header h1 {
+.policy-container__header h1 {
     font-family: AirbnbCerealBold;
     color: #ffffff;
 }
@@ -44,25 +44,7 @@
     color: #747474;
 }
 
-.guarantee-content__list {
-    margin: 2rem 0;
-    color: #747474;
-}
-
-.guarantee-content__title {
+.policy-content__title {
     font-family: AirbnbCerealBold;
     color: #313131;
-}
-
-.guarantee-content__list li {
-    margin: .7rem 0;
-    position: relative;
-    padding-left: 2rem;
-}
-
-.guarantee-content__list li::before {
-    content: url("../images/checkmark-circle-outline.svg");
-    position: absolute;
-    left: 0;
-    top: 1.5px;
 }
