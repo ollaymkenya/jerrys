@@ -1,6 +1,5 @@
 main {
     width: 100%;
-    background: rgb(247, 246, 246);
     display: grid;
     grid-template-columns: 4rem auto 25%;
     grid-template-rows: 100vh;
@@ -72,8 +71,9 @@ main {
 /* main section */
 .main {
     width: 100%;
-    padding: 2rem 1rem;
+    padding: 3rem 0;
     height: auto;
+    border: 1px solid #e6e6e6;
 }
 
 /* width */
@@ -101,7 +101,9 @@ main {
 
 .main-header__search {
     position: relative;
-    width: max-content
+    width: max-content;
+    border: 1px solid #e6e6e6;
+    border-radius: 5px;
 }
 
 .main-header__search input {
@@ -279,6 +281,17 @@ main {
 .message-title p {
     margin: 0 1rem;
 }
+
+/* new home page */
+.home-container{
+    height: calc(100vh - 7rem);
+    background: url('../images/wave.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center bottom;
+    width: 100%;
+}
+/* end of new home page */
 
 /* profile section */
 .profile {
