@@ -70,9 +70,10 @@ exports.getProject = (req, res, next) => {
 
 exports.getDashboardTestimonials = (req, res, next) => {
     const user = req.user;
+    console.log('hello');
     res.render('user/content-testimonials', {
         title: 'Content',
-        path: '/dash/content-testimonials',
+        path: '/content-testimonials',
         user: user
     });
 }

@@ -1,0 +1,59 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/contentusers.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="users-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <li class="<%= path === '/content-faq' ? 'active' : '' %>">
+                    <a href="/content-faq"><span>faq</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParamete' ? 'active' : '' %>">
+                    <a href="/content-testimonials"><span>testimonials</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
+                    <a href="/content-users"><span>users</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="users">
+            <div class="users-header">
+                <h4>Users</h4>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path
+                            d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                    </svg>
+                </span>
+            </div>
+            <ul class="users-list">
+                <li>
+                    <div class="users-list__item">
+                        <div class="user-header">
+                            <span>John Doe</span>
+                            <span><ion-icon name="mail-outline"></ion-icon>: johndoe@gmail.com</span>
+                            <span><ion-icon name="call-outline"></ion-icon>: 0712345678</span>
+                        </div>
+                        <div class="user-body">
+                            <span><ion-icon name="calendar-outline"></ion-icon> dd/mm/yy</span>
+                            <span><ion-icon name="briefcase-outline"></ion-icon> Projects: 1</span>
+                            <span>client</span>
+                        </div>
+                        <div class="user-footer">
+                            <span><ion-icon name="trash-outline"></ion-icon></span>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

@@ -1,60 +1,83 @@
 <link rel="stylesheet" href="css/dashboard.css">
-<link rel="stylesheet" href="css/faq.css">
+<link rel="stylesheet" href="css/contentfaq.css">
 <%- include('../includes/head.ejs')%>
 
 </head>
 <main>
     <%- include('../includes/dashnav.ejs')%>
-    <section class="main">
-        <div id="main-container__content" class="main-container__content">
-            <div class="main-projects__nav">
-                <ul class="projects__nav-list">
-                    <a href="/content-faq" class="<%= path === '/dash/content-faq' ? 'active' :'' %>">
-                        <li>
-                            <ion-icon name="help-circle-outline"></ion-icon> F.A.Q
-                        </li>
-                    </a>
-                    <a href="/content-testimonials" class="<%= path === '/dash/content-testimonials' ? 'active' :'' %>">
-                        <li>
-                            <ion-icon name="happy-outline"></ion-icon> Testimonilas
-                        </li>
-                    </a>
-                </ul>
+    <div class="faq-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <li class="<%= path === '/content-faq' ? 'active' : '' %>">
+                    <a href="/content-faq"><span>faq</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParamete' ? 'active' : '' %>">
+                    <a href="/content-testimonials"><span>testimonials</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
+                    <a href="/content-users"><span>users</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="contentfaqs">
+            <div class="contentfaqs-header">
+                <h4>Faqs</h4>
             </div>
-            <div class="main-faq__container">
-                <form action="/content-faq" method="POST" class="main-faq__form">
-                    <select name="faqCategory" id="faqCategory">
-                        <option value="0">General Questions</option>
-                        <option value="1">Ordering Information</option>
-                        <option value="2">Pricing and Payment</option>
-                        <option value="3">Operations and Quality Assuarance</option>
-                    </select>
-                    <input type="text" name="question">
-                    <textarea name="answer" id="answer" cols="30" rows="10"></textarea>
-                    <button type="submit">Add faq</button>
-                </form>
-                <div class="main-faq__faqs">
-                    <ul class="main-faq__faqs-item">
-                        <% for (let faq of faqs ) {%>
-                        <li>
-                            <div class="faq-qanda__list--icons">
-                                <ion-icon name="create-outline"></ion-icon>
-                                <ion-icon name="trash-outline"></ion-icon>
-                            </div>
-                            <div class="faq-qanda__list-item">
-                                <div class="qanda-list__item-title">
-                                    <h4 class="highlight"><%= faq.question %></h4>
-                                    <ion-icon name="close"></ion-icon>
+            <div class="contentfaqs-body">
+                <div class="contentfaqs-changer">
+                    <form action="" class="/faqs-form">
+                        <div class="contentfaqs-input__container">
+                            <label for="faqCategory">Faq Category</label>
+                            <select name="faqCategory" id="faqCategory">
+                                <option value="">General Iinformation</option>
+                                <option value="">Ordering Information</option>
+                                <option value="">Pricing and payment</option>
+                                <option value="">Operations and quality assurance</option>
+                            </select>
+                        </div>
+                        <div class="contentfaqs-input__container">
+                            <label for="faqQuestion">Question</label>
+                            <input type="text" id="faqQuestion" name="faqQuestion">
+                        </div>
+                        <div class="contentfaqs-input__container">
+                            <label for="faqAnswer">Answer</label>
+                            <textarea name="faqAnswer" id="faqAnswer" cols="30" rows="10"></textarea>
+                        </div>
+                        <button>Add Faq</button>
+                    </form>
+                </div>
+                <div class="contentsfaq-made">
+                    <div class="contentsfaq-made__header">
+                        <h4>Faqs</h4>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="contentsfaq-made__container">
+                        <ul class="contentsfaq__list">
+                            <li>
+                                <div class="faq-qanda__list-item">
+                                    <div class="qanda-list__item-title">
+                                        <h4 class="highlight">What is Jerry the Writer website?</h4>
+                                        <ion-icon name="close"></ion-icon>
+                                    </div>
+                                    <p>This is a website where I help make student life easier by; providing guides to help; new
+                                        students write quality assignments, busy students complete assignments fast and for those
+                                        unable to write assignments for whatever reason, I work directly with them by writing
+                                        quality papers for them. I will also feature a blog and partner with some experts to share
+                                        advice on living an enjoyable school life.</p>
                                 </div>
-                                <p><%= faq.answer %></p>
-                            </div>
-                        </li>
-                        <% } %>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <%- include('../includes/dashprofile.ejs')%>
 </main>
 <script src="js/faq.js"></script>

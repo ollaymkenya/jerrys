@@ -1,75 +1,73 @@
 <link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/contentfaq.css">
 <%- include('../includes/head.ejs')%>
 
 </head>
 <main>
     <%- include('../includes/dashnav.ejs')%>
-    <section class="main">
-        <div id="main-container__content" class="main-container__testimonial">
-            <div class="main-projects__nav">
-                <ul class="projects__nav-list">
-                    <a href="/content-faq" class="<%= path === '/dash/content-faq' ? 'active' :'' %>">
-                        <li>
-                            <ion-icon name="help-circle-outline"></ion-icon>F.A.Q
-                        </li>
-                    </a>
-                    <a href="/content-testimonials" class="<%= path === '/dash/content-testimonials' ? 'active' :'' %>">
-                        <li>
-                            <ion-icon name="happy-outline"></ion-icon> Testimonials
-                        </li>
-                    </a>
-                </ul>
+    <div class="testimonials-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <li class="<%= path === '/content-faq' ? 'active' : '' %>">
+                    <a href="/content-faq"><span>faq</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParamete' ? 'active' : '' %>">
+                    <a href="/content-testimonials"><span>testimonials</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
+                    <a href="/content-users"><span>users</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="contentfaqs">
+            <div class="contentfaqs-header">
+                <h4>Testimonials</h4>
+            </div>
+            <div class="contentfaqs-body">
+                <div class="contentfaqs-changer">
+                    <form action="" class="/faqs-form">
+                        <div class="contentfaqs-input__container">
+                            <label for="testimonial">Testimonial</label>
+                            <input type="text" id="testimonial" name="testimonial">
+                        </div>
+                        <button>Add Testimonial</button>
+                    </form>
+                </div>
+                <div class="contentsfaq-made">
+                    <div class="contentsfaq-made__header">
+                        <h4>Testimonials</h4>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="contentsfaq-made__container">
+                        <ul class="contentsfaq__list">
+                            <li>
+                                <div class="testimonial-container">
+                                    <div class="testimonial-header">
+                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae,
+                                            doloremque.</p>
+                                    </div>
+                                    <div class="testimonial-body">
+                                        <span>John Doe</span>
+                                        <span>24th Jan 2021</span>
+                                    </div>
+                                    <div class="testimonial-footer">
+                                        <ion-icon name="paper-plane-outline"></ion-icon>
+                                        <ion-icon name="trash-outline"></ion-icon>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="main-testimonial__container">
-            <form action="" class="main-form__testimonial">
-                <input type="text" placeholder="My testimonial...">
-                <button type="submit">Leave a testimonial</button>
-            </form>
-            <div class="main-testimonials__list-container">
-                <ul class="main-testimonials__list">
-                    <li>
-                        <div class="main-testimonial__list-item">
-                            <div class="main-testimonial__header">
-                                <h3>John Doe</h3>
-                            </div>
-                            <div class="main-testimonial__body">
-                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque blanditiis libero
-                                    exercitationem quo ad fugiat ex mollitia magnam officia.</p>
-                            </div>
-                            <div class="main-testimonial__footer">
-                                <span>
-                                    <ion-icon name="trash-outline" class="danger"></ion-icon> delete
-                                </span>
-                                <span>
-                                    <ion-icon name="push-outline" class="primary"></ion-icon> publish
-                                </span>
-                            </div>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="main-testimonial__list-item">
-                            <div class="main-testimonial__header">
-                                <h3>John Doe</h3>
-                            </div>
-                            <div class="main-testimonial__body">
-                                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Neque blanditiis libero
-                                    exercitationem quo ad fugiat ex mollitia magnam officia.</p>
-                            </div>
-                            <div class="main-testimonial__footer">
-                                <span>
-                                    <ion-icon name="trash-outline" class="danger"></ion-icon> delete
-                                </span>
-                                <span>
-                                    <ion-icon name="push-outline" class="primary"></ion-icon> publish
-                                </span>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </section>
+    </div>
     <%- include('../includes/dashprofile.ejs')%>
 </main>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>

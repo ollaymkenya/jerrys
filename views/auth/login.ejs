@@ -5,49 +5,36 @@
 <body>
     <%- include('../includes/navigation.ejs')%>
     </header>
-    <main>
-        <% if(errorMessage){ %>
-        <div class="flash-message flash-message-danger"><span class="bold">Oh snap!</span><%= errorMessage %></div>
-        <% } %>
-        <div class="container" id="container">
-            <div class="form-container sign-up-container">
-                <form action="/signup" method="POST" autocomplete="off">
-                    <h1>Create Account</h1>
-                    <input class="<%= validationErrors.find(e => e.param === 'username')? 'br-danger': '' %>"
-                        type="text" placeholder="Username" name="username" value="<%= oldSignupInput.username %>" />
-                    <input class="<%= validationErrors.find(e => e.param === 'email')? 'br-danger': '' %>" type="email"
-                        placeholder="Email" name="email" value="<%= oldSignupInput.email %>" />
-                    <input class="<%= validationErrors.find(e => e.param === 'password')? 'br-danger': '' %>"
-                        type="password" placeholder="Password" name="password" value="<%= oldSignupInput.password %>" />
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <button type="submit">Sign Up</button>
-                </form>
-            </div>
-            <div class="form-container sign-in-container">
-                <form action="/login" method="POST" autocomplete="off">
-                    <h1>Sign in</h1>
+    <div class="main login">
+        <div class="form-container log-in-container">
+            <% if(errorMessage){ %>
+            <div class="flash-message flash-message-danger"><span class="bold">Oh snap!</span><%= errorMessage %></div>
+            <% } %>
+            <form action="/login" method="POST" autocomplete="off">
+                <div class="form-header">
+                    <h1>Hi there</h1>
+                </div>
+                <p>Please log in before continuing</p>
+                <div class="form-body">
+                    <label for="email">Email</label>
                     <input type="email" placeholder="Email" name="email" />
+                    <label for="password">Password</label>
                     <input type="password" placeholder="Password" name="password" />
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <a href="/reset" class="danger">Forgot your password?</a>
                     <button type="submit">Sign In</button>
-                </form>
-            </div>
-            <div class="overlay-container">
-                <div class="overlay">
-                    <div class="overlay-panel overlay-left">
-                        <h1>Welcome Back!</h1>
-                        <p>To keep connected with us please login with your personal info</p>
-                        <button class="ghost" id="signIn">Sign In</button>
-                    </div>
-                    <div class="overlay-panel overlay-right">
-                        <h1>Hello, Friend!</h1>
-                        <p>Enter your personal details and start your journey with us</p>
-                        <button class="ghost" id="signUp">Sign Up</button>
-                    </div>
                 </div>
-            </div>
+                <div class="form-footer">
+                    <a href="/reset" class="primary">Forgot your password?</a>
+                    <br>
+                    <br>
+                    <a href="/reset">
+                        If you'd love to have an account check the
+                        <a href="/paper" class="primary">order paper</a>
+                        page
+                    </a>
+                </div>
+            </form>
         </div>
-    </main>
-    <script src="js/login.js"></script>
+    </div>
+    <%- include('../includes/footer.ejs')%>
     <%- include('../includes/end.ejs')%>

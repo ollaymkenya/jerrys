@@ -5,19 +5,20 @@
 <body>
     <%- include('../includes/navigation.ejs')%>
     </header>
-    <main>
-        <% if(errorMessage) {%>
+    <div class="main login">
+        <div class="form-container reset-form">
+            <% if(errorMessage) {%>
             <div class="flash-message flash-message-danger"><span class="bold">Oh snap!</span><%= errorMessage %></div>
-        <% } %>
-        <div class="container" id="container">
-            <div class="reset-form">
-                <form action="/reset" method="POST" autocomplete="off">
-                    <p>Enter your Email to reset Password</p>
+            <% } %>
+            <form action="/reset" method="POST" autocomplete="off">
+                <p>Input your email and we will send you a link to change your password If we find an account assciated
+                    with that email.</p>
+                <div class="form-body">
                     <input type="email" placeholder="Email" name="email" />
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit">Send email</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
-    </main>
+    </div>
     <%- include('../includes/end.ejs')%>

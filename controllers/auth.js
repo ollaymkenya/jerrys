@@ -24,8 +24,34 @@ exports.getLogin = (req, res, next) => {
     }
 
     res.render("auth/login", {
-        title: "Sign Up/Login",
+        title: "Login",
         path: "/login",
+        errorMessage: message,
+        validationErrors: [],
+        oldSignupInput: {
+            username: '',
+            email: '',
+            password: '',
+        },
+        oldLoginInput: {
+            email: '',
+            password: '',
+        }
+    });
+
+};
+
+exports.getSignup = (req, res, next) => {
+    let message = req.flash("error");
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+
+    res.render("auth/signup", {
+        title: "Sign Up",
+        path: "/sign up",
         errorMessage: message,
         validationErrors: [],
         oldSignupInput: {
@@ -48,7 +74,7 @@ exports.postSignUp = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         console.log(errors.array());
-        return res.status(422).render("auth/login", {
+        return res.status(422).render("auth/signup", {
             title: "Sign Up/Login",
             path: "/login",
             errorMessage: errors.array()[0].msg,

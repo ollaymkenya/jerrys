@@ -11,4 +11,6 @@ router.get('/content-faq', Auth.isAuth, adminControllers.getAdminFaq);
 
 router.post('/content-faq', Auth.isAuth, adminControllers.postAdminFaq);
 
+router.get('/content-users', Auth.isAuth, adminControllers.getAdminUsers);
+
 module.exports = router;

@@ -1,84 +1,99 @@
 <link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/newParameter.css">
 <%- include('../includes/head.ejs')%>
 </head>
 <main>
     <%- include('../includes/dashnav.ejs')%>
-    <section class="main">
-        <div id="main-container__projects" class="main-projects__container">
-            <div class="main-projects__nav">
-                <ul class="projects__nav-list">
-                    <a href="/projects-newParameter" class="<%= path === '/projects-newParameter' ? 'active' :'' %>">
-                        <li>
-                            Add Parameter
-                        </li>
-                    </a>
-                    <a href="/projects" class="<%= path === '/projects' ? 'active' :'' %>">
-                        <li>
-                            Your Projects
-                        </li>
-                    </a>
-                </ul>
+    <div class="parameter-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <li class="<%= path === '/projects' ? 'active' : '' %>">
+                    <a href="/projects"><span>projects</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
+                    <a href="/projects-newParameter"><span>parameters</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="parameters">
+            <div class="parameter-header">
+                <h4>Parameters</h4>
             </div>
-            <div class="main-project__section">
-                <div class="project-form__container">
-                    <h3 class="project-form__title">Change Parameters</h3>
-                    <form action="" method="post" class="user-projects__form">
-                        <label for="typeOfServiceAdmin">Parameter</label>
-                        <select name="typeOfServiceAdmin" id="typeOfServiceAdmin">
-                            <option value="0">Type Of Service</option>
-                            <option value="0">Type Of Paper</option>
-                            <option value="0">Subject</option>
-                            <option value="1">Rewriting</option>
-                        </select>
-                        <label for="nameOfParameter">Name of parameter</label>
-                        <input type="text" name="nameOfParameter" id="nameOfParameter">
-                        <label for="nameOfParameter">Price of Parameter</label>
-                        <div class="nofSources">
-                            <button>-</button>
-                            <input type="number" name="noofSources" id="noofSources">
-                            <button>+</button>
+            <div class="parameter-body">
+                <div class="parameter-changer">
+                    <form action="" class="parameter-form">
+                        <div class="parameter-changer__body">
+                            <div class="parameter-input__container">
+                                <label for="parameter">Parameter</label>
+                                <select name="parameter" id="parameter">
+                                    <option value="">Type of service</option>
+                                    <option value="">Type of object</option>
+                                    <option value="">Subject</option>
+                                </select>
+                            </div>
+                            <div class="parameter-input__container">
+                                <label for="parameterName">Name of parameter</label>
+                                <input type="text" id="parameterName" name="parameterName">
+                            </div>
+                            <div class="parameter-input__container">
+                                <label for="parameterPrice">Price of Parameter</label>
+                                <input type="text" name="parameterPrice" id="parameterPrice">
+                            </div>
+                            <button type="submit">Add parameter</button>
                         </div>
-                        <button type="submit">Add Parameter</button>
                     </form>
-                </div> 
-                <div class="project-categories__container">
-                    <div class="project-categories__header">
-                        <ul class="project-categories-list">
-                            <li class="active">Type of Service</li>
-                            <li>Type of Paper</li>
-                            <li>Subject</li>
+                </div>
+                <div class="parameter-made">
+                    <div class="parameter-made__header">
+                        <ul class="parameter-nav__list">
+                            <li class="active">
+                                <span>Type of service</span>
+                            </li>
+                            <li>
+                                <span>Type of objects</span>
+                            </li>
+                            <li>
+                                <span>Subject</span>
+                            </li>
                         </ul>
                     </div>
-                    <div class="project-categories__main">
-                        <ul class="type-of__service">
+                    <div class="parameter-made__container">
+                        <ul class="parameter-made__list">
                             <li>
-                                <div class="text">
-                                    <p>Academic Paper Writing</p>
-                                    <button>edit</button>
-                                    <span>$50.00</span>
-                                    <span><ion-icon name="trash-outline"></ion-icon></span>
+                                <div class="parameter-made__list-item">
+                                    <span>Academic Paper Writing</span>
+                                    <span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px"
+                                            height="16px">
+                                            <path fill="none" d="M0 0h24v24H0z" />
+                                            <path
+                                                d="M16.757 3l-2 2H5v14h14V9.243l2-2V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12.757zm3.728-.9L21.9 3.516l-9.192 9.192-1.412.003-.002-1.417L20.485 2.1z" />
+                                        </svg>
+                                    </span>
+                                    <span>$ 0.00</span>
+                                    <span>
+                                        <svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'
+                                            width='16px' height='16px'>
+                                            <path
+                                                d='M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320'
+                                                fill='none' stroke='currentColor' stroke-linecap='round'
+                                                stroke-linejoin='round' stroke-width='32' />
+                                            <path stroke='currentColor' stroke-linecap='round' stroke-miterlimit='10'
+                                                stroke-width='32' d='M80 112h352' />
+                                            <path
+                                                d='M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224'
+                                                fill='none' stroke='currentColor' stroke-linecap='round'
+                                                stroke-linejoin='round' stroke-width='32' />
+                                        </svg>
+                                    </span>
                                 </div>
                             </li>
-                            <li>
-                                <div class="text last">
-                                    <p>Rewriting</p>
-                                    <button>edit</button>
-                                    <span>$25.00</span>
-                                    <span><ion-icon name="trash-outline"></ion-icon></span>
-                                </div>
-                            </li>
-                        </ul>
-                        <ul class="type-of__paper">
-                        </ul>
-                        <ul class="subject">
-                        </ul>
-                        <ul class="urgency">
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <%- include('../includes/dashprofile.ejs')%>
 </main>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>

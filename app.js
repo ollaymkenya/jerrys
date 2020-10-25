@@ -42,7 +42,7 @@ const PORT = process.env.PORT || 3000;
 const {
   NODE_ENV = "development",
   SESS_SECRET = "jtwisawesome",
-  SESS_LIFETIME = 1000 * 60 * 60 * 2,
+  SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
 } = process.env;
 
 const IN_PROD = NODE_ENV === "production";
