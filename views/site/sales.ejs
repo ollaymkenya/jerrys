@@ -8,7 +8,10 @@
         <div class="sales-nav">
             <div class="sales-nav__container">
                 <img src="/images/lorem-lorem.svg" alt="">
-                <a href="/paper"><button>Ready to buy</button></a>
+                <div class="sales-nav__buttons">
+                    <button id="learnMore">Learn More</button>
+                    <a href="/paper"><button>Ready to buy</button></a>
+                </div>
             </div>
         </div>
         <div class="sales-title">
@@ -140,13 +143,7 @@
             </div>
         </div>
         <div class="phone-image__slider">
-            <img src="/images/phone1.png" alt="phone1">
-            <!-- <img src="/images/phone2.png" alt="phone2">
-            <img src="/images/phone3.png" alt="phone3">
-            <img src="/images/phone4.png" alt="phone4">
-            <img src="/images/phone5.png" alt="phone5">
-            <img src="/images/phone6.png" alt="phone6">
-            <img src="/images/phone7.png" alt="phone7"> -->
+            <img id="phoneImage" src="/images/phone1.png" alt="phone1">
         </div>
         <div class="sales-content__container long-content">
             <p>(<span class="purple-highlight"><strong>96% of students don’t know this</strong></span>. They are
@@ -502,7 +499,7 @@
                 <h3> Introducing…</h3>
             </div>
         </div>
-        <div class="sales2-title">
+        <div class="sales2-title" id="sales2">
             <h1 class="green-highlight">The Student Assignment Platform</h1>
             <h3 class="green-highlight">By Jerry The Writer</h3>
         </div>
@@ -1122,5 +1119,6 @@
         </div>
         <%- include('../includes/footer.ejs')%>
         <script src="js/testimonials.js"></script>
+        <script src="js/sales.js"></script>
         <script src="https://unpkg.com/css-doodle@0.8.5/css-doodle.min.js"></script>
         <%- include('../includes/end.ejs')%>
