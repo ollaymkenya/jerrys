@@ -19,4 +19,10 @@ router.get('/projects/:projectId', Auth.isAuth, userControllers.getProject);
 
 router.get('/content-testimonials', Auth.isAuth, userControllers.getDashboardTestimonials);
 
+router.post('/add-testimonial', Auth.isAuth, userControllers.postAddTestimonail);
+
+router.post('/publish-testimonial', Auth.isAuth, userControllers.postPublishTestimonial);
+
+router.post('/delete-testimonial', Auth.isAuth, userControllers.postDeleteTestimonial);
+
 module.exports = router;

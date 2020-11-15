@@ -11,10 +11,10 @@
                 <li class="<%= path === '/content-faq' ? 'active' : '' %>">
                     <a href="/content-faq"><span>faq</span></a>
                 </li>
-                <li class="<%= path === '/projects-newParamete' ? 'active' : '' %>">
+                <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
                     <a href="/content-testimonials"><span>testimonials</span></a>
                 </li>
-                <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
+                <li class="<%= path === '/content-users' ? 'active' : '' %>">
                     <a href="/content-users"><span>users</span></a>
                 </li>
             </ul>
@@ -25,14 +25,15 @@
             </div>
             <div class="contentfaqs-body">
                 <div class="contentfaqs-changer">
-                    <form action="" class="/faqs-form">
+                    <form action="/content-faq" method="POST" class="faqs-form">
                         <div class="contentfaqs-input__container">
                             <label for="faqCategory">Faq Category</label>
                             <select name="faqCategory" id="faqCategory">
-                                <option value="">General Iinformation</option>
-                                <option value="">Ordering Information</option>
-                                <option value="">Pricing and payment</option>
-                                <option value="">Operations and quality assurance</option>
+                                <option value="General Iinformation">General Iinformation</option>
+                                <option value="Ordering Information">Ordering Information</option>
+                                <option value="Pricing and payment">Pricing and payment</option>
+                                <option value="Operations and quality assurance">Operations and quality assurance
+                                </option>
                             </select>
                         </div>
                         <div class="contentfaqs-input__container">
@@ -44,6 +45,7 @@
                             <textarea name="faqAnswer" id="faqAnswer" cols="30" rows="10"></textarea>
                         </div>
                         <button>Add Faq</button>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     </form>
                 </div>
                 <div class="contentsfaq-made">
@@ -59,19 +61,17 @@
                     </div>
                     <div class="contentsfaq-made__container">
                         <ul class="contentsfaq__list">
+                            <%for (let i = 0; i < faqs.length; i++) {%>
                             <li>
                                 <div class="faq-qanda__list-item">
                                     <div class="qanda-list__item-title">
-                                        <h4 class="highlight">What is Jerry the Writer website?</h4>
+                                        <h4 class="highlight"><%= faqs[i].question %></h4>
                                         <ion-icon name="close"></ion-icon>
                                     </div>
-                                    <p>This is a website where I help make student life easier by; providing guides to help; new
-                                        students write quality assignments, busy students complete assignments fast and for those
-                                        unable to write assignments for whatever reason, I work directly with them by writing
-                                        quality papers for them. I will also feature a blog and partner with some experts to share
-                                        advice on living an enjoyable school life.</p>
+                                    <p><%= faqs[i].answer %></p>
                                 </div>
                             </li>
+                            <% }%>
                         </ul>
                     </div>
                 </div>

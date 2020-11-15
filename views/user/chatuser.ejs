@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="/css/dashboard.css">
-<link rel="stylesheet" href="css/chat.css">
+<link rel="stylesheet" href="/css/chat.css">
 <%- include('../includes/head.ejs')%>
 </head>
 <main>
@@ -16,13 +16,16 @@
             </div>
             <div class="chat-users__body">
                 <ul class="users-list">
-                    <li>
-                        <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
-                        <div class="users_list__item">
-                            <h4>Admin Oliver</h4>
-                            <span>offline</span>
-                        </div>
-                    </li>
+                    <% for(let i = 0; i < contacts.length; i++) { %>
+                    <a href="/chat/<%= chatrooms[i].id %>">
+                        <li>
+                            <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
+                            <div class="users_list__item">
+                                <h4><%= contacts[i].username %></h4>
+                            </div>
+                        </li>
+                    </a>
+                    <% } %>
                 </ul>
             </div>
         </div>
@@ -30,7 +33,7 @@
             <div class="chat-messages__header">
                 <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
                 <div class="user-messages__text">
-                    <h4>Admin Oliver</h4>
+                    <h4><%= otherUser.username %></h4>
                     <span>offline</span>
                 </div>
             </div>

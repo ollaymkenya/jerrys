@@ -16,13 +16,16 @@
             </div>
             <div class="chat-users__body">
                 <ul class="users-list">
-                    <li>
-                        <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
-                        <div class="users_list__item">
-                            <h4>Admin Oliver</h4>
-                            <span>offline</span>
-                        </div>
-                    </li>
+                    <% for(let i = 0; i < contacts.length; i++) { %>
+                    <a href="/chat/<%= chatrooms[i].id %>">
+                        <li>
+                            <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
+                            <div class="users_list__item">
+                                <h4><%= contacts[i].username %></h4>
+                            </div>
+                        </li>
+                    </a>
+                    <% } %>
                 </ul>
             </div>
         </div>
@@ -30,36 +33,21 @@
             <div class="chat-messages__header">
                 <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
                 <div class="user-messages__text">
-                    <h4>Admin Oliver</h4>
-                    <span>offline</span>
+                    <h4><%= user.username %></h4>
+                    <span>online</span>
                 </div>
             </div>
             <div class="chat-messages__body">
                 <ul class="messages-list">
                     <li class="message-item message-away">
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, cum.</p>
+                        <p>Chat with someone</p>
                         <span>7:00 pm</span>
                     </li>
                     <li class="message-item message-home">
-                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing.</p>
+                        <p>Chat with a friend</p>
                         <span>7: 00pm</span>
                     </li>
                 </ul>
-            </div>
-            <div class="chat-messages__footer">
-                <div class="input-message">
-                    <input type="text" id="chatInput" placeholder="send message...">
-                    <span>
-                        <button type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-send">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
-                        </button>
-                    </span>
-                </div>
             </div>
         </div>
     </div>

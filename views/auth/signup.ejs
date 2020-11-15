@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/login.css">
+<link rel="stylesheet" href="/css/login.css">
 <%- include('../includes/head.ejs')%>
 </head>
 
@@ -29,6 +29,7 @@
                             type="password" placeholder="Password" name="password"
                             value="<%= oldSignupInput.password %>" />
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="token" value="<%= token %>">
                         <button type="submit">Sign Up</button>
                     </div>
                 </form>

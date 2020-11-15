@@ -7,7 +7,8 @@
     <main>
         <div class="paper-container">
             <div class="paper-form__container">
-                <form class="paper-form">
+                <form class="paper-form" action="/new-paper" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="paper-form__details">
                         <div class="paper-form__details-header">
                             <div class="paper-form__details-index">
@@ -19,12 +20,23 @@
                             <div class="paper-form__form-item">
                                 <label for="typeOfPaper">Type Of Paper</label>
                                 <select name="typeOfPaper" id="typeOfPaper">
-                                    <option value="">Essay</option>
-                                    <option value="">Essay</option>
-                                    <option value="">Essay</option>
-                                    <option value="">Essay</option>
-                                    <option value="">Essay</option>
-                                    <option value="">Essay</option>
+                                    <% for(let i = 0; i < parameters.length; i++) { %>
+                                    <% if(parameters[i].category.name === 'Type of service'){ %>
+                                    <option value="<%= parameters[i].id%>" data-price="<%= parameters[i].price%>">
+                                        <%= parameters[i].name %></option>
+                                    <% } %>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <div class="paper-form__form-item">
+                                <label for="subject">Subject</label>
+                                <select name="subject" id="subject">
+                                    <% for(let i = 0; i < parameters.length; i++) { %>
+                                    <% if(parameters[i].category.name === 'subject'){ %>
+                                    <option value="<%= parameters[i].id%>" data-price="<%= parameters[i].price%>">
+                                        <%= parameters[i].name %></option>
+                                    <% } %>
+                                    <% } %>
                                 </select>
                             </div>
                             <div class="paper-form__form-item">
@@ -58,7 +70,12 @@
                                             <ion-icon name="remove-outline"></ion-icon>
                                         </span>
                                         <span class="number-of__sources-value">
-                                            <input type="number" name="nofSources" id="nofSources" value="1" min="1">
+                                            <% for(let i = 0; i < parameters.length; i++) { %>
+                                            <% if(parameters[i].category.name === 'static' && parameters[i].name === 'Number of sources'){ %>
+                                            <input type="number" name="nofSources" id="nofSources" value="1" min="1"
+                                                data-price="<%= parameters[i].price%>">
+                                            <% } %>
+                                            <% } %>
                                         </span>
                                         <span class="number-of__sources-add">
                                             <ion-icon name="add-outline"></ion-icon>
@@ -103,21 +120,23 @@
                             <div class="paper-form__form-item">
                                 <label for="urgency">Urgency</label>
                                 <select name="urgency" id="urgency">
-                                    <option value="">14 days</option>
-                                    <option value="">14 days</option>
-                                    <option value="">14 days</option>
-                                    <option value="">14 days</option>
-                                    <option value="">14 days</option>
+                                    <% for(let i = 0; i < parameters.length; i++) { %>
+                                    <% if(parameters[i].category.name === 'Urgency'){ %>
+                                    <option value="<%= parameters[i].id%>" data-price="<%= parameters[i].price%>">
+                                        <%= parameters[i].name %></option>
+                                    <% } %>
+                                    <% } %>
                                 </select>
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="academicLevel">Academic Level</label>
                                 <select name="academicLevel" id="academicLevel">
-                                    <option value="">High School</option>
-                                    <option value="">High School</option>
-                                    <option value="">High School</option>
-                                    <option value="">High School</option>
-                                    <option value="">High School</option>
+                                    <% for(let i = 0; i < parameters.length; i++) { %>
+                                    <% if(parameters[i].category.name === 'academicLevel'){ %>
+                                    <option value="<%= parameters[i].id%>" data-price="<%= parameters[i].price%>">
+                                        <%= parameters[i].name %></option>
+                                    <% } %>
+                                    <% } %>
                                 </select>
                             </div>
                             <div class="paper-form__form-item">
@@ -128,13 +147,19 @@
                                             <ion-icon name="remove-outline"></ion-icon>
                                         </span>
                                         <span class="number-of__pages-value">
-                                            <input type="number" name="noOfPages" id="noOfPages" value="1" min="1">
+                                            <% for(let i = 0; i < parameters.length; i++) { %>
+                                            <% if(parameters[i].category.name === 'static' && parameters[i].name === 'Number of pages'){ %>
+                                            <input type="number" name="noOfPages" id="noOfPages" value="1" min="1"
+                                                data-price="<%= parameters[i].price%>">
+                                            <% } %>
+                                            <% } %>
                                         </span>
                                         <span class="number-of__pages-add">
                                             <ion-icon name="add-outline"></ion-icon>
                                         </span>
                                     </div>
-                                    <span style="font-weight: 300;"><small><span class="words">275</span> words</small></span>
+                                    <span style="font-weight: 300;"><small><span class="words">275</span>
+                                            words</small></span>
                                 </div>
                             </div>
                             <div class="paper-form__form-item">
@@ -144,7 +169,7 @@
                             <div class="order-total paper-form__form-item">
                                 <label for="orderTotal">Order Total</label>
                                 <span class="orderTotal-text__container">
-                                    <span class="orderTotal-text">$0.00</span>
+                                    <span class="orderTotal-text ordertotal">$17.00</span>
                                 </span>
                             </div>
                         </div>
@@ -155,8 +180,13 @@
                                 <div class="paper-form__details-index">
                                     <span>3</span>
                                 </div>
+                                <% if (!user) { %>
                                 <h3>Account</h3>
+                                <% } else {%>
+                                <h3>Checkout</h3>
+                                <% } %>
                             </div>
+                            <% if (!user) { %>
                             <div class="account-toggle">
                                 <input id="checkedSwitcher" name="checkedSwitcher" type="checkbox" />
                                 <label for="checkedSwitcher">
@@ -166,54 +196,61 @@
                                     </div>
                                 </label>
                             </div>
+                            <% } else{ %>
+                            <input id="checkedSwitcher" name="checkedSwitcher" type="hidden" />
+                            <% } %>
                         </div>
+                        <% if (!user) { %>
+                        <% if(errorMessage){ %>
+                        <div class="flash-message flash-message-danger"><span class="bold">Oh
+                                snap!</span><%= errorMessage %></div>
+                        <% } %>
                         <div class="paper-form__details-body new-user">
                             <div class="paper-form__form-item">
                                 <label for="username">Username</label>
-                                <input type="text" id="username" name="username" placeholder="User Name">
+                                <input type="text" id="username" name="username" placeholder="User Name"
+                                    value="someone">
                             </div>
                             <div class="paper-form__form-item">
-                                <label for="email">Email</label>
-                                <input type="email" id="email" name="email" placeholder="Your e-mail">
+                                <label for="signemail">Email</label>
+                                <input type="email" id="signemail" name="signemail" placeholder="Your e-mail"
+                                    value="someone@email.com">
                             </div>
                             <div class="paper-form__form-item">
-                                <label for="password">Create password:</label>
-                                <input type="password" id="password" name="password" placeholder="Create your password">
+                                <label for="signpassword">Create password:</label>
+                                <input type="password" id="signpassword" name="signpassword"
+                                    placeholder="Create your password" value="pass">
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="confirmPassword">Confirm password</label>
                                 <input type="password" id="confirmPassword" name="confirmPassword"
-                                    placeholder="Confirm your password">
-                            </div>
-                            <div class="paper-form__form-item">
-                                <label for="phone">Phone</label>
-                                <div class="telephone-container">
-                                    <select name="country" id="country">
-                                        <option value="Kenya">Kenya</option>
-                                        <option value="Kenya">Kenya</option>
-                                        <option value="Kenya">Kenya</option>
-                                        <option value="Kenya">Kenya</option>
-                                        <option value="Kenya">Kenya</option>
-                                    </select>
-                                    <span class="country-code">+</span>
-                                    <input type="telephone" name="telephone" id="telephone">
-                                </div>
+                                    placeholder="Confirm your password" value="pass">
                             </div>
                         </div>
                         <div class="paper-form__details-body existing-user d-none">
                             <div class="paper-form__form-item">
                                 <label for="email">Email</label>
-                                <input type="email" id="loginemail" name="email" placeholder="Your e-mail">
+                                <input type="email" id="loginemail" name="email" placeholder="Your e-mail"
+                                    value="someone@gmail.com">
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="password">Password</label>
-                                <input type="password" id="loginpassword" name="password"
-                                    placeholder="Create your password">
+                                <input type="password" id="loginpassword" name="password" placeholder="Your password"
+                                    value="password">
                             </div>
                         </div>
                         <div class="center">
-                            <button class="submit-button">Proceed to safe payment</button>
+                            <button class="submit-button" type="submit">Proceed to safe payment</button>
                         </div>
+                        <% } else {%>
+                        <% if(errorMessage){ %>
+                        <div class="flash-message flash-message-danger"><span class="bold">Oh
+                                snap!</span><%= errorMessage %></div>
+                        <% } %>
+                        <div class="center" style="margin: 1rem auto;">
+                            <button class="submit-button" type="submit">Proceed to safe payment</button>
+                        </div>
+                        <% } %>
                         <div class="agreement">
                             <input type="checkbox" name="agree" id="agree">
                             <label for="agree"><small>I agree with <a href="/terms" class="highlight-green">Terms of
@@ -232,15 +269,23 @@
                 <div class="paper-summary__order-summary">
                     <div class="paper-summary__order-header">
                         <h3>Your order Summary</h3>
-                        <p>Essay</p>
+                        <p>Academic Paper Writing</p>
                     </div>
                     <div class="paper-summary__order-body">
                         <span><span class="pages">1</span> page / <span class="words">275</span> words</span>
-                        <span class="last-child">$12.99</span>
+                        <span class="last-child">$17.00</span>
+                    </div>
+                    <div class="paper-summary__order-body">
+                        <span><span class="pages">High School</span></span>
+                        <span class="last-child">$17.00</span>
+                    </div>
+                    <div class="paper-summary__order-body">
+                        <span><span class="pages">2 days</span></span>
+                        <span class="last-child">$17.00</span>
                     </div>
                     <div class="paper-summary__order-footer">
                         <div class="summary-order__foter-text"><span><strong>Order total</strong></span>
-                            <span><strong>$12.99</strong></span>
+                            <span><strong class="ordertotal">$17.00</strong></span>
                         </div>
                         <button class="submit-button">Proceed to safe payment</button>
                     </div>
@@ -286,6 +331,20 @@
     </main>
     <%- include('../includes/footer.ejs')%>
     <script>
+        // cahnging total price
+        const typeOfPaper = document.getElementById("typeOfPaper")
+        const subject = document.getElementById("subject")
+        const urgency = document.getElementById("urgency")
+        const academicLevel = document.getElementById("academicLevel")
+        const noOfPages = document.getElementById("noOfPages")
+        const nofSources = document.getElementById("nofSources")
+        const changingValues = [typeOfPaper, subject, urgency, academicLevel, noOfPages, nofSources]
+        for (let i = 0; i < changingValues.length; i++) {
+            changingValues[i].onchange = () => {
+                calculateNewTotal();
+            }
+        }
+
         document.getElementById('selectfile').onchange = function () {
             document.getElementById('blankFile').innerHTML =
                 `<span class='highlight-green'><ion-icon name="document-attach-outline"></ion-icon> ${this.files[0].name}</span>`;
@@ -313,13 +372,15 @@
             if (currentValue > 1) {
                 currentValue -= 1;
             }
-            return document.getElementById('nofSources').value = currentValue;
+            document.getElementById('nofSources').value = currentValue;
+            calculateNewTotal();
         })
 
         document.querySelector('.number-of__sources-add').addEventListener('click', (e) => {
             let currentValue = parseInt(document.getElementById('nofSources').value);
             currentValue += 1;
-            return document.getElementById('nofSources').value = currentValue;
+            document.getElementById('nofSources').value = currentValue;
+            calculateNewTotal();
         })
 
         document.getElementById('requiredSources').addEventListener('click', (e) => {
@@ -346,25 +407,44 @@
             if (currentValue > 1) {
                 currentValue -= 1;
             }
-            for(let i = 0; i < document.getElementsByClassName('words').length; i++){
+            for (let i = 0; i < document.getElementsByClassName('words').length; i++) {
                 document.getElementsByClassName('words')[i].innerHTML = 275 * currentValue;
             }
             document.getElementById('noOfPages').value = currentValue;
             document.querySelector('.pages').innerHTML = document.getElementById('noOfPages').value;
+            calculateNewTotal();
         })
 
         document.querySelector('.number-of__pages-add').addEventListener('click', (e) => {
             let currentValue = parseInt(document.getElementById('noOfPages').value);
             currentValue += 1;
-            for(let i = 0; i < document.getElementsByClassName('words').length; i++){
+            for (let i = 0; i < document.getElementsByClassName('words').length; i++) {
                 document.getElementsByClassName('words')[i].innerHTML = 275 * currentValue;
             }
             document.getElementById('noOfPages').value = currentValue;
             document.querySelector('.pages').innerHTML = document.getElementById('noOfPages').value;
+            calculateNewTotal();
         })
 
         document.getElementById('noOfPages').addEventListener('change', (e) => {
             document.querySelector('.pages').innerHTML = document.getElementById('noOfPages').value;
         })
+
+        function calculateNewTotal() {
+            let typeOfPaperPrice = (typeOfPaper[typeOfPaper.selectedIndex].dataset.price);
+            let subjectPrice = (subject[subject.selectedIndex].dataset.price);
+            let urgencyPrice = (urgency[urgency.selectedIndex].dataset.price);
+            let academicLevelPrice = (academicLevel[academicLevel.selectedIndex].dataset.price);
+            let numberOfSourcesPrice = nofSources.dataset.price * nofSources.value;
+            let numberOfPagesPrice = noOfPages.dataset.price * noOfPages.value;
+            let calculatedAdditions = parseFloat(subjectPrice) + parseFloat(urgencyPrice) + parseFloat(
+                academicLevelPrice)
+            let newTotal = Math.round(typeOfPaperPrice * numberOfPagesPrice * calculatedAdditions * 100) / 100  + parseFloat(numberOfSourcesPrice);
+            for (let i = 0; i < document.getElementsByClassName('ordertotal').length; i++) {
+                const el = document.getElementsByClassName('ordertotal')[i];
+                el.innerHTML =`$${newTotal.toPrecision(4)}`;
+            }
+            console.log(newTotal);
+        }
     </script>
     <%- include('../includes/end.ejs')%>

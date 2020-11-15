@@ -11,10 +11,10 @@
                 <li class="<%= path === '/content-faq' ? 'active' : '' %>">
                     <a href="/content-faq"><span>faq</span></a>
                 </li>
-                <li class="<%= path === '/projects-newParamete' ? 'active' : '' %>">
+                <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
                     <a href="/content-testimonials"><span>testimonials</span></a>
                 </li>
-                <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
+                <li class="<%= path === '/content-users' ? 'active' : '' %>">
                     <a href="/content-users"><span>users</span></a>
                 </li>
             </ul>
@@ -25,12 +25,13 @@
             </div>
             <div class="contentfaqs-body">
                 <div class="contentfaqs-changer">
-                    <form action="" class="/faqs-form">
+                    <form action="/add-testimonial" class="/faqs-form" method="POST">
                         <div class="contentfaqs-input__container">
                             <label for="testimonial">Testimonial</label>
                             <input type="text" id="testimonial" name="testimonial">
                         </div>
-                        <button>Add Testimonial</button>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit">Add Testimonial</button>
                     </form>
                 </div>
                 <div class="contentsfaq-made">
@@ -46,22 +47,38 @@
                     </div>
                     <div class="contentsfaq-made__container">
                         <ul class="contentsfaq__list">
+                            <% for (let i = 0; i < testimonials.length; i++) { %>
                             <li>
                                 <div class="testimonial-container">
                                     <div class="testimonial-header">
-                                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae,
-                                            doloremque.</p>
+                                        <p><%= testimonials[i].text %></p>
                                     </div>
                                     <div class="testimonial-body">
-                                        <span>John Doe</span>
-                                        <span>24th Jan 2021</span>
+                                        <span><%= testimonials[i].owner.username %></span>
+                                        <span><%= new Date(testimonials[i].createdAt).getUTCMonth() + 1 %>/<%= new Date(testimonials[i].createdAt).getUTCDate()%>/
+                                            <%= new Date(testimonials[i].createdAt).getUTCFullYear()%></span>
                                     </div>
                                     <div class="testimonial-footer">
-                                        <ion-icon name="paper-plane-outline"></ion-icon>
-                                        <ion-icon name="trash-outline"></ion-icon>
+                                        <form action="/publish-testimonial" method="post">
+                                            <button type="submit">
+                                                <input type="hidden" name="testimonialId"
+                                                    value="<%= testimonials[i].id %>">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <ion-icon name="paper-plane-outline" style = "<%=testimonials[i].published ? 'color: blue' : 'color: #313131'%>"></ion-icon>
+                                            </button>
+                                        </form>
+                                        <form action="/delete-testimonial" method="POST">
+                                            <button type="submit">
+                                                <input type="hidden" name="testimonialId"
+                                                    value="<%= testimonials[i].id %>">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <ion-icon name="trash-outline" class="trash"></ion-icon>
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </li>
+                            <% } %>
                         </ul>
                     </div>
                 </div>

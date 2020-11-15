@@ -28,6 +28,7 @@ const siteRoutes = require("./routes/site");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const adminRoutes = require("./routes/admin");
+const webhookRoutes = require("./routes/webhook");
 const errorRoutes = require("./routes/error");
 const User = require("./models/User");
 
@@ -61,7 +62,20 @@ app.use(
   })
 );
 
-app.use(csrfProtection);
+// siteRoutes.use(csrfProtection);
+// authRoutes.use(csrfProtection);
+// userRoutes.use(csrfProtection);
+// adminRoutes.use(csrfProtection);
+const csrfExclusion = ['/webhooks/stripe'];
+app.use(function (req, res, next) {
+  if (csrfExclusion.indexOf(req.path) !== -1) {
+    next();
+  }
+  else {
+    csrfProtection(req, res, next);
+  }
+});
+
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -82,15 +96,35 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.session.isLoggedIn;
-  res.locals.csrfToken = req.csrfToken();
-  next();
+  if (csrfExclusion.indexOf(req.path) !== -1) {
+    console.log();
+    next();
+  }
+  else {
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken = req.csrfToken();
+    res.locals.paper = req.session.paper;
+    next();
+  }
 });
 
 app.use(siteRoutes);
 app.use(authRoutes);
 app.use(userRoutes);
 app.use(adminRoutes);
+app.use(webhookRoutes);
+
+app.post("/create-payment-intent", async (req, res) => {
+  const { items } = req.body;
+  // Create a PaymentIntent with the order amount and currency
+  const paymentIntent = await stripe.paymentIntents.create({
+    amount: calculateOrderAmount(items),
+    currency: "usd"
+  });
+  res.send({
+    clientSecret: paymentIntent.client_secret
+  });
+});
 
 // catching 404 errors
 app.use(errorRoutes);

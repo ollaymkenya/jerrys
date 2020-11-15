@@ -21,14 +21,14 @@
             </div>
             <div class="parameter-body">
                 <div class="parameter-changer">
-                    <form action="" class="parameter-form">
+                    <form action="/projects-newParameter" method="POST" class="parameter-form">
                         <div class="parameter-changer__body">
                             <div class="parameter-input__container">
-                                <label for="parameter">Parameter</label>
-                                <select name="parameter" id="parameter">
-                                    <option value="">Type of service</option>
-                                    <option value="">Type of object</option>
-                                    <option value="">Subject</option>
+                                <label for="parameterCategory">Parameter Category</label>
+                                <select name="parameterCategory" id="parameterCategory">
+                                    <% for(let i = 0; i < paramCategories.length; i++){ %>
+                                    <option value="<%= paramCategories[i].id %>"><%= paramCategories[i].name %></option>
+                                    <% } %>
                                 </select>
                             </div>
                             <div class="parameter-input__container">
@@ -37,8 +37,9 @@
                             </div>
                             <div class="parameter-input__container">
                                 <label for="parameterPrice">Price of Parameter</label>
-                                <input type="text" name="parameterPrice" id="parameterPrice">
+                                <input type="number" name="parameterPrice" id="parameterPrice" step=".01">
                             </div>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <button type="submit">Add parameter</button>
                         </div>
                     </form>
@@ -46,48 +47,37 @@
                 <div class="parameter-made">
                     <div class="parameter-made__header">
                         <ul class="parameter-nav__list">
-                            <li class="active">
-                                <span>Type of service</span>
+                            <% for(let i = 0; i < paramCategories.length; i++){ %>
+                            <li class="param-nav__list__item" data-categoryId="<%= paramCategories[i].id %>">
+                                <span><%= paramCategories[i].name %></span>
                             </li>
-                            <li>
-                                <span>Type of objects</span>
-                            </li>
-                            <li>
-                                <span>Subject</span>
-                            </li>
+                            <% } %>
                         </ul>
                     </div>
                     <div class="parameter-made__container">
                         <ul class="parameter-made__list">
-                            <li>
+                            <% for(let i = 0; i < params.length; i++){ %>
+                            <li class="pmli" data-categoryId="<%= params[i].category %>">
                                 <div class="parameter-made__list-item">
-                                    <span>Academic Paper Writing</span>
-                                    <span>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px"
-                                            height="16px">
-                                            <path fill="none" d="M0 0h24v24H0z" />
-                                            <path
-                                                d="M16.757 3l-2 2H5v14h14V9.243l2-2V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h12.757zm3.728-.9L21.9 3.516l-9.192 9.192-1.412.003-.002-1.417L20.485 2.1z" />
-                                        </svg>
+                                    <span><%= params[i].name %></span>
+                                    <span data-param="<%= JSON.stringify(params[i]) %>" class="editParam">
+                                        <ion-icon name="create-outline"></ion-icon>
                                     </span>
-                                    <span>$ 0.00</span>
+                                    <span><%= params[i].price %></span>
                                     <span>
-                                        <svg xmlns='http://www.w3.org/2000/svg' class='ionicon' viewBox='0 0 512 512'
-                                            width='16px' height='16px'>
-                                            <path
-                                                d='M112 112l20 320c.95 18.49 14.4 32 32 32h184c17.67 0 30.87-13.51 32-32l20-320'
-                                                fill='none' stroke='currentColor' stroke-linecap='round'
-                                                stroke-linejoin='round' stroke-width='32' />
-                                            <path stroke='currentColor' stroke-linecap='round' stroke-miterlimit='10'
-                                                stroke-width='32' d='M80 112h352' />
-                                            <path
-                                                d='M192 112V72h0a23.93 23.93 0 0124-24h80a23.93 23.93 0 0124 24h0v40M256 176v224M184 176l8 224M328 176l-8 224'
-                                                fill='none' stroke='currentColor' stroke-linecap='round'
-                                                stroke-linejoin='round' stroke-width='32' />
-                                        </svg>
+                                        <form action="/delete-param" method="post">
+                                            <input type="hidden" name="paramId" value="<%= params[i].id %>">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit">
+                                                <span>
+                                                    <ion-icon name="trash-outline"></ion-icon>
+                                                </span>
+                                            </button>
+                                        </form>
                                     </span>
                                 </div>
                             </li>
+                            <% } %>
                         </ul>
                     </div>
                 </div>
@@ -95,7 +85,25 @@
         </div>
     </div>
     <%- include('../includes/dashprofile.ejs')%>
+    <div class="modal-bg">
+        <div class="modal form-body">
+            <span class="modal-close">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </span>
+            <h2>Edit Parameter</h2>
+            <form action="/edit-param" method="post">
+                <label for="paramName">Name</label>
+                <input type="text" value="" name="paramName" id="paramName">
+                <label for="paramPrice">Price</label>
+                <input type="number" value="" name="paramPrice" id="paramPrice" step=".01">
+                <input type="hidden" name="paramId" value="" id="paramId">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit">Edit Parameter</button>
+            </form>
+        </div>
+    </div>
 </main>
+<script src="/js/newParam.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
 </body>

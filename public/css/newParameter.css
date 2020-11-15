@@ -20,11 +20,23 @@
     cursor: pointer;
 }
 
+.param-nav__list__item span{
+    pointer-events: none;
+}
+
+.parameter-nav__list li.active {
+    background-color: #9c9c9c;
+}
+
+.parameter-nav__list li.active a {
+    color: #ffffff;
+}
+
 .projects-nav__list li.active {
     background-color: #9c9c9c;
 }
 
-.projects-nav__list li.active a{
+.projects-nav__list li.active a {
     color: #ffffff;
 }
 
@@ -119,14 +131,35 @@
 .parameter-nav__list {
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .parameter-nav__list li {
     color: #9c9c9c;
     border-radius: 5px;
     padding: .2rem;
+    margin: .2rem;
     border: 1px solid #9c9c9c;
+    flex: 1 1 calc(20%);
     cursor: pointer;
+}
+
+@media screen and (max-width: 678px) {
+    .parameter-nav__list {
+        flex-wrap: wrap;
+    }
+
+    .parameter-nav__list li {
+        flex: 1 1 calc(33.33%);
+        margin: .2rem;
+    }
+}
+
+@media screen and (max-width: 350px) {
+    .parameter-nav__list {
+        margin-top: 3rem;
+        flex-wrap: wrap;
+    }
 }
 
 .parameter-nav__list li:active {
@@ -168,10 +201,97 @@
     align-items: center;
 }
 
-.parameter-made__list-item span {
-    font-size: .9rem;
+.parameter-made__list-item span:nth-child(2) {
+    font-size: 1.2rem;
+    color: purple;
+    cursor: pointer;
 }
 
-.parameter-made__list-item span svg {
-    font-size: .9rem;
+.parameter-made__list-item span:nth-child(2) ion-icon {
+    pointer-events: none;
+}
+
+.parameter-made__list-item button {
+    border: none;
+    background-color: transparent;
+}
+
+.parameter-made__list-item button:active,
+.parameter-made__list-item button:focus {
+    outline: none;
+}
+
+
+.parameter-made__list-item button span {
+    font-size: 1.2rem;
+    color: orangered;
+    cursor: pointer;
+}
+
+.modal-bg{
+    background-color: rgb(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .5s;
+}
+
+.modal-bg.active{
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal{
+    background-color: #ffffff;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.modal span{
+    position: absolute;
+    top: .2rem;
+    right: .2rem;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.modal h2{
+    margin: .5rem;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+}
+
+.form-body label {
+    margin: .5rem 0;
+}
+
+.form-body input {
+    border: 3px solid #313131;
+    height: 50px;
+    padding: .5rem;
+    font-size: 1rem;
+}
+
+.form-body button {
+    border: 3px solid #313131;
+    height: 50px;
+    padding: .5rem;
+    margin: 1rem 0;
+    background-color: #313131;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1.2rem;
 }

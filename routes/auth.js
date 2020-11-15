@@ -21,7 +21,7 @@ router.post('/login', [
         .trim()
 ], Auth.alredayAuth, authControllers.postLogin);
 
-router.get('/signup', Auth.alredayAuth, authControllers.getSignup);
+router.get('/signup/:token', Auth.alredayAuth, authControllers.getSignup);
 
 router.post('/signup', [
     body('username', 'Your username should contain  not less than 3 letters and digits')

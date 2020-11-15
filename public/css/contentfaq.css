@@ -194,3 +194,13 @@
     cursor: pointer;
     padding: .5rem 0 0;
 }
+
+.testimonial-footer button{
+    background-color: transparent;
+    width: fit-content;
+    min-width: 10px;
+}
+
+.trash{
+    color: orangered;
+}

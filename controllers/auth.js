@@ -1,6 +1,7 @@
 const crypto = require("crypto");
 
 const User = require("../models/User");
+const Chatroom = require("../models/Chatroom");
 
 const bcrypt = require("bcryptjs");
 const sendinBlue = require("nodemailer-sendinblue-transport");
@@ -48,7 +49,7 @@ exports.getSignup = (req, res, next) => {
     } else {
         message = null;
     }
-
+    const token = req.params.token;
     res.render("auth/signup", {
         title: "Sign Up",
         path: "/sign up",
@@ -62,7 +63,8 @@ exports.getSignup = (req, res, next) => {
         oldLoginInput: {
             email: '',
             password: '',
-        }
+        },
+        token,
     });
 
 };
@@ -71,7 +73,9 @@ exports.postSignUp = (req, res, next) => {
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
+    const token = req.body.token;
     const errors = validationResult(req);
+    let newUser;
     if (!errors.isEmpty()) {
         console.log(errors.array());
         return res.status(422).render("auth/signup", {
@@ -86,53 +90,71 @@ exports.postSignUp = (req, res, next) => {
             validationErrors: errors.array()
         })
     }
-    bcrypt
-        .hash(password, 12)
-        .then((hashedPassword) => {
-            const user = new User({
-                username: username,
-                email: email,
-                chatRooms: {
-                    rooms: [
-                        {
-                            name: `AdminOliverand${username}`,
-                            users: ['olivermuriithi11@gmail.com', `${email}`],
-                            messages: []
-                        }
-                    ]
-                },
-                password: hashedPassword,
-            });
-            return user.save()
-                .then((result) => {
-                    const messageRoom = result.chatRooms.rooms[0];
-                    User
-                        .findOne({ email: 'olivermuriithi11@gmail.com' })
-                        .then((user) => {
-                            return user.addToChatRooms(messageRoom)
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        })
-                })
+    User
+        .find({ addedUserToken: token, addedUserTokenExpiration: { $gt: Date.now() } })
+        .then(uzer => {
+            if (!uzer) {
+                return res.redirect('/home');
+            }
+            else {
+                bcrypt
+                    .hash(password, 12)
+                    .then((hashedPassword) => {
+                        const user = new User({
+                            username: username,
+                            email: email,
+                            password: hashedPassword,
+                            accountType: '5f971aa4421e6d53753718c6'
+                        });
+                        return user.save()
+                    })
+                    .then((uzer) => {
+                        let resetUser;
+                        newUser = uzer
+                        User
+                            .findOne({ accountType: '5f971a68421e6d53753718c5' })
+                            .then((user) => {
+                                resetUser = user;
+                                resetUser.addedUserToken = undefined;
+                                resetUser.addedUserTokenExpiration = undefined;
+                                resetUser.save();
+                            })
+                        return newUser;
+                    })
+                    .then((uzer) => {
+                        User
+                            .findOne({ accountType: '5f971a68421e6d53753718c5' })
+                            .then((user) => {
+                                const chatroom = new Chatroom({
+                                    userId: user.id,
+                                    user2Id: uzer._id
+                                })
+                                console.log(chatroom);
+                                chatroom.save();
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+                    })
+                    .then((result) => {
+                        res.redirect("/login");
+                        return transporter
+                            .sendMail({
+                                to: email,
+                                from: "olivermuriithi11@gmail.com",
+                                subject: "Signup succeeded",
+                                html: "<h1>Welcome on board</h1>"
+                            })
+                            .catch((err) => {
+                                console.log(err);
+                            })
+                    })
+                    .catch((err) => {
+                        res.redirect("/");
+                        console.log(err);
+                    });
+            }
         })
-        .then((result) => {
-            res.redirect("/login");
-            return transporter
-                .sendMail({
-                    to: email,
-                    from: "olivermuriithi11@gmail.com",
-                    subject: "Signup succeeded",
-                    html: "<h1>Welcome on board</h1>"
-                })
-                .catch((err) => {
-                    console.log(err);
-                })
-        })
-        .catch((err) => {
-            res.redirect("/");
-            console.log(err);
-        });
 };
 
 exports.postLogin = (req, res, next) => {
