@@ -114,12 +114,17 @@ exports.getDashboardNewProjects = (req, res, next) => {
     });
 };
 
-exports.getProjects = (req, res, next) => {
+exports.getProjects = async (req, res, next) => {
+    const projects = await Project
+        .find()
+        .populate('ownerId')
+    console.log(projects);
     const user = req.user;
     res.render("user/projects", {
         title: "Projects",
         path: "/projects",
         user: user,
+        projects: projects
     });
 };
 

@@ -27,16 +27,17 @@
                 </span>
             </div>
             <ul class="projects-list">
+                <% for(let i = 0; i < projects.length; i++) { %>
                 <li>
                     <div class="projects-list__item">
                         <div class="projects-information">
                             <div class="projects-information__header">
-                                <h4>I.T Research Paper</h4>
-                                <span>Someone working</span>
+                                <h4><%= projects[i].topic%></h4>
+                                <span><%= projects[i].ownerId.username%></span>
                             </div>
                             <div class="projects-information__body">
                                 <span>Submitter on: 2 October 2020</span>
-                                <span>completed</span>
+                                <span style ='<%= projects[i].completed ? "color: green;": "color:red;"%>'><%= projects[i].completed ? 'completed': 'incomplete'%></span>
                             </div>
                         </div>
                         <div class="projects-menu">
@@ -48,6 +49,7 @@
                         </div>
                     </div>
                 </li>
+                <% } %>
             </ul>
         </div>
     </div>
