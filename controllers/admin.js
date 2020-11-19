@@ -113,6 +113,12 @@ exports.postAdminFaq = (req, res, next) => {
     });
 };
 
+exports.postdeletefaq = async (req,res,next) => {
+ let faq = req.body.faqId;  
+ await Faq.findOneAndDelete({_id: faq})
+ res.redirect('/content-faq')
+};
+
 exports.getAdminUsers = async (req, res, next) => {
   let users = await User.find().populate('accountType');
   let accounttypes = await AccountType.find();
@@ -122,6 +128,13 @@ exports.getAdminUsers = async (req, res, next) => {
     user: req.user,
     users, users,
     accounttypes
+  });
+};
+
+exports.getAdminSample=(req,res,next) => {
+  res.render("admin/content-sample",{
+    title:"sample",
+    path:"/content-users",
   });
 };
 

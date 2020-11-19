@@ -18,6 +18,8 @@ router.get('/content-faq', Auth.isAuth, adminControllers.getAdminFaq);
 
 router.post('/content-faq', Auth.isAuth, adminControllers.postAdminFaq);
 
+router.get('/content-sample',Auth.isAuth, adminControllers.getAdminSample )
+
 router.get('/content-users', Auth.isAuth, adminControllers.getAdminUsers);
 
 router.post('/delete-user', Auth.isAuth, adminControllers.postDeleteUser);
@@ -27,5 +29,7 @@ router.post('/add-editor', Auth.isAuth, adminControllers.postAddEditor);
 router.get('/checkout', Auth.isAuth, adminControllers.getCheckout);
 
 router.post('/createPaper', Auth.isAuth, adminControllers.postCreatePaper);
+
+router.post('/delete_faq' , Auth.isAuth, adminControllers.postdeletefaq)
 
 module.exports = router;

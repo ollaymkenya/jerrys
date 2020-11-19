@@ -1,6 +1,8 @@
 const Parameter = require("../models/Parameter");
 const User = require("../models/User");
 const Chatroom = require("../models/Chatroom");
+const Faq = require("../models/Faq");
+
 
 const bcrypt = require("bcryptjs");
 const { validationResult } = require('express-validator');
@@ -45,11 +47,37 @@ exports.getSamples = (req, res, next) => {
 }
 
 exports.getFAQ = (req, res, next) => {
-    res.render('site/faq', {
-        title: 'F.A.Q',
-        path: '/faq'
+    Faq.find()
+    .then((faqList) => {
+console.log(faqList);
+        res.render('site/faq', {
+         
+            faqs:faqList,
+            title: 'F.A.Q',
+            path: '/faq'
     });
-}
+  
+})
+    .catch((err) => {
+        console.log(err);
+    });
+   
+};
+
+// exports.getAdminFaq = (req, res, next) => {
+//     Faq.find()
+//       .then((faqList) => {
+//         res.render("admin/content-faq", {
+//           faqs: faqList,
+//           title: "Content Faq",
+//           path: "/content-faq",
+//           user: req.user,
+//         });
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
+//   };
 
 exports.getSales = (req, res, next) => {
     res.render('site/sales', {

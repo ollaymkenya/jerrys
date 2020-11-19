@@ -1,0 +1,58 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/contentfaq.css">
+<%- include('../includes/head.ejs')%>
+
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="sample-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <li class="<%= path === '/content-faq' ? 'active' : '' %>">
+                    <a href="/content-faq"><span>faq</span></a>
+                </li>
+                <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
+                    <a href="/content-testimonials"><span>testimonials</span></a>
+                </li>
+                <li class="<%= path === '/content-users' ? 'active' : '' %>">
+                    <a href="/content-users"><span>users</span></a>
+                </li>
+                <li class="<%= path === '/content-sample' ? 'active' : '' %>">
+                    <a href="/content-sample"><span>samples</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="contentfaqs">
+            <div class="contentfaqs-header">
+                <h4>samples</h4>
+            </div>
+            <div class="contentfaqs-body">
+                <div class="contentfaqs-changer">
+                    <form action="/add-testimonial" class="/faqs-form" method="POST">
+                        <div class="contentfaqs-input__container">
+                            <label for="testimonial">Samples</label>
+                            <input type="text" id="testimonial" name="testimonial">
+                        </div>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit">Add Samples</button>
+                    </form>
+                </div>
+                <div class="contentsfaq-made">
+                    <div class="contentsfaq-made__header">
+                        <h4>Samples</h4>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+                        </span>
+                    </div>
+                   
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
