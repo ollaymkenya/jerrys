@@ -1,20 +1,8 @@
 const Parameter = require("../models/Parameter");
-const User = require("../models/User");
-const Chatroom = require("../models/Chatroom");
+const { validateUser, signUser } = require("../utils/auth");
 
-const bcrypt = require("bcryptjs");
 const { validationResult } = require('express-validator');
-
-const sendinBlue = require("nodemailer-sendinblue-transport");
-const nodemailer = require('nodemailer');
-
-const transporter = nodemailer.createTransport({
-    service: 'SendinBlue',
-    auth: {
-        user: 'olivermuriithi11@gmail.com',
-        pass: '7qMB5hsJLbcXdYEK'
-    }
-});
+const stripe = require("stripe")("sk_test_51HgzMMJPyNo4yUQMT58hHpGHUVN8XPFYzZLsIXKYZpBzhmy1c8unL9a9JHMNy7tUOaNkmlAkHsgy6MsDA81cXIZE00S3ddcyAm");
 
 exports.getIndex = (req, res, next) => {
     res.render('site/index', {
@@ -75,13 +63,21 @@ exports.getPaper = (req, res, next) => {
 }
 
 exports.postNewPaper = async (req, res, next) => {
-    const user = req.user;
+    let user;
     const checkedSwitcher = req.body.checkedSwitcher;
+    const errors = validationResult(req);
+    const email = req.body.email;
+    const password = req.body.password;
+    const username = req.body.username;
+    const signemail = req.body.signemail;
+    const signpassword = req.body.signpassword;
+    const confirmPassword = req.body.confirmPassword;
     let parameters = await Parameter.find().populate('category');
+    let mode;
+    let paper = req.body;
+
     if (checkedSwitcher === 'on') {
-        const email = req.body.email;
-        const password = req.body.password;
-        const errors = validationResult(req);
+        mode = 'login';
         if (!errors.isEmpty()) {
             console.log(errors.array());
             return res.status(422).render("site/paper", {
@@ -97,61 +93,30 @@ exports.postNewPaper = async (req, res, next) => {
                 user
             })
         }
-        User.findOne({ email: email })
-            .then((user) => {
-                if (!user) {
-                    console.log("No user");
-                    return res.status(422).render("site/paper", {
-                        title: "Paper",
-                        path: "/paper",
-                        errorMessage: 'Invalid email or password',
-                        validationErrors: [],
-                        oldLoginInput: {
-                            email: email,
-                            password: password,
-                            parameters,
-                            user
-                        }
-                    });
-                }
-                bcrypt
-                    .compare(password, user.password)
-                    .then((doMatch) => {
-                        if (doMatch) {
-                            req.session.isLoggedIn = true;
-                            req.session.user = user;
-                            req.session.paper = req.body;
-                            return res.redirect('/checkout')
-                        }
-                        console.log(`${password} is wrong`);
-                        return res.status(422).render("auth/login", {
-                            title: "Sign Up/Login",
-                            path: "/login",
-                            errorMessage: 'Invalid email or password',
-                            validationErrors: [],
-                            oldLoginInput: {
-                                email: email,
-                                password: password,
-                                parameters,
-                                user
-                            }
-                        });
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        res.redirect("/");
-                    });
-            })
-            .catch((err) => {
-                res.redirect("/");
-                console.log(err);
+        let result = await validateUser(mode, email, password)
+        if (!result.validated) {
+            return res.status(422).render("site/paper", {
+                title: "Paper",
+                path: "/paper",
+                errorMessage: result.message,
+                validationErrors: [],
+                oldLoginInput: {
+                    email: email,
+                    password: password
+                },
+                parameters,
+                user
             });
-    } else if (!checkedSwitcher && checkedSwitcher !== '') {
-        const username = req.body.username;
-        const email = req.body.signemail;
-        const password = req.body.signpassword;
-        const confirmPassword = req.body.confirmPassword;
-        const errors = validationResult(req);
+        }
+        req.user = result.user;
+        req.session.isLoggedIn = true;
+        req.session.user = result.user;
+        req.session.paper = paper;
+        return res.redirect('/checkout');
+    } else if (!checkedSwitcher || checkedSwitcher === '') {
+        mode = 'signup';
+        let accountType = 'client';
+        let redirectPage = '/checkout';
         // If any errors redirect back to paper page
         if (!errors.isEmpty()) {
             console.log(errors.array());
@@ -169,76 +134,31 @@ exports.postNewPaper = async (req, res, next) => {
                 user
             })
         }
-        // If passwords dont match redirect back to paper page
-        if (password !== confirmPassword) {
-            console.log(errors.array());
+        let result = await validateUser(mode, signemail, signpassword, confirmPassword)
+        if (!result.validated) {
             return res.status(422).render("site/paper", {
                 title: "Paper",
                 path: "/paper",
-                errorMessage: "Passwords don't match",
+                errorMessage: result.message,
                 oldSignupInput: {
                     username: username,
-                    email: email,
-                    password: password,
+                    email: signemail,
+                    password: signpassword,
                 },
                 validationErrors: errors.array,
                 parameters,
                 user
             })
         }
-        // Encrypt password
-        bcrypt
-            .hash(password, 12)
-            .then((hashedPassword) => {
-                const user = new User({
-                    username: username,
-                    email: email,
-                    password: hashedPassword,
-                    accountType: '5f971ab4421e6d53753718c7'
-                });
-                return user.save()
-            })
-            // return saved user
-            .then((uzer) => {
-                // create chatroom
-                User
-                    .findOne({ accountType: '5f971a68421e6d53753718c5' })
-                    .then((user) => {
-                        const chatroom = new Chatroom({
-                            userId: user.id,
-                            user2Id: uzer._id
-                        })
-                        chatroom.save();
-                        req.session.isLoggedIn = true;
-                        req.session.user = uzer;
-                        console.log(req.session.user);
-                        req.session.paper = req.body;
-                        return res.redirect("/checkout");
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    })
-            })
-            .then((result) => {
-                return transporter
-                    .sendMail({
-                        to: email,
-                        from: "olivermuriithi11@gmail.com",
-                        subject: "Signup succeeded",
-                        html: "<h1>Welcome on board</h1>"
-                    })
-                    .catch((err) => {
-                        res.redirect("/");
-                        console.log(err);
-                    })
-            })
-            .catch((err) => {
-                res.redirect("/");
-                console.log(err);
-            });
+        signUser(username, signemail, signpassword, accountType, redirectPage, req, res);
+        req.session.paper = paper;
     } else {
-        req.session.paper = req.body;
-        res.redirect("/checkout");
+        try {
+            req.session.paper = paper;
+            res.redirect("/checkout");
+        } catch (error) {
+            // console.log(error);
+        }
     }
 }
 

@@ -24,6 +24,7 @@
     "mongoose": "^5.10.4",
     "nodemailer": "^6.4.11",
     "nodemailer-sendinblue-transport": "^1.2.3",
+    "pdfmake": "^0.1.68",
     "socket.io": "^2.3.0",
     "stripe": "^8.120.0"
   },
