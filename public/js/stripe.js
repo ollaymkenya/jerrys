@@ -83,15 +83,15 @@ var orderComplete = function (paymentIntentStatus) {
     headers,
     redirect: 'follow'
   }
-  loading(false);
-  console.log(paymentIntentStatus);
-  document.querySelector(".result-message").classList.remove("hidden");
-  document.querySelector("button").disabled = true;
   fetch('/createPaper', options)
     .then(res => {
       if (res.redirected) {
         window.location.href = res.url;
-    }
+      }
+      loading(false);
+      console.log(paymentIntentStatus);
+      document.querySelector(".result-message").classList.remove("hidden");
+      document.querySelector("button").disabled = true;
     });
 };
 // Show the customer the error from Stripe if their card fails to charge

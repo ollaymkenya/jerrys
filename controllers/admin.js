@@ -1,4 +1,10 @@
+// From node
+const fs = require('fs');
+const path = require('path');
+
+// models
 const Faq = require("../models/Faq");
+const Sample = require("../models/Samples");
 const User = require("../models/User");
 const ParameterCategory = require("../models/ParameterCategory");
 const Parameter = require("../models/Parameter");
@@ -7,13 +13,21 @@ const Chatroom = require("../models/Chatroom");
 const Project = require("../models/Project");
 const stripe = require("stripe")("sk_test_51HgzMMJPyNo4yUQMT58hHpGHUVN8XPFYzZLsIXKYZpBzhmy1c8unL9a9JHMNy7tUOaNkmlAkHsgy6MsDA81cXIZE00S3ddcyAm");
 
+// from 3rd party
 const crypto = require("crypto");
 const sendinBlue = require("nodemailer-sendinblue-transport");
 const nodemailer = require('nodemailer');
-const pdfMake = require('../pdfmake/pdfmake');
-const vsFonts = require('../pdfmake/vfs_fonts');
-pdfMake.vfs = vsFonts.pdfMake.vfs;
 
+var fonts = {
+  Roboto: {
+    normal: path.join(__dirname, '..', 'pdfmake', 'fonts', 'Roboto', 'Roboto-Regular.ttf'),
+    bold: path.join(__dirname, '..', 'pdfmake', 'fonts', 'Roboto', 'Roboto-Medium.ttf'),
+    italics: path.join(__dirname, '..', 'pdfmake', 'fonts', 'Roboto', 'Roboto-Italic.ttf'),
+    boldItalics: path.join(__dirname, '..', 'pdfmake', 'fonts', 'Roboto', 'Roboto-MediumItalic.ttf')
+  }
+}
+const pdfPrinter = require('pdfmake')
+var printer = new pdfPrinter(fonts);
 
 const transporter = nodemailer.createTransport({
   service: 'SendinBlue',
@@ -113,6 +127,12 @@ exports.postAdminFaq = (req, res, next) => {
     });
 };
 
+exports.postDeletefaq = async (req,res,next) => {
+ let faq = req.body.faqId;  
+ await Faq.findOneAndDelete({_id: faq})
+ res.redirect('/content-faq')
+};
+
 exports.getAdminUsers = async (req, res, next) => {
   let users = await User.find().populate('accountType');
   let accounttypes = await AccountType.find();
@@ -125,13 +145,53 @@ exports.getAdminUsers = async (req, res, next) => {
   });
 };
 
+exports.getAdminSample=(req,res,next) => {
+  Sample.find()
+     .then((sampleList)=>{
+      res.render("admin/content-sample",{
+        samples:sampleList,
+        title:"sample",
+        path:"/content-sample",
+      });
+     })
+     .catch((err)=>{
+        console.log(err) 
+     });
+};
+
+exports.postAdminSample=(req,res,next) =>{
+  const sampleTitle = req.body.sampleTitle;
+  const sampleCourse = req.body.sampleCourse;
+  const numberofPages = req.body.samplepages;
+  const sample = new Sample({
+  sampleTitle,
+  sampleCourse,
+  numberofPages,
+  });
+ sample
+    .save()
+    .then((result) => {
+      res.redirect("/content-sample");
+      console.log(sample);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.redirect("/content-sample");
+    });
+}
+
+exports.postDeleteSample = async (req,res,next) => {
+  let   sample = req.body.sampleID;  
+  await Sample.findOneAndDelete({_id: sample})
+  res.redirect('/content-sample')
+ };
+
 exports.postDeleteUser = (req, res, next) => {
   let userId = req.body.userId;
   User.findOneAndDelete({ _id: userId })
     .then((user) => {
       Chatroom.findOneAndDelete({ user2Id: req.body.userId })
         .then((result) => {
-          console.log(result);
           res.redirect('/content-users');
         })
     })
@@ -183,7 +243,6 @@ exports.postAddEditor = (req, res, next) => {
 exports.getCheckout = async (req, res, next) => {
   // code for paper
   const paper = req.session.paper;
-  console.log(paper);
   let parameters = await Parameter.find().populate('category');
   let paperInfo = [paper.typeOfPaper, paper.subject, paper.urgency, paper.academicLevel];
   for (let i = 0; i < paperInfo.length; i++) {
@@ -230,20 +289,216 @@ exports.getCheckout = async (req, res, next) => {
 
 exports.postCreatePaper = (req, res) => {
   const paper = req.body;
-  console.log(paper);
-  const project = new Project({
-    typeOfPaper: paper.typeOfPaper,
-    subject: paper.subject,
-    topic: paper.topic,
-    orderInstructions: 'hello',
-    style: paper.service,
-    urgency: paper.urgency,
-    numberOfSources: paper.nofSources,
-    academicLevel: paper.academicLevel,
-    numberOfPages: parseInt(paper.noOfPages),
-    ownerId: req.user._id
-  })
-  project.save();
-
-  res.redirect('/projects');
+  let projecti;
+  let date = `${new Date().getDate()}/ ${new Date().getMonth()}/ ${new Date().getFullYear()}`
+  try {
+    // creating a new paper
+    const project = new Project({
+      typeOfPaper: paper.typeOfPaper,
+      subject: paper.subject,
+      topic: paper.topic,
+      orderInstructions: paper.orderInstructions,
+      style: paper.service,
+      urgency: paper.urgency,
+      numberOfSources: paper.nofSources,
+      academicLevel: paper.academicLevel,
+      numberOfPages: parseInt(paper.noOfPages),
+      ownerId: req.user._id
+    })
+    // saving paper to db
+    project
+      .save()
+      .then((result) => {
+        // creating the content of pdf document
+        Project.findById(result.id)
+          .populate()
+          .populate('typeOfPaper')
+          .populate('subject')
+          .populate('urgency')
+          .populate('academicLevel')
+          .populate('ownerId')
+          .exec()
+          .then((projo) => {
+            projecti = projo
+            const documentDefination = {
+              content: [
+                {
+                  alignment: 'justify',
+                  columns: [
+                    {
+                      text: `${projo.topic}`
+                    },
+                    {
+                      text: `${date}`,
+                      style: 'noma'
+                    }
+                  ]
+                  , style: 'header'
+                },
+                {
+                  style: 'tableExample',
+                  table: {
+                    alignment: 'justify',
+                    headerRows: 1,
+                    widths: [200, 200],
+                    body: [
+                      [{
+                        text: 'Paper Details',
+                        style: 'tableHeader',
+                        fillColor: '#eeffee'
+                      },
+                      {
+                        text: 'Values',
+                        style: 'tableHeader',
+                        fillColor: '#eeffee'
+                      }
+                      ],
+                      [
+                        {
+                          border: [false, false, false, true],
+                          text: 'Topic'
+                        },
+                        {
+                          border: [false, false, false, true],
+                          text: `${projo.topic}`
+                        }
+                      ],
+                      [
+                        {
+                          border: [false, false, false, true],
+                          text: 'Type Of Paper',
+                          fillColor: '#eeffee'
+                        },
+                        {
+                          border: [false, false, false, true],
+                          text: `${projo.typeOfPaper.name}`,
+                          fillColor: '#eeffee'
+                        }
+                      ],
+                      [
+                        {
+                          border: [false, false, false, true],
+                          text: 'Subject'
+                        },
+                        {
+                          border: [false, false, false, true],
+                          text: `${projo.subject.name}`
+                        }
+                      ],
+                      [
+                        {
+                          border: [false, false, false, true],
+                          text: 'Order Instructions',
+                          fillColor: '#eeffee'
+                        },
+                        {
+                          border: [false, false, false, true],
+                          text: `${projo.orderInstructions}`,
+                          fillColor: '#eeffee'
+                        }
+                      ],
+                      [
+                        {
+                          border: [false, false, false, true],
+                          text: 'Style'
+                        },
+                        {
+                          border: [false, false, false, true],
+                          text: `${projo.style}`
+                        }
+                      ],
+                      [
+                        {
+                          border: [false, false, false, true],
+                          text: 'Urgency',
+                          fillColor: '#eeffee'
+                        },
+                        {
+                          border: [false, false, false, true],
+                          text: `${projo.urgency.name}`,
+                          fillColor: '#eeffee'
+                        }
+                      ],
+                      [
+                        {
+                          border: [false, false, false, true],
+                          text: 'Number of sources'
+                        },
+                        {
+                          border: [false, false, false, true],
+                          text: `${projo.numberOfSources}`
+                        }
+                      ],
+                      [
+                        {
+                          border: [false, false, false, true],
+                          text: 'Academic Level',
+                          fillColor: '#eeffee'
+                        },
+                        {
+                          border: [false, false, false, true],
+                          text: `${projo.academicLevel.name}`,
+                          fillColor: '#eeffee'
+                        }
+                      ],
+                    ]
+                  },
+                  layout: 'lightHorizontalLines'
+                }
+              ],
+              styles: {
+                header: {
+                  fontSize: 18,
+                  bold: true,
+                  margin: [0, 0, 0, 10]
+                },
+                subheader: {
+                  fontSize: 16,
+                  bold: true,
+                  margin: [0, 10, 0, 5]
+                },
+                noma: {
+                  alignment: 'right'
+                },
+                tableExample: {
+                  margin: [0, 5, 0, 15]
+                },
+                tableHeader: {
+                  bold: true,
+                  fontSize: 13,
+                  color: 'black'
+                }
+              }
+            };
+            const pdfDoc = printer.createPdfKitDocument(documentDefination);
+            pdfDoc.pipe(fs.createWriteStream('document.pdf'));
+            pdfDoc.end();
+            transporter
+              .sendMail({
+                to: "ngunyangimark@gmail.com",
+                from: "olivermuriithi11@gmail.com",
+                attachments: [
+                  {
+                    filename: 'document.pdf',
+                    path: path.join(__dirname, '..', 'document.pdf')
+                  }
+                ],
+                subject: "New job!!!",
+                html: `
+              <h1>A new project from ${projecti.ownerId.name}</h1>
+              <p>Attached is a file containing the details of the project attached by ${projecti.ownerId.name}</p>
+              `
+              })
+            res.redirect('/projects');
+          })
+          .catch((error) => {
+            console.log(error);
+          })
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  } catch (error) {
+    console.log(error);
+  }
 }
