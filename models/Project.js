@@ -11,7 +11,7 @@ const projectSchema = new Schema(
     },
     subject: {
       type: Schema.Types.ObjectId,
-      ref: "Subject",
+      ref: "Parameter",
       required: true,
     },
     topic: {

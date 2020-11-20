@@ -7,7 +7,7 @@
     <main>
         <div class="paper-container">
             <div class="paper-form__container">
-                <form class="paper-form" action="/new-paper" method="POST">
+                <form class="paper-form" action="/new-paper" enctype="multipart/form-data" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="paper-form__details">
                         <div class="paper-form__details-header">
@@ -103,7 +103,7 @@
                                                 <ion-icon name="checkmark-circle-outline"></ion-icon>
                                             </span>
                                         </button>
-                                        <input type="file" name="selectfile" id="selectfile">
+                                        <input type="file" name="selectfile" id="selectfile" multiple>
                                     </div>
                                 </div>
                             </div>
@@ -197,7 +197,7 @@
                                 </label>
                             </div>
                             <% } else{ %>
-                            <input id="checkedSwitcher" name="checkedSwitcher" type="hidden" />
+                            <input id="checkedSwitcher" name="checkedSwitcher" type="hidden" value="loggedIn" />
                             <% } %>
                         </div>
                         <% if (!user) { %>
@@ -346,6 +346,7 @@
         }
 
         document.getElementById('selectfile').onchange = function () {
+            console.log(this.files)
             document.getElementById('blankFile').innerHTML =
                 `<span class='highlight-green'><ion-icon name="document-attach-outline"></ion-icon> ${this.files[0].name}</span>`;
             if (document.getElementById('info')) {
@@ -439,10 +440,11 @@
             let numberOfPagesPrice = noOfPages.dataset.price * noOfPages.value;
             let calculatedAdditions = parseFloat(subjectPrice) + parseFloat(urgencyPrice) + parseFloat(
                 academicLevelPrice)
-            let newTotal = Math.round(typeOfPaperPrice * numberOfPagesPrice * calculatedAdditions * 100) / 100  + parseFloat(numberOfSourcesPrice);
+            let newTotal = Math.round(typeOfPaperPrice * numberOfPagesPrice * calculatedAdditions * 100) / 100 +
+                parseFloat(numberOfSourcesPrice);
             for (let i = 0; i < document.getElementsByClassName('ordertotal').length; i++) {
                 const el = document.getElementsByClassName('ordertotal')[i];
-                el.innerHTML =`$${newTotal.toPrecision(4)}`;
+                el.innerHTML = `$${newTotal.toPrecision(4)}`;
             }
             console.log(newTotal);
         }
