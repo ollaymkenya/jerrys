@@ -241,7 +241,6 @@ exports.getCheckout = async (req, res, next) => {
 
 exports.postCreatePaper = (req, res) => {
   const paper = req.body;
-  console.log(paper);
   let projecti;
   let date = `${new Date().getDate()}/ ${new Date().getMonth()}/ ${new Date().getFullYear()}`
   try {

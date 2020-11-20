@@ -63,6 +63,9 @@ exports.getPaper = (req, res, next) => {
 }
 
 exports.postNewPaper = async (req, res, next) => {
+    const resources = req.files;
+    console.log(resources);
+    console.log('hello');
     let user;
     const checkedSwitcher = req.body.checkedSwitcher;
     const errors = validationResult(req);

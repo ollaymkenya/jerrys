@@ -22,6 +22,7 @@
     "express-validator": "^6.6.1",
     "moment": "^2.28.0",
     "mongoose": "^5.10.4",
+    "multer": "^1.4.2",
     "nodemailer": "^6.4.11",
     "nodemailer-sendinblue-transport": "^1.2.3",
     "pdfmake": "^0.1.68",

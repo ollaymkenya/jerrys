@@ -4,6 +4,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const multer = require('multer');
 const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
@@ -21,6 +22,22 @@ const store = new MongoDBStore({
   collection: "sessions",
 });
 
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'paperDetails')
+  },
+  filename: function (req, file, cb) {
+    cb(null, `${Date.parse(new Date())}-${file.originalname}`);
+  }
+})
+
+const fileFilter = (req, file, callb) => {
+  if (file.mimetype === 'selectfile/png' || file.mimetype === 'selectfile/jpg' || file.mimetype === 'selectfile/jpeg') {
+    callb(null, true)
+  }
+  callb(null, false)
+}
+
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
@@ -33,10 +50,12 @@ const errorRoutes = require("./routes/error");
 const User = require("./models/User");
 
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(multer({ storage: storage, fileFilter: fileFilter }).array('selectfile', 12));
 const csrfProtection = csrf();
 
 app.use(express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "paperDetails")));
 
 const PORT = process.env.PORT || 3000;
 
