@@ -2,6 +2,7 @@ const Parameter = require("../models/Parameter");
 const User = require("../models/User");
 const Chatroom = require("../models/Chatroom");
 const Faq = require("../models/Faq");
+const Sample = require("../models/Samples");
 
 
 const bcrypt = require("bcryptjs");
@@ -40,11 +41,19 @@ exports.getContacts = (req, res, next) => {
 }
 
 exports.getSamples = (req, res, next) => {
-    res.render('site/samples', {
-        title: 'Samples',
-        path: '/samples'
-    });
-}
+        Sample.find()
+        .then((sampleList)=>{
+         res.render("site/samples",{
+           samples:sampleList,
+           title:"Samples",
+           path:"/samples",
+         });
+        })
+        .catch((err)=>{
+           console.log(err) 
+        });
+    }
+
 
 exports.getFAQ = (req, res, next) => {
     Faq.find()
@@ -64,20 +73,7 @@ console.log(faqList);
    
 };
 
-// exports.getAdminFaq = (req, res, next) => {
-//     Faq.find()
-//       .then((faqList) => {
-//         res.render("admin/content-faq", {
-//           faqs: faqList,
-//           title: "Content Faq",
-//           path: "/content-faq",
-//           user: req.user,
-//         });
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-//   };
+
 
 exports.getSales = (req, res, next) => {
     res.render('site/sales', {
