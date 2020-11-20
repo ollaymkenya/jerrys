@@ -17,6 +17,9 @@
                 <li class="<%= path === '/content-users' ? 'active' : '' %>">
                     <a href="/content-users"><span>users</span></a>
                 </li>
+                <li class="<%= path === '/content-sample' ? 'active' : '' %>">
+                    <a href="/content-sample"><span>samples</span></a>
+                </li>
             </ul>
         </div>
         <div class="contentfaqs">
@@ -29,7 +32,7 @@
                         <div class="contentfaqs-input__container">
                             <label for="faqCategory">Faq Category</label>
                             <select name="faqCategory" id="faqCategory">
-                                <option value="General Iinformation">General Iinformationi</option>
+                                <option value="General Information">General Information</option>
                                 <option value="Ordering Information">Ordering Information</option>
                                 <option value="Pricing and payment">Pricing and payment</option>
                                 <option value="Operations and quality assurance">Operations and quality assurance
@@ -57,6 +60,7 @@
                                 <path
                                     d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
                             </svg>
+
                         </span>
                     </div>
                     <div class="contentsfaq-made__container">
@@ -64,9 +68,20 @@
                             <%for (let i = 0; i < faqs.length; i++) {%>
                             <li>
                                 <div class="faq-qanda__list-item">
-                                    <div class="qanda-list__item-title">
-                                        <h4 class="highlight"><%= faqs[i].question %></h4>
-                                        <ion-icon name="close"></ion-icon>
+                                    <div class="qanda-list__item-title__container">
+                                        <h4 class="highlight qanda-list__item-title"><%= faqs[i].question %></h4>
+                                        <div class="chevy-down">
+                                            <ion-icon name="chevron-down-outline"></ion-icon>
+                                        </div>
+                                        <form action="/delete_faq" method="post">
+                                            <input type="hidden" name="faqId" value="<%= faqs[i].id %>">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit">
+                                                    <div class="trash-button">
+                                                        <ion-icon name="trash-outline"></ion-icon>
+                                                    </div>
+                                            </button>
+                                        </form>
                                     </div>
                                     <p><%= faqs[i].answer %></p>
                                 </div>

@@ -5,6 +5,7 @@
 <body>
     <%- include('../includes/navigation.ejs')%>
     <div class="faq-header">
+
         <div class="faq-header__text">
             <h1>F.A.Q</h1>
             <div class="faq-search">
@@ -18,9 +19,10 @@
     </header>
     <main>
         <div class="main-faq__nav">
-            <ul class="faq-nav__list">
+      
+            <ul class="faq-nav__list" >
                 <li>
-                    <div class="faq-nav__list-item">
+                    <div class="faq-nav__list-item active" data-categoryId="General Iinformation">
                         <h4>
                             General Questions
                         </h4>
@@ -29,16 +31,17 @@
                     <ion-icon name="chevron-forward-outline"></ion-icon>
                 </li>
                 <li>
-                    <div class="faq-nav__list-item">
+                    <div class="faq-nav__list-item" data-categoryId="Ordering Information">
                         <h4>
                             Ordering Information
                         </h4>
                         <p>Get to know how to order, when and when to get feedback</p>
                     </div>
+               
                     <ion-icon name="chevron-forward-outline"></ion-icon>
                 </li>
                 <li>
-                    <div class="faq-nav__list-item">
+                    <div class="faq-nav__list-item" data-categoryId="Pricing and payment">
                         <h4>
                             Pricing and Payment
                         </h4>
@@ -47,7 +50,7 @@
                     <ion-icon name="chevron-forward-outline"></ion-icon>
                 </li>
                 <li>
-                    <div class="faq-nav__list-item">
+                    <div class="faq-nav__list-item" data-categoryId="Operations and quality assurance">
                         <h4>
                             Operations and Quality Assurance
                         </h4>
@@ -59,47 +62,65 @@
         </div>
         <div class="faq-qanda">
             <ul class="faq-qanda__list">
-                <li>
+            <% for(let i=0; i<faqs.length; i++) { %>
+            <% if(faqs[i].category === 'General Iinformation') { %> 
+                <li class="general-information faqandacontainer" data-categoryId="<%= faqs[i].category %>"> 
                     <div class="faq-qanda__list-item">
                         <div class="qanda-list__item-title">
-                            <h4 class="highlight">What is Jerry the Writer website?</h4>
-                            <ion-icon name="close"></ion-icon>
+                            <h4 class="highlight">
+                                <%= faqs[i].question %>
+                            </h4>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
                         </div>
-                        <p>This is a website where I help make student life easier by; providing guides to help; new
-                            students write quality assignments, busy students complete assignments fast and for those
-                            unable to write assignments for whatever reason, I work directly with them by writing
-                            quality papers for them. I will also feature a blog and partner with some experts to share
-                            advice on living an enjoyable school life.</p>
+                        <p>  
+                            <%= faqs[i].answer %>
+                        </p>
                     </div>
                 </li>
-                <li>
+            <% }else if(faqs[i].category === 'Ordering Information') { %> 
+                <li class="ordering-information faqandacontainer" data-categoryId="<%= faqs[i].category %>" >
                     <div class="faq-qanda__list-item">
                         <div class="qanda-list__item-title">
-                            <h4 class="highlight">What is Jerry the Writer website?</h4>
-                            <ion-icon name="close"></ion-icon>
+                            <h4 class="highlight">
+                                <%= faqs[i].question %>
+                            </h4>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
                         </div>
-                        <p>This is a website where I help make student life easier by; providing guides to help; new
-                            students write quality assignments, busy students complete assignments fast and for those
-                            unable to write assignments for whatever reason, I work directly with them by writing
-                            quality papers for them. I will also feature a blog and partner with some experts to share
-                            advice on living an enjoyable school life.</p>
+                        <p>  
+                            <%= faqs[i].answer %>
+                        </p>
                     </div>
                 </li>
-                <li>
+            <% }else if(faqs[i].category === 'Pricing and payment') { %> 
+                <li class="priceandpay faqandacontainer" data-categoryId="<%= faqs[i].category %>">
                     <div class="faq-qanda__list-item">
                         <div class="qanda-list__item-title">
-                            <h4 class="highlight">Why Jerry the Writer?</h4>
-                            <ion-icon name="close"></ion-icon>
+                            <h4 class="highlight">
+                                <%= faqs[i].question %>
+                            </h4>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
                         </div>
-                        <p>I have worked directly with students for over 7 years, helping them complete their
-                            assignments. My initial years were difficult, as I had to learn the ins and outs of writing
-                            quality assignments. Years later, I am able to complete just about any assignment (apart
-                            from technical papers, example.; I.T assignments). My rates are cheaper than most services,
-                            and I am not entirely after the money. I hope to make great friends along the way. Check the
-                            site and get anything that will be useful to make your life easier, more fulfilling and more
-                            liberating, as you owe to yourself.</p>
+                        <p>  
+                            <%= faqs[i].answer %>
+                        </p>
                     </div>
                 </li>
+            <% }else if(faqs[i].category === 'Operations and quality assurance') { %> 
+                <li class="opsandqualass faqandacontainer" data-categoryId="<%= faqs[i].category %>">
+                    <div class="faq-qanda__list-item">
+                        <div class="qanda-list__item-title">
+                            <h4 class="highlight">
+                                <%= faqs[i].question %>
+                            </h4>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
+                        </div>
+                        <p>  
+                            <%= faqs[i].answer %>
+                        </p>
+                    </div>
+                </li>
+            <% } %> 
+            <% } %> 
             </ul>
         </div>
     </main>

@@ -1,4 +1,8 @@
 const Parameter = require("../models/Parameter");
+const User = require("../models/User");
+const Chatroom = require("../models/Chatroom");
+const Faq = require("../models/Faq");
+const Sample = require("../models/Samples");
 const { validateUser, signUser } = require("../utils/auth");
 
 const { validationResult } = require('express-validator');
@@ -26,18 +30,39 @@ exports.getContacts = (req, res, next) => {
 }
 
 exports.getSamples = (req, res, next) => {
-    res.render('site/samples', {
-        title: 'Samples',
-        path: '/samples'
-    });
-}
+        Sample.find()
+        .then((sampleList)=>{
+         res.render("site/samples",{
+           samples:sampleList,
+           title:"Samples",
+           path:"/samples",
+         });
+        })
+        .catch((err)=>{
+           console.log(err) 
+        });
+    }
+
 
 exports.getFAQ = (req, res, next) => {
-    res.render('site/faq', {
-        title: 'F.A.Q',
-        path: '/faq'
+    Faq.find()
+    .then((faqList) => {
+console.log(faqList);
+        res.render('site/faq', {
+         
+            faqs:faqList,
+            title: 'F.A.Q',
+            path: '/faq'
     });
-}
+  
+})
+    .catch((err) => {
+        console.log(err);
+    });
+   
+};
+
+
 
 exports.getSales = (req, res, next) => {
     res.render('site/sales', {
