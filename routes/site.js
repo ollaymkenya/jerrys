@@ -12,6 +12,8 @@ router.get('/about', siteControllers.getAbout);
 
 router.get('/contacts', siteControllers.getContacts);
 
+router.post("/contacts",siteControllers.postContacts);
+
 router.get('/samples', siteControllers.getSamples);
 
 router.get('/faq', siteControllers.getFAQ);
@@ -29,5 +31,7 @@ router.get('/terms', siteControllers.getTerms);
 router.get('/policy', siteControllers.getPolicy);
 
 router.get('/guarantee', siteControllers.getGuarantee);
+
+router.get('/connect', siteControllers.getConnect);
 
 module.exports = router;

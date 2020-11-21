@@ -475,7 +475,7 @@ exports.postCreatePaper = (req, res) => {
             pdfDoc.end();
             transporter
               .sendMail({
-                to: "ngunyangimark@gmail.com",
+                to: "jerrymuthomi@gmail.com",
                 from: "olivermuriithi11@gmail.com",
                 attachments: [
                   {
