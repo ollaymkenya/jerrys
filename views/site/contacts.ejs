@@ -15,13 +15,14 @@
         <div class="contacts-wrapper">
             <div class="contacts-box">
                 <div class="contact-box__left">
-                    <form action="#" class="contacts-form">
+                    <form action="/contacts" class="contacts-form" method="POST">
                         <label for="email">Your email address</label>
                         <input type="email" name="email" id="email">
                         <label for="question">How can I help you?</label>
                         <input type="text" name="question" id="question">
                         <label for="questionContent">Your question</label>
                         <textarea name="questionContent" id="questionContent" cols="30" rows="4"></textarea>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <button type="submit">Send message</button>
                     </form>
                     <hr>

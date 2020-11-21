@@ -12,6 +12,8 @@ router.get('/about', siteControllers.getAbout);
 
 router.get('/contacts', siteControllers.getContacts);
 
+router.post("/contacts",siteControllers.postContacts);
+
 router.get('/samples', siteControllers.getSamples);
 
 router.get('/faq', siteControllers.getFAQ);
