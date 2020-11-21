@@ -32,6 +32,4 @@ router.get('/policy', siteControllers.getPolicy);
 
 router.get('/guarantee', siteControllers.getGuarantee);
 
-router.get('/connect', siteControllers.getConnect);
-
 module.exports = router;

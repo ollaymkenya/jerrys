@@ -242,9 +242,3 @@ exports.getGuarantee = (req, res, next) => {
         path: '/guarantee'
     });
 }
-exports.getConnect = (req, res, next) => {
-    res.render('site/connect', {
-        title: 'connect',
-        path: '/connect'
-    });
-}
