@@ -1,4 +1,6 @@
 const data = document.getElementById('customer-paper').dataset.customerPaper;
+const files = document.getElementById('customer-files').dataset.customerFiles;
+const body = JSON.stringify({data, files});
 const csrfToken = document.getElementById('csrf').value
 // A reference to Stripe.js initialized with your real test publishable API key.
 var stripe = Stripe("pk_test_51HgzMMJPyNo4yUQMCvdabJmpexVXrxhQjPL1c87cZFIHmkfjK2BjlDDeQDGYIUXxE516MBSglgSjUFtgbU3rLFIT00GRAdeWyI");
@@ -79,7 +81,7 @@ var orderComplete = function (paymentIntentStatus) {
 
   const options = {
     method: 'POST',
-    body: data,
+    body: body,
     headers,
     redirect: 'follow'
   }
@@ -89,7 +91,6 @@ var orderComplete = function (paymentIntentStatus) {
         window.location.href = res.url;
       }
       loading(false);
-      console.log(paymentIntentStatus);
       document.querySelector(".result-message").classList.remove("hidden");
       document.querySelector("button").disabled = true;
     });

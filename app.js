@@ -32,10 +32,11 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, callb) => {
-  if (file.mimetype === 'selectfile/png' || file.mimetype === 'selectfile/jpg' || file.mimetype === 'selectfile/jpeg') {
+  if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'application/pdf' || file.mimetype === 'application/msword' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.mimetype === 'application/vnd.ms-powerpoint' || file.mimetype === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
     callb(null, true)
+  } else {
+    callb(null, false)
   }
-  callb(null, false)
 }
 
 app.set("views", "./views");
@@ -50,7 +51,7 @@ const errorRoutes = require("./routes/error");
 const User = require("./models/User");
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: storage, fileFilter: fileFilter }).array('selectfile', 12));
+app.use(multer({ storage:storage, fileFilter: fileFilter }).array('selectfile', 12));
 const csrfProtection = csrf();
 
 app.use(express.static(path.join(__dirname, "views")));

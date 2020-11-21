@@ -55,39 +55,37 @@ console.log(req.body);
 }
 
 exports.getSamples = (req, res, next) => {
-        Sample.find()
-        .then((sampleList)=>{
-         res.render("site/samples",{
-           samples:sampleList,
-           title:"Samples",
-           path:"/samples",
-         });
+    Sample.find()
+        .then((sampleList) => {
+            res.render("site/samples", {
+                samples: sampleList,
+                title: "Samples",
+                path: "/samples",
+            });
         })
-        .catch((err)=>{
-           console.log(err) 
+        .catch((err) => {
+            console.log(err)
         });
-    }
+}
 
 
 exports.getFAQ = (req, res, next) => {
     Faq.find()
-    .then((faqList) => {
-console.log(faqList);
-        res.render('site/faq', {
-         
-            faqs:faqList,
-            title: 'F.A.Q',
-            path: '/faq'
-    });
-  
-})
-    .catch((err) => {
-        console.log(err);
-    });
-   
+        .then((faqList) => {
+            console.log(faqList);
+            res.render('site/faq', {
+
+                faqs: faqList,
+                title: 'F.A.Q',
+                path: '/faq'
+            });
+
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
 };
-
-
 
 exports.getSales = (req, res, next) => {
     res.render('site/sales', {
@@ -114,7 +112,6 @@ exports.getPaper = (req, res, next) => {
 
 exports.postNewPaper = async (req, res, next) => {
     const resources = req.files;
-    console.log(resources);
     console.log('hello');
     let user;
     const checkedSwitcher = req.body.checkedSwitcher;
@@ -128,7 +125,6 @@ exports.postNewPaper = async (req, res, next) => {
     let parameters = await Parameter.find().populate('category');
     let mode;
     let paper = req.body;
-
     if (checkedSwitcher === 'on') {
         mode = 'login';
         if (!errors.isEmpty()) {
@@ -165,6 +161,7 @@ exports.postNewPaper = async (req, res, next) => {
         req.session.isLoggedIn = true;
         req.session.user = result.user;
         req.session.paper = paper;
+        req.session.files = resources;
         return res.redirect('/checkout');
     } else if (!checkedSwitcher || checkedSwitcher === '') {
         mode = 'signup';
@@ -205,9 +202,11 @@ exports.postNewPaper = async (req, res, next) => {
         }
         signUser(username, signemail, signpassword, accountType, redirectPage, req, res);
         req.session.paper = paper;
+        req.session.files = resources;
     } else {
         try {
             req.session.paper = paper;
+            req.session.files = resources;
             res.redirect("/checkout");
         } catch (error) {
             // console.log(error);
