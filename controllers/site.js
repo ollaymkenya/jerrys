@@ -4,10 +4,21 @@ const Chatroom = require("../models/Chatroom");
 const Faq = require("../models/Faq");
 const Sample = require("../models/Samples");
 const { validateUser, signUser } = require("../utils/auth");
+const sendinBlue = require("nodemailer-sendinblue-transport");
+const nodemailer = require('nodemailer');
 
 const { validationResult } = require('express-validator');
+const { getMaxListeners } = require("../models/Faq");
 const stripe = require("stripe")("sk_test_51HgzMMJPyNo4yUQMT58hHpGHUVN8XPFYzZLsIXKYZpBzhmy1c8unL9a9JHMNy7tUOaNkmlAkHsgy6MsDA81cXIZE00S3ddcyAm");
 
+const transporter = nodemailer.createTransport({
+    service: 'SendinBlue',
+    auth: {
+      user: 'olivermuriithi11@gmail.com',
+      pass: '7qMB5hsJLbcXdYEK'
+    }
+  });
+  
 exports.getIndex = (req, res, next) => {
     res.render('site/index', {
         title: 'JTT',
@@ -27,6 +38,20 @@ exports.getContacts = (req, res, next) => {
         title: 'Contact Me',
         path: '/contacts'
     });
+}
+
+exports.postContacts =(req,res,next) =>{
+    transporter
+    .sendMail({
+      to: "jerrymuthomi@gmail.com",
+      from: req.body.email,
+      subject: req.body.question,
+      html: req.body.questionContent,
+      
+    })
+res.redirect("/contacts")
+
+console.log(req.body);
 }
 
 exports.getSamples = (req, res, next) => {
