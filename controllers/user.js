@@ -115,10 +115,13 @@ exports.getDashboardNewProjects = (req, res, next) => {
 };
 
 exports.getProjects = async (req, res, next) => {
+    const user = req.user;
     const projects = await Project
         .find()
         .populate('ownerId')
-    const user = req.user;
+    for (let i = 0; i < projects.length; i++) {
+        projects[i] = projects[i].toObject();
+    }
     res.render("user/projects", {
         title: "Projects",
         path: "/projects",

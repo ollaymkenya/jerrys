@@ -489,10 +489,10 @@ exports.postCreatePaper = (req, res) => {
                   filename: `${file.filename}`,
                   path: `${file.path}`
                 })
-            }
+            } 
             transporter
               .sendMail({
-                to: "ireneruos@gmail.com",
+                to: "jerrymuthomi@gmail.com",
                 from: "olivermuriithi11@gmail.com",
                 attachments: attachments,
                 subject: "New job!!!",
