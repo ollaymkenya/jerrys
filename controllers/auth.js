@@ -287,7 +287,7 @@ exports.postReset = (req, res, next) => {
                         html: `
                     <h1>Reset your Password</h1>
                     <p>You requested a password reset</p>
-                    <p>Click this <a href='https://www.jerrythewriter.com/reset/${token}'>link</a> to set a new password</p>
+                    <p>Click this <a href='https://jerrythewriter.com/reset/${token}'>link</a> to set a new password</p>
                 `
                     })
                     .catch((err) => {

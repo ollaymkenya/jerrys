@@ -32,6 +32,7 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, callb) => {
+  console.log(file);
   if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'application/pdf' || file.mimetype === 'application/msword' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.mimetype === 'application/vnd.ms-powerpoint' || file.mimetype === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
     callb(null, true)
   } else {
@@ -51,7 +52,7 @@ const errorRoutes = require("./routes/error");
 const User = require("./models/User");
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage:storage, fileFilter: fileFilter }).array('selectfile', 12));
+app.use(multer({ storage: storage, fileFilter: fileFilter }).array('selectfile', 12));
 const csrfProtection = csrf();
 
 app.use(express.static(path.join(__dirname, "views")));
@@ -149,14 +150,15 @@ app.post("/create-payment-intent", async (req, res) => {
 // catching 404 errors
 app.use(errorRoutes);
 
-io.on("connection", (socket) => {
-  socket.on('joinRoom', ({ userRoom }) => {
-    socket.join(userRoom);
-    //Listen for chat messages
-    socket.on("userMessage", (data) => {
-      io.to(userRoom).emit("userMessage", formatMessage(data.ownerId, data.message));
-      saveMsg(data.ownerId, data.message, userRoom);
-    });
+io.on('connection', (socket) => {
+  console.log('a user connected');
+
+  socket.on('new message', (message) => {
+    io.emit('message back', message);
+  });
+  
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
   });
 });
 
@@ -168,3 +170,12 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+    // socket.on('joinRoom', ({ userRoom }) => {
+  //   socket.join(userRoom);
+  //   //Listen for chat messages
+  //   socket.on("userMessage", (data) => {
+  //     io.to(userRoom).emit("userMessage", formatMessage(data.ownerId, data.message));
+  //     saveMsg(data.ownerId, data.message, userRoom);
+  //   });
+  // });
