@@ -16,6 +16,7 @@ const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net
 const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
+const hostname = 'localhost';
 
 const store = new MongoDBStore({
   uri: MONGODB_URI,
@@ -156,7 +157,7 @@ io.on('connection', (socket) => {
   socket.on('new message', (message) => {
     io.emit('message back', message);
   });
-  
+
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
@@ -165,7 +166,7 @@ io.on('connection', (socket) => {
 mongoose
   .connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
   .then((result) => {
-    http.listen(PORT);
+    http.listen(PORT, hostname);
   })
   .catch((err) => {
     console.log(err);
