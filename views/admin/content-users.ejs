@@ -1,0 +1,132 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/contentusers.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="users-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <a href="/content-faq">
+                <li class="<%= path === '/content-faq' ? 'active' : '' %>">
+                   <span>faq</span>
+                </li>
+            </a>
+                <a href="/content-testimonials">
+                <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
+                    <span>testimonials</span>
+                </li>
+            </a>
+                <a href="/content-users">
+                <li class="<%= path === '/content-users' ? 'active' : '' %>">
+                   <span>users</span>
+                </li>
+            </a>
+                <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
+                <span>samples</span>
+                </li>
+            </a>
+            </ul>
+        </div>
+        <div class="users">
+            <div class="users-header">
+                <h4>Users</h4>
+                <span id="toggleUserList">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path
+                            d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                    </svg>
+                </span>
+                <div class="toggleMenu">
+                    <ul>
+                        <% for(let i = 0; i < accounttypes.length; i++) { %>
+                        <li class="ulitoggle" data-accouttypeId="<%= accounttypes[i].id %>">
+                            <%= accounttypes[i].name %>s
+                        </li>
+                        <% } %>
+                        <li id="toggleUser">Add Editor</li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="users-list">
+                <% for (let i = 0; i < users.length; i++) { %>
+                <li class="uli" data-accouttypeId="<%= users[i].accountType.id %>">
+                    <div class="users-list__item">
+                        <div class="user-header">
+                            <span><%= users[i].username %></span>
+                            <span>
+                                <ion-icon name="mail-outline"></ion-icon> <%= users[i].email %>
+                            </span>
+                            <span>
+                                <ion-icon name="briefcase-outline"></ion-icon> Projects: 1
+                            </span>
+                            <span><%= users[i].accountType.name %></span>
+                        </div>
+                        <div class="user-footer">
+                            <span>
+                                <form action="/delete-user" method="POST">
+                                    <button type="submit">
+                                        <input type="hidden" name="userId" value="<%= users[i].id %>">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        <ion-icon name="trash-outline"></ion-icon>
+                                    </button>
+                                </form>
+                            </span>
+                        </div>
+                    </div>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<div class="modal-bg">
+    <div class="usermodal">
+        <form action="/add-editor" method="POST" class="user-form">
+            <label for="email">Add an editor</label>
+            <input type="text" placeholder="user email" name="email">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="btn-primary modal-close"> Add Editor</button>
+        </form>
+        <span class="modal-close1">
+            <ion-icon name="close-circle-outline"></ion-icon>
+        </span>
+    </div>
+</div>
+<script src="/js/contentusers.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script>
+    const toggleUserList = document.querySelector('#toggleUserList');
+    const toggleMenu = document.querySelector('.toggleMenu');
+
+    Popper.createPopper(toggleUserList, toggleMenu, {
+        modifiers: [{
+            name: 'offset',
+            options: {
+                offset: [0, 8],
+            },
+        }, ],
+    });
+
+    const hideEvents = ['mouseleave', 'blur', 'click'];
+    const showEvents = ['click', 'mouseenter', 'focus'];
+
+    showEvents.forEach(event => {
+        toggleUserList.addEventListener(event, () => {
+            toggleMenu.setAttribute('data-show', '');
+        });
+    });
+
+    hideEvents.forEach(event => {
+        toggleMenu.addEventListener(event, () => {
+            toggleMenu.removeAttribute('data-show');
+        });
+    });
+</script>
+</body>
+
+</html>

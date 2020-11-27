@@ -1,0 +1,25 @@
+<div class="wrapper">
+    <section class="testi">
+      <% for (let i = 0; i < testimonials.length; i++){ %>
+        <div class="client">
+          <div class="say">
+            <div class="border"></div>
+            <h3>
+              &#x201C; <%= testimonials[i].text %> &#x201D;
+            </h3>
+          </div>
+          <div class="profile">
+            <div class="img">
+              <img
+                src="https://pbs.twimg.com/profile_images/953000038967468033/n4Ngwvi7.jpg"
+                alt=""
+              />
+            </div>
+            <div class="info">
+              <h3><%= testimonials[i].owner.username %> </h3>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </section>
+  </div>

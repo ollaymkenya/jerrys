@@ -1,0 +1,70 @@
+<%- include('../includes/head.ejs')%>
+<link rel="stylesheet" href="/css/checkout.css">
+<script src="https://js.stripe.com/v3/"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?version=3.52.1&features=fetch"></script>
+</head>
+
+<body>
+    <main>
+        <div class="checkout">
+            <div class="checkout-left">
+                <div class="checkout-header">
+                    <h1>Paper Summary</h1>
+                    <h3><%= paper.topic %></h3>
+                </div>
+                <div class="checkout-body">
+                    <div class="parameters">
+                        <ul class="parameter-list">
+                            <% for(let i = 0; i < paperIntel.length - paperDetails.length; i++) { %>
+                            <% if(paperIntel[i].category.name !== 'academicLevel') { %>
+                            <li>
+                                <div class="parameter-list__item">
+                                    <small><%= paperIntel[i].category.name%>: </small>
+                                    <small><span class="content"><%= paperIntel[i].name %></span></small>
+                                </div>
+                            </li>
+                            <% } %>
+                            <% } %>
+                            <% for(let i = 0; i < paperDetails.length; i++) { %>
+                            <li>
+                                <div class="parameter-list__item">
+                                    <small><%= paperDetailsPopulated[i].name %>: </small>
+                                    <small><span class="content"><%= paperDetails[i]%></span></small>
+                                </div>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+                <div class="checkout-footer">
+                    <span>Total</span>
+                    <span>USD <h3>$<%= (totalPrice /100) %></h3></span>
+                </div>
+            </div>
+            <div class="checkout-right">
+                <form id="payment-form">
+                    <input type="hidden" id="customer-id" data-customer-secret="<%= clientSecret %>">
+                    <input type="hidden" id="customer-paper" data-customer-paper="<%= paper %>">
+                    <input type="hidden" id="customer-files" data-customer-files="<%= files %>">
+                    <input type="hidden" id="csrf" name="_csrf" value="<%= csrfToken %>">
+                <input type="text" id="name" placeholder="Name in card" required='true'/>
+                <input type="text" id="email" placeholder="Email address" required='true'/>
+                    <div id="card-element">
+                        <!--Stripe.js injects the Card Element-->
+                    </div>
+                    <button id="submit">
+                        <div class="spinner hidden" id="spinner"></div>
+                        <span id="button-text">Pay</span>
+                    </button>
+                    <p id="card-error" role="alert"></p>
+                    <p class="result-message hidden">
+                        Payment succeeded 😁
+                    </p>
+                </form>
+            </div>
+        </div>
+    </main>
+    <script src="/js/stripe.js" defer></script>
+</body>
+
+</html>

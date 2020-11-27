@@ -1,0 +1,60 @@
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="css/chat.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="main chat-container">
+        <div class="chat-users__container">
+            <div class="chat-users__header">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M8 7v4L2 6l6-5v4h5a8 8 0 1 1 0 16H4v-2h9a6 6 0 1 0 0-12H8z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="chat-users__body">
+                <ul class="users-list">
+                    <% for(let i = 0; i < contacts.length; i++) { %>
+                    <a href="/chat/<%= chatrooms[i].id %>">
+                        <li>
+                            <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
+                            <div class="users_list__item">
+                                <h4><%= contacts[i].username %></h4>
+                            </div>
+                        </li>
+                    </a>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+        <div class="chat-messages__container">
+            <div class="chat-messages__header">
+                <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
+                <div class="user-messages__text">
+                    <h4><%= user.username %></h4>
+                    <span>online</span>
+                </div>
+            </div>
+            <div class="chat-messages__body">
+                <ul class="messages-list">
+                    <li class="message-item message-away">
+                        <p>Chat with someone</p>
+                        <span>7:00 pm</span>
+                    </li>
+                    <li class="message-item message-home">
+                        <p>Chat with a friend</p>
+                        <span>7: 00pm</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

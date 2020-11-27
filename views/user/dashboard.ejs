@@ -1,0 +1,183 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/dashboardhome.css">
+<%- include('../includes/head.ejs')%>
+
+</head>
+<main>
+    <%-include('../includes/dashnav.ejs')%>
+    <div class="main home-container">
+        <div class="home-container2">
+            <div class="home-container__header">
+                <div class="header-container__title">
+                    <h1>Welcome <%= user.username %></h1>
+                </div>
+                <div class="head-container-sections">
+                    <div class="home-section__container">
+                        <div class="home-section hello-section">
+                            <div class="div-background" id="first"></div>
+                        </div>
+                        <div class="section-text">
+                            <div class="section-text__container">
+                                <h4>Projects</h4>
+                                <span>See your projects</span>
+                            </div>
+                            <span class="projects-toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path
+                                        d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                </svg>
+                            </span>
+                            <span class="tooltip projects-menu" role="tooltip">
+                                <ul class="projects-menu__list">
+                                    <li><a href="/paper">New project</a></li>
+                                    <li><a href="/projects">See projects</a></li>
+                                </ul>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="home-section__container">
+                        <div class="home-section prjoects-section">
+                            <div class="div-background" id="second"></div>
+                        </div>
+                        <div class="section-text">
+                            <div class="section-text__container">
+                                <h4>Connect</h4>
+                                <span>Say hello</span>
+                            </div>
+                            <span class="connect-toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path
+                                        d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                </svg>
+                            </span>
+                            <span class="tooltip connect-menu" role="tooltip">
+                                <ul class="connect-menu__list">
+                                    <li><a href="/chat">Chat</a></li>
+                                </ul>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="home-section__container">
+                        <div class="home-section site-section">
+                            <div class="div-background" id="third"></div>
+                        </div>
+                        <div class="section-text">
+                            <div class="section-text__container">
+                                <h4>Feedback</h4>
+                                <span>Give feedback</span>
+                            </div>
+                            <span class="explore-toggle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                    <path fill="none" d="M0 0h24v24H0z" />
+                                    <path
+                                        d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                </svg>
+                            </span>
+                            <span class="tooltip explore-menu" role="tooltip">
+                                <ul class="explore-menu__list">
+                                    <li><a href="/content-faq">Feedback</a></li>
+                                </ul>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="home-container__body">
+                <div class="category-section">
+                    <h4><%= projects %></h4>
+                    <span>projects</span>
+                </div>
+                <div class="category-section">
+                    <h4>0</h4>
+                    <span>nessages</span>
+                </div>
+                <div class="category-section">
+                    <h4> <%= review %></h4>
+                    <span>Rating</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script>
+    const projectsToggle = document.querySelector('.projects-toggle');
+    const projectsMenu = document.querySelector('.projects-menu');
+
+    Popper.createPopper(projectsToggle, projectsMenu, {
+        modifiers: [{
+            name: 'offset',
+            options: {
+                offset: [0, 8],
+            },
+        }, ],
+    });
+
+    const connectToggle = document.querySelector('.connect-toggle');
+    const connectMenu = document.querySelector('.connect-menu');
+
+    Popper.createPopper(connectToggle, connectMenu, {
+        modifiers: [{
+            name: 'offset',
+            options: {
+                offset: [0, 8],
+            },
+        }, ],
+    });
+
+    const exploreToggle = document.querySelector('.explore-toggle');
+    const exploreMenu = document.querySelector('.explore-menu');
+
+    Popper.createPopper(exploreToggle, exploreMenu, {
+        modifiers: [{
+            name: 'offset',
+            options: {
+                offset: [0, 8],
+            },
+        }, ],
+    });
+
+    function show() {
+        exploreMenu.setAttribute('data-show', '');
+    }
+
+
+    function hide() {
+        exploreMenu.removeAttribute('data-show');
+    }
+
+    const hideEvents = ['mouseleave', 'blur'];
+    const showEvents = ['click', 'mouseenter', 'focus'];
+
+    showEvents.forEach(event => {
+        projectsToggle.addEventListener(event, () => {
+            projectsMenu.setAttribute('data-show', '');
+        });
+        connectToggle.addEventListener(event, () => {
+            connectMenu.setAttribute('data-show', '');
+        });
+        exploreToggle.addEventListener(event, () => {
+            exploreMenu.setAttribute('data-show', '');
+        });
+    });
+
+    hideEvents.forEach(event => {
+        projectsMenu.addEventListener(event, () => {
+            projectsMenu.removeAttribute('data-show');
+        });
+        connectMenu.addEventListener(event, () => {
+            connectMenu.removeAttribute('data-show');
+        });
+        exploreMenu.addEventListener(event, () => {
+            exploreMenu.removeAttribute('data-show');
+        });
+    });
+</script>
+</body>
+
+</html>

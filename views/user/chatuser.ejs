@@ -1,0 +1,92 @@
+<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/chat.css">
+<link rel="stylesheet" href="/css/chatsusers.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="main chat-container">
+        <div class="chat-users__container">
+            <div class="chat-users__header">
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path d="M8 7v4L2 6l6-5v4h5a8 8 0 1 1 0 16H4v-2h9a6 6 0 1 0 0-12H8z" />
+                    </svg>
+                </span>
+            </div>
+            <div class="chat-users__body">
+                <ul class="users-list">
+                    <% for(let i = 0; i < contacts.length; i++) { %>
+                    <a href="/chat/<%= chatrooms[i].id %>">
+                        <li>
+                            <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
+                            <div class="users_list__item">
+                                <h4><%= contacts[i].username %></h4>
+                            </div>
+                        </li>
+                    </a>
+                    <% } %>
+                </ul>
+            </div>
+        </div>
+        <div class="chat-messages__container">
+            <div class="chat-messages__header">
+                <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
+                <div class="user-messages__text">
+                    <h4><%= otherUser.username %></h4>
+                    <span>offline</span>
+                </div>
+            </div>
+            <div class="chat-messages__body">
+                <ul class="messages-list">
+                    <p class="center" style="font-size: .8rem; color: #808080; margin-bottom: .7rem;">
+                        This is the begining of your conversation with <%= otherUser.value %>. Chats are not currently
+                        secure
+                    </p>
+                </ul>
+            </div>
+            <div class="chat-messages__footer">
+                <form action="" class="input-message">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name="user" value="<%= user.id %>">
+                    <input type="hidden" name="username" value="<%= user.username %>">
+                    <input type="hidden" name="otherUser" value="<%= otherUser.id %>">
+                    <input type="hidden" name="otherUserName" value="<%= otherUser.username %>">
+                    <input type="hidden" name="message" id="message">
+                    <span class="emoji-btn">
+                        <ion-icon name="happy-outline"></ion-icon>
+                    </span>
+                    <div class="chattingBox editableDiv" id="editableDiv" contenteditable=true
+                        placeholder="Type a message..." role="textbox">
+                    </div>
+                    <span class="submit-btn">
+                        <button type="submit">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                stroke-linejoin="round" class="feather feather-send">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                        </button>
+                    </span>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    document.getElementById('editableDiv').addEventListener('input', () => {
+        let currentMessage = document.getElementById('editableDiv').innerText;
+        document.getElementById('message').value = currentMessage;
+    });
+</script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chats.js"></script>
+</body>
+
+</html>

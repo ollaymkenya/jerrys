@@ -1,0 +1,126 @@
+<link rel="stylesheet" href="/css/faq.css">
+<%- include('../includes/head.ejs')%>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs')%>
+    <div class="faq-header">
+
+        <div class="faq-header__text">
+            <h1>F.A.Q</h1>
+            <div class="faq-search">
+                <input type="text" name="search" placeholder="search" id="faq-search" value="<%= searchQuery ? searchQuery : ''%>">
+            </div>
+        </div>
+    </div>
+    </header>
+    <main>
+        <div class="main-faq__nav">
+      
+            <ul class="faq-nav__list" >
+                <li class="active">
+                    <div class="faq-nav__list-item" data-categoryId="General Information">
+                        <h4>
+                            General Questions
+                        </h4>
+                        <p>General questions regarding J.T.T</p>
+                    </div>
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                </li>
+                <li>
+                    <div class="faq-nav__list-item" data-categoryId="Ordering Information">
+                        <h4>
+                            Ordering Information
+                        </h4>
+                        <p>Get to know how to order, when and when to get feedback</p>
+                    </div>
+               
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                </li>
+                <li>
+                    <div class="faq-nav__list-item" data-categoryId="Pricing and payment">
+                        <h4>
+                            Pricing and Payment
+                        </h4>
+                        <p>How much do you pay for the services and how you get to pay.</p>
+                    </div>
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                </li>
+                <li>
+                    <div class="faq-nav__list-item" data-categoryId="Operations and quality assurance">
+                        <h4>
+                            Operations and Quality Assurance
+                        </h4>
+                        <p>How do I make sure you ge toyur paper in time and it's a quality paper</p>
+                    </div>
+                    <ion-icon name="chevron-forward-outline"></ion-icon>
+                </li>
+            </ul>
+        </div>
+        <div class="faq-qanda">
+            <ul class="faq-qanda__list">
+            <% for(let i=0; i<faqs.length; i++) { %>
+            <% if(faqs[i].category === 'General Information') { %> 
+                <li class="general-information faqandacontainer" data-categoryId="<%= faqs[i].category %>"> 
+                    <div class="faq-qanda__list-item">
+                        <div class="qanda-list__item-title">
+                            <h4 class="highlight">
+                                <%= faqs[i].question %>
+                            </h4>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
+                        </div>
+                        <p>  
+                            <%= faqs[i].answer %>
+                        </p>
+                    </div>
+                </li>
+            <% }else if(faqs[i].category === 'Ordering Information') { %> 
+                <li class="ordering-information faqandacontainer" data-categoryId="<%= faqs[i].category %>" >
+                    <div class="faq-qanda__list-item">
+                        <div class="qanda-list__item-title">
+                            <h4 class="highlight">
+                                <%= faqs[i].question %>
+                            </h4>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
+                        </div>
+                        <p>  
+                            <%= faqs[i].answer %>
+                        </p>
+                    </div>
+                </li>
+            <% }else if(faqs[i].category === 'Pricing and payment') { %> 
+                <li class="priceandpay faqandacontainer" data-categoryId="<%= faqs[i].category %>">
+                    <div class="faq-qanda__list-item">
+                        <div class="qanda-list__item-title">
+                            <h4 class="highlight">
+                                <%= faqs[i].question %>
+                            </h4>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
+                        </div>
+                        <p>  
+                            <%= faqs[i].answer %>
+                        </p>
+                    </div>
+                </li>
+            <% }else if(faqs[i].category === 'Operations and quality assurance') { %> 
+                <li class="opsandqualass faqandacontainer" data-categoryId="<%= faqs[i].category %>">
+                    <div class="faq-qanda__list-item">
+                        <div class="qanda-list__item-title">
+                            <h4 class="highlight">
+                                <%= faqs[i].question %>
+                            </h4>
+                            <ion-icon name="chevron-down-outline"></ion-icon>
+                        </div>
+                        <p>  
+                            <%= faqs[i].answer %>
+                        </p>
+                    </div>
+                </li>
+            <% } %> 
+            <% } %> 
+            </ul>
+        </div>
+    </main>
+    <%- include('../includes/footer.ejs')%>
+    <script src="/js/faq.js"></script>
+    <%- include('../includes/end.ejs')%>

@@ -1,0 +1,238 @@
+header {
+    height: 50vh;
+    overflow: hidden;
+    background: #ffffff;
+    margin-bottom: 2rem;
+}
+
+.contacts-header {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-header__text {
+    text-align: center;
+    color: #333333;
+    font-family: 'Montserrat', 'sans-serif';
+}
+
+.contact-header__text h1 {
+    font-size: 4rem;
+}
+
+.contact-header__text p {
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+.contacts-wrapper {
+    background: rgb(247, 246, 246);
+    background: linear-gradient(355deg, rgba(247, 246, 246, 1) 80%, rgba(247, 248, 252, 1) 80%, rgba(255, 255, 255, 1) 80%, rgba(255, 255, 255, 1) 100%);
+    width: 100%;
+}
+
+.contacts-box {
+    width: 70%;
+    margin: auto;
+    display: flex;
+    padding: 3rem 0;
+    font-family: 'Montserrat', 'sans-serif';
+}
+
+.contact-box__left {
+    flex-basis: 40%;
+    background: #ffffff;
+    border-radius: 5px;
+    box-shadow: 0 19px 38px rgba(0, 0, 0, 0.30), 0 15px 12px rgba(0, 0, 0, 0.22);
+    padding: .5rem 0;
+    color: #333333;
+}
+
+.contacts-form {
+    width: 100%;
+    padding: 2rem 0;
+}
+
+.contacts-form label,
+.contacts-form input,
+.contacts-form textarea,
+.contacts-form button {
+    display: block;
+    padding: .5rem 0 .5rem .5rem;
+    width: 85%;
+    margin: auto;
+}
+
+.contacts-form input,
+.contacts-form textarea {
+    border: 1px solid #e3e9fd;
+    font-family: 'Montserrat', 'sans-serif';
+    font-weight: 500;
+    border-radius: 5px;
+    padding: 1rem 1rem;
+    font-size: 1rem;
+    box-shadow: inset 0 .5px 1.5px rgba(0, 0, 0, 0.23);
+}
+
+.contacts-form input:focus,
+.contacts-form textarea:focus {
+    outline: none !important;
+    border: 1px solid #e3e9fd;
+}
+
+.contacts-form label {
+    text-transform: uppercase;
+    font-size: .7rem;
+    font-weight: 600;
+    font-family: 'Lato', sans-serif;
+}
+
+.contacts-form button {
+    background-color: #EA4F16;
+    border: none;
+    margin-top: 1rem;
+    color: #ffffff;
+    padding: 1rem 0;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color .5s;
+}
+
+.contacts-form button:hover {
+    background-color: #fd662f;
+}
+
+.contact-box__left hr {
+    border: .9px solid #e4e3e3;
+    width: 80%;
+    margin-bottom: .5rem;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 5px;
+}
+
+.contact-information__items {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 1rem .5rem;
+    width: 85%;
+    margin: auto;
+    color: #6d6d7a;
+}
+
+.contact-information__item {
+    margin: .7rem auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.contact-box__left h4 {
+    width: 85%;
+    font-weight: 500;
+    margin: 1rem auto 0 auto;
+    padding: .5rem .5rem;
+}
+
+.contact-information__item p {
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.contact-information__item img,
+.contact-information__item .contact-information__text {
+    margin: 0 .5rem 0 0;
+}
+
+.contact-box__right {
+    flex-basis: 60%;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    color: #4d4d4d;
+    margin-left: 1.5rem;
+}
+
+.contacts-box__right-text {
+    width: 100%;
+    padding: .5rem 0;
+}
+
+.contacts-box__right-title {
+    margin: 1rem 0;
+}
+
+.contacts-box__right-title h2 {
+    font-size: 2rem;
+}
+
+.contacts-box__right-title big {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.contacts-box__topics {
+    padding: .5rem 0;
+}
+
+.contacts-box__topics li {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #d6d5d5;
+    cursor: pointer;
+    margin-top: .2rem;
+}
+
+.contac-box__topics-item {
+    margin: .5rem .5rem .5 0;
+    padding: .5rem 0;
+}
+
+.contac-box__topics-item h4,
+.contac-box__topics-item p {
+    padding: 2px 0;
+}
+
+.contac-box__topics-item p {
+    font-weight: 500;
+    font-size: .9rem;
+    color: #6d6d7a;
+}
+
+.contacts-box__topics li ion-icon {
+    width: 20px;
+    color: #6d6d7a;
+    transition: .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+.contacts-box__topics li:hover ion-icon {
+    transform: translateX(8px);
+}
+
+@media screen and (max-width: 1500px) {
+    .contacts-box {
+        width: 90%;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .contacts-box {
+        flex-direction: column;
+        width: 80%;
+        margin: auto;
+    }
+
+    .contact-box__left {
+        width: 100%;
+        margin: auto;
+    }
+
+    .contact-box__right {
+        width: 100%;
+        margin: auto;
+    }
+}

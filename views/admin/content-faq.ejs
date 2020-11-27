@@ -1,0 +1,110 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/contentfaq.css">
+<%- include('../includes/head.ejs')%>
+
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="faq-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <a href="/content-faq">
+                <li class="<%= path === '/content-faq' ? 'active' : '' %>">
+                   <span>faq</span>
+                </li>
+            </a>
+                <a href="/content-testimonials">
+                <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
+                    <span>testimonials</span>
+                </li>
+            </a>
+                <a href="/content-users">
+                <li class="<%= path === '/content-users' ? 'active' : '' %>">
+                   <span>users</span>
+                </li>
+            </a>
+                <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
+                <span>samples</span>
+                </li>
+            </a>
+            </ul>
+        </div>
+        <div class="contentfaqs">
+            <div class="contentfaqs-header">
+                <h4>Faqs</h4>
+            </div>
+            <div class="contentfaqs-body">
+                <div class="contentfaqs-changer">
+                    <form action="/content-faq" method="POST" class="faqs-form">
+                        <div class="contentfaqs-input__container">
+                            <label for="faqCategory">Faq Category</label>
+                            <select name="faqCategory" id="faqCategory">
+                                <option value="General Information">General Information</option>
+                                <option value="Ordering Information">Ordering Information</option>
+                                <option value="Pricing and payment">Pricing and payment</option>
+                                <option value="Operations and quality assurance">Operations and quality assurance
+                                </option>
+                            </select>
+                        </div>
+                        <div class="contentfaqs-input__container">
+                            <label for="faqQuestion">Question</label>
+                            <input type="text" id="faqQuestion" name="faqQuestion">
+                        </div>
+                        <div class="contentfaqs-input__container">
+                            <label for="faqAnswer">Answer</label>
+                            <textarea name="faqAnswer" id="faqAnswer" cols="30" rows="10"></textarea>
+                        </div>
+                        <button>Add Faq</button>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    </form>
+                </div>
+                <div class="contentsfaq-made">
+                    <div class="contentsfaq-made__header">
+                        <h4>Faqs</h4>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+
+                        </span>
+                    </div>
+                    <div class="contentsfaq-made__container">
+                        <ul class="contentsfaq__list">
+                            <%for (let i = 0; i < faqs.length; i++) {%>
+                            <li>
+                                <div class="faq-qanda__list-item">
+                                    <div class="qanda-list__item-title__container">
+                                        <h4 class="highlight qanda-list__item-title"><%= faqs[i].question %></h4>
+                                        <div class="chevy-down">
+                                            <ion-icon name="chevron-down-outline"></ion-icon>
+                                        </div>
+                                        <form action="/delete_faq" method="post">
+                                            <input type="hidden" name="faqId" value="<%= faqs[i].id %>">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit">
+                                                    <div class="trash-button">
+                                                        <ion-icon name="trash-outline"></ion-icon>
+                                                    </div>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <p><%= faqs[i].answer %></p>
+                                </div>
+                            </li>
+                            <% }%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script src="/js/faqAdmin.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

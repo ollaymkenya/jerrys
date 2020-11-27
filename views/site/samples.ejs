@@ -1,0 +1,55 @@
+<link rel="stylesheet" href="css/samples.css">
+<%- include('../includes/head.ejs')%>
+</head>
+
+<body>
+    <%- include('../includes/navigation.ejs')%>
+    <div class="samples-header">
+        <div class="samples-header__text">
+            <h1>My free samples</h1>
+            <div class="samples-content">
+                <p>There Is No Better Way For Me To Prove My Quality, than To Let You See My Work.</p>
+            </div>
+        </div>
+    </div>
+    </header>
+    <main>
+        <div class="samples-wrapper">
+            <ul class="sampels-list">
+                <% for(let i = 0; i < samples.length; i++) { %>
+                <li>
+                    <div class="samples-list__item">
+                        <div class="samples-list__item-info">
+                            <div class="sample-info__item-title">
+                                <p><%= samples[i].sampleTitle %></p>
+                            </div>
+                            <div class="sample-info__item-field">
+                                <h4><%= samples[i].sampleCourse %></h4>
+                            </div>
+                        </div>
+                        <div class="samples-list__item-meta">
+                            <small>Date: <span class="highlight"><%= `${new Date(samples[i].updatedAt ).getDate() }/${new Date(samples[i].updatedAt ).getMonth()}/${new Date(samples[i].updatedAt ).getFullYear()}` %></span></small>
+                            <small>Pages: <span class="highlight"><%= samples[i].numberofPages %></span></small>
+                            <a href="<%= samples[i].fileLink %>" target="_blank"><small>
+                                    <ion-icon name="download-outline"></ion-icon> <%= samples[i].extName.toUpperCase() %>.
+                                </small></a>
+                        </div>
+                    </div>
+                </li>
+                <% } %> 
+            </ul>
+        </div>
+        <div class="justify">
+            <div class="justify-container testimonials">
+                <div class="justify-center__title-container">
+                    <div class="justify-title">
+                        <h1>What my clients have to say about me</h1>
+                    </div>
+                    <%- include('../includes/testimonials.ejs')%>
+                </div>
+            </div>
+        </div>
+    </main>
+    <%- include('../includes/footer.ejs')%>
+    <script src="js/testimonials.js"></script>
+    <%- include('../includes/end.ejs')%>

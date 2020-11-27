@@ -1,0 +1,64 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/projects.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="projects-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <li class="<%= path === '/projects' ? 'active' : '' %>">
+                    <a href="/projects"><span>projects</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
+                    <a href="/projects-newParameter"><span>parameters</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="projects">
+            <div class="projects-header">
+                <h4>Projects</h4>
+                <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                        <path fill="none" d="M0 0h24v24H0z" />
+                        <path
+                            d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                    </svg>
+                </span>
+            </div>
+            <ul class="projects-list">
+                <% for(let i = 0; i < projects.length; i++) { %>
+                <% var project = projects[i] %>
+                <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
+                <li>
+                    <div class="projects-list__item">
+                        <div class="projects-information">
+                            <div class="projects-information__header">
+                                <h4><%= project.topic %></h4>
+                                <span><%= username %></span>
+                            </div>
+                            <div class="projects-information__body">
+                                <span>Submitted on: 2 October 2020</span>
+                                <span style ='<%= project.completed ? "color: green;": "color:red;"%>'><%= project.completed ? 'completed': 'incomplete'%></span>
+                            </div>
+                        </div>
+                        <div class="projects-menu">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+                        </div>
+                    </div>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

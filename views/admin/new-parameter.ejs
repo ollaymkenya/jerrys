@@ -1,0 +1,111 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/newParameter.css">
+<%- include('../includes/head.ejs')%>
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="parameter-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <li class="<%= path === '/projects' ? 'active' : '' %>">
+                    <a href="/projects"><span>projects</span></a>
+                </li>
+                <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
+                    <a href="/projects-newParameter"><span>parameters</span></a>
+                </li>
+            </ul>
+        </div>
+        <div class="parameters">
+            <div class="parameter-header">
+                <h4>Parameters</h4>
+            </div>
+            <div class="parameter-body">
+                <div class="parameter-changer">
+                    <form action="/projects-newParameter" method="POST" class="parameter-form">
+                        <div class="parameter-changer__body">
+                            <div class="parameter-input__container">
+                                <label for="parameterCategory">Parameter Category</label>
+                                <select name="parameterCategory" id="parameterCategory">
+                                    <% for(let i = 0; i < paramCategories.length; i++){ %>
+                                    <option value="<%= paramCategories[i].id %>"><%= paramCategories[i].name %></option>
+                                    <% } %>
+                                </select>
+                            </div>
+                            <div class="parameter-input__container">
+                                <label for="parameterName">Name of parameter</label>
+                                <input type="text" id="parameterName" name="parameterName">
+                            </div>
+                            <div class="parameter-input__container">
+                                <label for="parameterPrice">Price of Parameter</label>
+                                <input type="number" name="parameterPrice" id="parameterPrice" step=".01">
+                            </div>
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <button type="submit">Add parameter</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="parameter-made">
+                    <div class="parameter-made__header">
+                        <ul class="parameter-nav__list">
+                            <% for(let i = 0; i < paramCategories.length; i++){ %>
+                            <li class="param-nav__list__item" data-categoryId="<%= paramCategories[i].id %>">
+                                <span><%= paramCategories[i].name %></span>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                    <div class="parameter-made__container">
+                        <ul class="parameter-made__list">
+                            <% for(let i = 0; i < params.length; i++){ %>
+                            <li class="pmli" data-categoryId="<%= params[i].category %>">
+                                <div class="parameter-made__list-item">
+                                    <span><%= params[i].name %></span>
+                                    <span data-param="<%= JSON.stringify(params[i]) %>" class="editParam">
+                                        <ion-icon name="create-outline"></ion-icon>
+                                    </span>
+                                    <span><%= params[i].price %></span>
+                                    <span>
+                                        <form action="/delete-param" method="post">
+                                            <input type="hidden" name="paramId" value="<%= params[i].id %>">
+                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                            <button type="submit">
+                                                <span>
+                                                    <ion-icon name="trash-outline"></ion-icon>
+                                                </span>
+                                            </button>
+                                        </form>
+                                    </span>
+                                </div>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <%- include('../includes/dashprofile.ejs')%>
+    <div class="modal-bg">
+        <div class="modal form-body">
+            <span class="modal-close">
+                <ion-icon name="close-circle-outline"></ion-icon>
+            </span>
+            <h2>Edit Parameter</h2>
+            <form action="/edit-param" method="post">
+                <label for="paramName">Name</label>
+                <input type="text" value="" name="paramName" id="paramName">
+                <label for="paramPrice">Price</label>
+                <input type="number" value="" name="paramPrice" id="paramPrice" step=".01">
+                <input type="hidden" name="paramId" value="" id="paramId">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit">Edit Parameter</button>
+            </form>
+        </div>
+    </div>
+</main>
+<script src="/js/newParam.js"></script>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

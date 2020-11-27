@@ -1,0 +1,141 @@
+<link rel="stylesheet" href="css/dashboard.css">
+<link rel="stylesheet" href="css/contentfaq.css">
+<link rel="stylesheet" href="css/samples.css">
+
+<%- include('../includes/head.ejs')%>
+
+</head>
+<main>
+    <%- include('../includes/dashnav.ejs')%>
+    <div class="sample-container main">
+        <div class="projects-nav">
+            <ul class="projects-nav__list">
+                <a href="/content-faq">
+                <li class="<%= path === '/content-faq' ? 'active' : '' %>">
+                   <span>faq</span>
+                </li>
+            </a>
+                <a href="/content-testimonials">
+                <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
+                    <span>testimonials</span>
+                </li>
+            </a>
+                <a href="/content-users">
+                <li class="<%= path === '/content-users' ? 'active' : '' %>">
+                   <span>users</span>
+                </li>
+            </a>
+                <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
+                <span>samples</span>
+                </li>
+            </a>
+            </ul>
+        </div>
+        <div class="contentfaqs">
+            <div class="contentfaqs-header">
+                <h4>samples</h4>
+            </div>
+            <div class="contentfaqs-body">
+                <div class="contentfaqs-changer">
+                    <form action="/content-sample" class="/faqs-form" enctype="multipart/form-data" method="POST">
+                        <div class="contentfaqs-input__container">
+                            <label for="testimonial">Title</label>
+                            <input type="text" id="testimonial" name="sampleTitle">
+                        </div>
+                        <div class="contentfaqs-input__container">
+                            <label for="testimonial">Course Unit</label>
+                            <input type="text" id="testimonial" name="sampleCourse">
+                        </div>
+                        <div class="contentfaqs-input__container">
+                            <label for="testimonial">Number of Pages</label>
+                            <input type="number" id="testimonial" name="samplepages">
+                        </div>
+                        <div class="paper-form__form-item">
+                            <label for="inputFiles">Add new files</label>
+                            <div class="file-wrapper">
+                                <div class="upload-btn-wrapper">
+                                    <button class="upload-file">
+                                        <span class="upload-btn d-block" id="info">
+                                            <ion-icon name="document-attach-outline"></ion-icon>
+                                            Drop your file here or <span class="highlight-green">Browse disk</span>
+                                        </span>
+                                        <span class="upload-secret-button d-block" id="blankFile">
+                                            Supports PDF, DOC, WORD
+                                        </span>
+                                        <span class="success">
+                                            <ion-icon name="checkmark-circle-outline"></ion-icon>
+                                        </span>
+                                    </button>
+                                    <input type="file" name="selectfile" id="selectfile">
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <button type="submit">Add Samples</button>
+                    </form>
+                </div>
+                <div class="contentsfaq-made">
+                    <div class="contentsfaq-made__header">
+                        <h4>Samples</h4>
+                        <span>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+                        </span>
+                    </div>
+                    <div class="samples-wrapper">
+                        <ul class="sampels-dashboard__list">
+                            <% for(let i = 0; i < samples.length; i++) { %> 
+                            <li>
+                                <div class="samples-list__dashboard-item">
+                                    <div class="samples-list__item-info">
+                                        <div class="sample-info__item-title">
+                                            <p><%= samples[i].sampleTitle %> </p>
+                                        </div>
+                                        <div class="sample-info__item-field">
+                                            <h4><%= samples[i].sampleCourse %></h4>
+                                        </div>
+                                    </div>
+                                    <div class="samples-list__item-meta">
+                                        <small>Date: <span class="highlight"><%= `${new Date(samples[i].updatedAt ).getDate() }/${new Date(samples[i].updatedAt ).getMonth()}/${new Date(samples[i].updatedAt ).getFullYear()}` %></span></small>
+                                        <small>Pages: <span class="highlight"><%= samples[i].numberofPages %></span></small>                              
+                                            <form action="/delete-sample" method="post">
+                                            <button type="submit">
+                                                <input type="hidden" name="sampleID" value="<%= samples[i].id %>">
+                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                <div class="trash-button" >
+                                                   <small class="danger"><ion-icon name="trash-outline"></ion-icon></small> 
+                                                </div>
+                                            </button>
+                                    </form>
+                                    </div>
+                                </button>
+                                </div>
+                            </li>
+                            <% } %> 
+                        </ul>
+                     </div> 
+                </div> 
+            </div>   
+        </div> 
+    </div>  
+    
+    <%- include('../includes/dashprofile.ejs')%>
+</main>
+<script>
+    document.getElementById('selectfile').onchange = function () {
+            console.log(this.files)
+            document.getElementById('blankFile').innerHTML =
+                `<span class='highlight-green'><ion-icon name="document-attach-outline"></ion-icon> ${this.files[0].name}</span>`;
+            if (document.getElementById('info')) {
+                document.getElementById('info').remove();
+            }
+        };
+</script>
+<script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

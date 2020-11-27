@@ -1,0 +1,229 @@
+.projects-nav {
+    width: fit-content;
+    margin: auto;
+}
+
+.projects-nav__list {
+    display: flex;
+    margin: .5rem 0;
+}
+
+.projects-nav__list li {
+    margin: 0 1rem;
+    border: 1px solid #9c9c9c;
+    padding: .1rem .5rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.projects-nav__list li.active {
+    background-color: #9c9c9c;
+}
+
+.projects-nav__list li.active a {
+    color: #ffffff;
+}
+
+.projects-nav__list li:active {
+    transform: scale(.97);
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+.contentfaqs {
+    height: 93%;
+}
+
+.contentfaqs-header {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+    color: #313131;
+    align-items: center;
+}
+
+.contentfaqs-header h4 {
+    font-size: 1.4rem;
+}
+
+.contentfaqs-body {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    grid-template-rows: 100%;
+    height: 100%;
+}
+
+@media screen and (max-width:768px) {
+    .contentfaqs-body {
+        grid-template-columns: 100%;
+        grid-template-rows: 60% 50%;
+        overflow: auto;
+    }
+}
+
+.contentfaqs-changer {
+    padding: .5rem;
+    background-color: #fdf9f4;
+}
+
+.contentfaqs-body button {
+    margin: .5rem 0;
+    padding: .2rem;
+    border-radius: 5px;
+    border: 1px solid #9c9c9c;
+    min-width: 120px;
+    cursor: pointer;
+}
+
+.contentfaqs-body button:active,
+.contentfaqs-body button:focus {
+    outline: none;
+}
+
+.contentfaqs-changer label {
+    margin: .5rem 0;
+    color: #313131;
+}
+
+.contentfaqs-changer input,
+.contentfaqs-changer select,
+.contentfaqs-changer textarea {
+    box-shadow: 0 3px 8px rgba(45, 35, 22, 0.02), 0 1px 1px rgba(43, 31, 19, 0.1);
+    -webkit-box-shadow: 0 3px 8px rgba(45, 35, 22, 0.02), 0 1px 1px rgba(43, 31, 19, 0.1);
+    border-radius: 2px;
+    background-color: #fff;
+    border: 1px solid #dfd5c2;
+    display: block;
+    width: 95%;
+    font-size: 1rem;
+    font-weight: 400;
+    padding: .5rem;
+}
+
+.contentsfaq-made {
+    padding: .5rem;
+}
+
+.contentsfaq-made__container {
+    height: 100%;
+    overflow: hidden;
+}
+
+.contentsfaq__list {
+    height: 90%;
+    overflow: auto;
+}
+
+.contentsfaq-made__header {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+    padding-top: 0;
+    margin: auto;
+}
+
+.faq-qanda__list-item {
+    margin: 1rem auto;
+    padding: .5rem 0;
+}
+
+.qanda-list__item-title__container {
+    display: flex;
+    align-items: center;
+    margin-bottom: .5rem;
+    border-bottom: 1px solid rgba(51, 51, 51, 0.5);
+    padding-bottom: .5rem;
+    cursor: pointer;
+    width: 100%;
+    position: relative;
+}
+
+.qanda-list__item-title__container h4 {
+    font-weight: 500;
+    font-size: 1.1rem;
+    max-width: 84%;
+    word-break: break-all;
+}
+
+.qanda-list__item-title__container ion-icon{
+    color:  #EA4F16;
+    width: 20px;
+    justify-self: end;
+    font-size: 1.1rem;
+}
+
+.chevy-down{
+    position: absolute;
+    top: -1px;
+    width: fit-content;
+    right: 50px;
+    border: 1px solid #9c9c9c;
+    padding: .25rem;
+    border-radius: 5px;
+    transform: rotate(0deg); 
+}
+
+.qanda-list__item-title__container button[type='submit']{
+    min-width: fit-content !important;
+    background-color: transparent;
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0 .5rem 0 1rem;
+}
+
+.faq-qanda__list-item p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #6d6d7a;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 500ms ease-in;
+}
+
+.faq-qanda__list-item.active .qanda-list__item-title__container .chevy-down ion-icon {
+    transform: rotate(180deg);
+}
+
+.testimonial-container {
+    border: 1px solid #9c9c9c;
+    border-radius: 5px;
+    padding: .5rem;
+    font-family: Roboto;
+    font-weight: 600;
+    color: #6d6d7a;
+    margin: 0 0 .7rem 0;
+}
+
+.testimonial-body {
+    color: #313131;
+    font-size: .8rem;
+    font-weight: 400;
+    color: indigo;
+    display: flex;
+    margin: .5rem 0 0;
+}
+
+.testimonial-body span {
+    margin-right: 1rem;
+}
+
+.testimonial-footer {
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: .5rem 0 0;
+}
+
+.testimonial-footer button {
+    background-color: transparent;
+    width: fit-content;
+    min-width: 10px;
+}
+
+.trash {
+    color: orangered;
+}
