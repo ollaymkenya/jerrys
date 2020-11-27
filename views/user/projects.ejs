@@ -28,16 +28,18 @@
             </div>
             <ul class="projects-list">
                 <% for(let i = 0; i < projects.length; i++) { %>
+                <% var project = projects[i] %>
+                <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
                 <li>
                     <div class="projects-list__item">
                         <div class="projects-information">
                             <div class="projects-information__header">
-                                <h4><%= projects[i].topic%></h4>
-                                <span><%= projects[i].ownerId.username%></span>
+                                <h4><%= project.topic %></h4>
+                                <span><%= username %></span>
                             </div>
                             <div class="projects-information__body">
                                 <span>Submitted on: 2 October 2020</span>
-                                <span style ='<%= projects[i].completed ? "color: green;": "color:red;"%>'><%= projects[i].completed ? 'completed': 'incomplete'%></span>
+                                <span style ='<%= project.completed ? "color: green;": "color:red;"%>'><%= project.completed ? 'completed': 'incomplete'%></span>
                             </div>
                         </div>
                         <div class="projects-menu">

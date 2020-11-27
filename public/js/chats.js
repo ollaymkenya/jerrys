@@ -1,42 +1,30 @@
-// const message = document.getElementById('message'),
-//     output = document.getElementById('output'),
-//     userId = document.getElementById('userId'),
-//     sendMessage = document.getElementById('sendMessage'),
-//     userRoom = document.getElementById('userRoom');
+let form = document.querySelector('.input-message');
+let message = document.querySelector("#message");
+let fakeMessage = document.querySelector('.editableDiv');
+const messageList = document.querySelector('.messages-list');
+let username = document.querySelector('input[name="username"]');
+let otherUser = document.querySelector('input[name="otherUserName"]');
 
-// output.scrollTop = output.scrollHeight;
+let socket = io();
 
-// const socket = io();
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    socket.emit('new message', message.value);
+    message.value = '';
+    fakeMessage.innerText = '';
+    return false;
+});
 
-// //Join Chatroom
-// socket.emit('joinRoom', {
-//     userRoom: userRoom.value
-// })
-
-// sendMessage.addEventListener('click', (e) => {
-//     e.preventDefault();
-
-//     socket.emit('userMessage', {
-//         ownerId: userId.value,
-//         message: message.value
-//     });
-
-//     // Clear input
-//     message.value = '';
-//     message.focus();
-// })
-
-// socket.on('userMessage', (data) => {
-//     const div = document.createElement('div');
-//     if (userId.value !== data.ownerId) {
-//         div.className = 'message-chat chat-away'
-//     } else {
-//         div.className = 'message-chat chat-home'
-//     }
-//     div.innerHTML = `
-//     <p>${data.message}</p>
-//     <small>${data.time}</small>
-//     `;
-//     output.appendChild(div);
-//     output.scrollTop = output.scrollHeight;
-// })
+socket.on("message back", (msg) => {
+    let li = document.createElement('li');
+    li.className = 'message-item message-home';
+    let p = document.createElement('p');
+    p.innerText = msg;
+    let span = document.createElement('span');
+    span.innerText = '7:00 pm';
+    li.appendChild(p);
+    li.appendChild(span);
+    messageList.appendChild(li);
+    console.log(msg);
+    chatLengthMode();
+})

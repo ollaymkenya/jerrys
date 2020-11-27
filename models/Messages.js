@@ -23,6 +23,11 @@ const messagesSchema = new Schema(
       ref: "Chatroom",
       required: true,
     },
+    type: {
+      type: Schema.Types.ObjectId,
+      ref: "MessageTypes",
+      required: true
+    }
   },
   { timestamps: true }
 );

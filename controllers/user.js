@@ -66,7 +66,6 @@ exports.getDashboardChatRoom = async (req, res, next) => {
     let contacts = [];
     let contactsid;
     const userRoomId = req.params.chatRoom;
-    console.log(userRoomId);
     const userRoom = await Chatroom.findById(userRoomId);
     let otherUser;
     Chatroom
@@ -86,7 +85,6 @@ exports.getDashboardChatRoom = async (req, res, next) => {
             } else {
                 otherUser = await User.findById(userRoom.userId);
             }
-            console.log(otherUser);
             res.render("user/chatuser", {
                 title: "Chat",
                 path: "/dash/chatRoom",
@@ -94,16 +92,17 @@ exports.getDashboardChatRoom = async (req, res, next) => {
                 chatrooms,
                 contacts,
                 userRoom,
-                otherUser
+                otherUser,
+                userRoomId
             });
         })
-    // const iv = crypto.createHash('sha256').update(`${room.users[0]}${room.users[1]}`).digest('hex');
-    // const secret_room = userRoom;
-    // const key = 'jerrythewritermadememakehissite!!';
-    // const cipher = crypto.createCipheriv('aes-256-cbc', key, iv);
-    // const cipheredRoom = cipher.update(secret_room, 'utf8', 'hex');
-    // cipheredRoom += cipher.final('hex');
 };
+
+exports.postMessage = (req, res, next) => {
+    let chatRoom = req.params.chatRoom;
+    console.log(req.body);
+    res.redirect(`/chat/${chatRoom}`);
+}
 
 exports.getDashboardNewProjects = (req, res, next) => {
     const user = req.user;
@@ -115,10 +114,13 @@ exports.getDashboardNewProjects = (req, res, next) => {
 };
 
 exports.getProjects = async (req, res, next) => {
+    const user = req.user;
     const projects = await Project
         .find()
         .populate('ownerId')
-    const user = req.user;
+    for (let i = 0; i < projects.length; i++) {
+        projects[i] = projects[i].toObject();
+    }
     res.render("user/projects", {
         title: "Projects",
         path: "/projects",
