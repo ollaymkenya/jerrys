@@ -39,9 +39,14 @@ const storage = multer.diskStorage({
 
 const fileFilter = (req, file, callb) => {
   if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'application/pdf' || file.mimetype === 'application/msword' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.mimetype === 'application/vnd.ms-powerpoint' || file.mimetype === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+<<<<<<< HEAD
     return callb(null, true)
+=======
+    callb(null, true)
+  } else {
+    callb(null, false)
+>>>>>>> master
   }
-  callb(null, false)
 }
 
 const siteRoutes = require("./routes/site");
@@ -52,10 +57,14 @@ const webhookRoutes = require("./routes/webhook");
 const errorRoutes = require("./routes/error");
 const User = require("./models/User");
 
+<<<<<<< HEAD
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 
+=======
+app.use(bodyParser.urlencoded({ extended: false }));
+>>>>>>> master
 app.use(multer({ storage:storage, fileFilter: fileFilter }).array('selectfile', 12));
 const csrfProtection = csrf();
 

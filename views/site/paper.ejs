@@ -96,9 +96,9 @@
                                                 <ion-icon name="document-attach-outline"></ion-icon>
                                                 Drop your file here or <span class="highlight-green">Browse disk</span>
                                             </span>
-                                            <span class="upload-secret-button d-block" id="blankFile">
+                                            <div class="upload-secret-button d-block" id="blankFile">
                                                 Supports PDF, DOC, WORD
-                                            </span>
+                                            </div>
                                             <span class="success">
                                                 <ion-icon name="checkmark-circle-outline"></ion-icon>
                                              </span>
@@ -346,9 +346,17 @@
         }
 
         document.getElementById('selectfile').onchange = function () {
-            console.log(this.files)
-            document.getElementById('blankFile').innerHTML =
-                `<span class='highlight-green'><ion-icon name="document-attach-outline"></ion-icon> ${this.files[0].name}</span>`;
+            console.log(this.files.length)
+            let attachedDocList = document.createElement('ul');
+            let attachedDocsListItem;
+            for (let i = 0; i < this.files.length; i++) {
+                attachedDocsListItem = document.createElement('li');
+                attachedDocsListItem.innerHTML =
+                    `<span class='highlight-green'><ion-icon name="document-attach-outline"></ion-icon> ${this.files[i].name}</span> <br>`;
+                attachedDocList.appendChild(attachedDocsListItem);
+            }
+            console.log(attachedDocList);
+            document.getElementById('blankFile').appendChild(attachedDocList);
             if (document.getElementById('info')) {
                 document.getElementById('info').remove();
             }

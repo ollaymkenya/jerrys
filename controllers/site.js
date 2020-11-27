@@ -1,6 +1,7 @@
 const Parameter = require("../models/Parameter");
 const Faq = require("../models/Faq");
 const Sample = require("../models/Samples");
+<<<<<<< HEAD
 const testimonialUtils = require('../utils/testmonials');
 
 const {
@@ -24,6 +25,24 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+=======
+const { validateUser, signUser } = require("../utils/auth");
+const sendinBlue = require("nodemailer-sendinblue-transport");
+const nodemailer = require('nodemailer');
+
+const { validationResult } = require('express-validator');
+const { getMaxListeners } = require("../models/Faq");
+const stripe = require("stripe")("sk_test_51HgzMMJPyNo4yUQMT58hHpGHUVN8XPFYzZLsIXKYZpBzhmy1c8unL9a9JHMNy7tUOaNkmlAkHsgy6MsDA81cXIZE00S3ddcyAm");
+
+const transporter = nodemailer.createTransport({
+    service: 'SendinBlue',
+    auth: {
+      user: 'olivermuriithi11@gmail.com',
+      pass: '7qMB5hsJLbcXdYEK'
+    }
+  });
+  
+>>>>>>> master
 exports.getIndex = (req, res, next) => {
     res.render('site/index', {
         title: 'JTT',
@@ -51,6 +70,7 @@ exports.getContacts = (req, res, next) => {
     });
 }
 
+<<<<<<< HEAD
 exports.postContacts = (req, res, next) => {
     console.log(req.body);
     let email = req.body.email;
@@ -96,6 +116,34 @@ exports.getSamples = async (req, res, next) => {
         .catch((err) => {
             console.log(err)
         });
+=======
+exports.postContacts =(req,res,next) =>{
+    transporter
+    .sendMail({
+      to: "jerrymuthomi@gmail.com",
+      from: req.body.email,
+      subject: req.body.question,
+      html: req.body.questionContent,
+      
+    })
+res.redirect("/contacts")
+
+console.log(req.body);
+}
+
+exports.getSamples = (req, res, next) => {
+    Sample.find()
+        .then((sampleList) => {
+            res.render("site/samples", {
+                samples: sampleList,
+                title: "Samples",
+                path: "/samples",
+            });
+        })
+        .catch((err) => {
+            console.log(err)
+        });
+>>>>>>> master
 }
 
 
@@ -104,6 +152,7 @@ exports.getFAQ = (req, res, next) => {
     console.log(searchQuery);
     Faq.find()
         .then((faqList) => {
+<<<<<<< HEAD
             //console.log(faqList);
             res.render('site/faq', {
                 faqs: faqList,
@@ -117,6 +166,21 @@ exports.getFAQ = (req, res, next) => {
             console.log(err);
         });
 
+=======
+            console.log(faqList);
+            res.render('site/faq', {
+
+                faqs: faqList,
+                title: 'F.A.Q',
+                path: '/faq'
+            });
+
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+>>>>>>> master
 };
 
 exports.getSales = async (req, res, next) => {
@@ -148,8 +212,12 @@ exports.getPaper = (req, res, next) => {
 
 exports.postNewPaper = async (req, res, next) => {
     const resources = req.files;
+<<<<<<< HEAD
     //console.log(resources);
     //console.log('hello');
+=======
+    console.log('hello');
+>>>>>>> master
     let user;
     const checkedSwitcher = req.body.checkedSwitcher;
     const errors = validationResult(req);
@@ -162,7 +230,6 @@ exports.postNewPaper = async (req, res, next) => {
     let parameters = await Parameter.find().populate('category');
     let mode;
     let paper = req.body;
-
     if (checkedSwitcher === 'on') {
         mode = 'login';
         if (!errors.isEmpty()) {
@@ -199,6 +266,7 @@ exports.postNewPaper = async (req, res, next) => {
         req.session.isLoggedIn = true;
         req.session.user = result.user;
         req.session.paper = paper;
+        req.session.files = resources;
         return res.redirect('/checkout');
     } else if (!checkedSwitcher || checkedSwitcher === '') {
         mode = 'signup';
@@ -239,9 +307,11 @@ exports.postNewPaper = async (req, res, next) => {
         }
         signUser(username, signemail, signpassword, accountType, redirectPage, req, res);
         req.session.paper = paper;
+        req.session.files = resources;
     } else {
         try {
             req.session.paper = paper;
+            req.session.files = resources;
             res.redirect("/checkout");
         } catch (error) {
             // console.log(error);

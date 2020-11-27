@@ -133,9 +133,13 @@ exports.postAdminFaq = (req, res, next) => {
 
 exports.postDeletefaq = async (req, res, next) => {
   let faq = req.body.faqId;
+<<<<<<< HEAD
   await Faq.findOneAndDelete({
     _id: faq
   })
+=======
+  await Faq.findOneAndDelete({ _id: faq })
+>>>>>>> master
   res.redirect('/content-faq')
 };
 
@@ -167,15 +171,21 @@ exports.getAdminSample = (req, res, next) => {
 };
 
 exports.postAdminSample = (req, res, next) => {
+<<<<<<< HEAD
   const resource = req.files[0];
+=======
+>>>>>>> master
   const sampleTitle = req.body.sampleTitle;
   const sampleCourse = req.body.sampleCourse;
   const numberofPages = req.body.samplepages;
   const fileLink = resource.filename;
   const extName = resource.originalname.split('.')[1];
   const sample = new Sample({
+<<<<<<< HEAD
     fileLink,
     extName,
+=======
+>>>>>>> master
     sampleTitle,
     sampleCourse,
     numberofPages,
@@ -193,9 +203,13 @@ exports.postAdminSample = (req, res, next) => {
 
 exports.postDeleteSample = async (req, res, next) => {
   let sample = req.body.sampleID;
+<<<<<<< HEAD
   await Sample.findOneAndDelete({
     _id: sample
   })
+=======
+  await Sample.findOneAndDelete({ _id: sample })
+>>>>>>> master
   res.redirect('/content-sample')
 };
 
@@ -262,6 +276,7 @@ exports.postAddEditor = (req, res, next) => {
 exports.getCheckout = async (req, res, next) => {
   // code for paper
   const paper = req.session.paper;
+  const files = req.session.files;
   let parameters = await Parameter.find().populate('category');
   let paperInfo = [paper.typeOfPaper, paper.subject, paper.urgency, paper.academicLevel];
   for (let i = 0; i < paperInfo.length; i++) {
@@ -303,13 +318,15 @@ exports.getCheckout = async (req, res, next) => {
     paperDetailsPopulated: paperDetailsPopulated,
     totalPrice: totalPrice * 100,
     paper: JSON.stringify(paper),
+    files: JSON.stringify(files),
     clientSecret: paymentIntent.client_secret,
     paymentIntent: paymentIntent
   });
 }
 
 exports.postCreatePaper = (req, res) => {
-  const paper = req.body;
+  const paper = JSON.parse(req.body.data);
+  const files = JSON.parse(req.body.files);
   let projecti;
   let date = `${new Date().getDate()}/ ${new Date().getMonth()}/ ${new Date().getFullYear()}`
   try {
@@ -484,18 +501,36 @@ exports.postCreatePaper = (req, res) => {
             const pdfDoc = printer.createPdfKitDocument(documentDefination);
             pdfDoc.pipe(fs.createWriteStream('document.pdf'));
             pdfDoc.end();
+            let attachments = [
+              {
+                filename: 'document.pdf',
+                path: path.join(__dirname, '..', 'document.pdf')
+              }
+            ]
+            for (let i = 0; i < files.length; i++) {
+              const file = files[i];
+              attachments.push(
+                {
+                  filename: `${file.filename}`,
+                  path: `${file.path}`
+                })
+            }
             transporter
               .sendMail({
-                to: "ngunyangimark@gmail.com",
+                to: "jerrymuthomi@gmail.com",
                 from: "olivermuriithi11@gmail.com",
+<<<<<<< HEAD
                 attachments: [{
                   filename: 'document.pdf',
                   path: path.join(__dirname, '..', 'document.pdf')
                 }],
+=======
+                attachments: attachments,
+>>>>>>> master
                 subject: "New job!!!",
                 html: `
-              <h1>A new project from ${projecti.ownerId.name}</h1>
-              <p>Attached is a file containing the details of the project attached by ${projecti.ownerId.name}</p>
+              <h1>A new project from ${projecti.ownerId.username}</h1>
+              <p>Attached is a file containing the details of the project attached by ${projecti.ownerId.username}</p>
               `
               })
             res.redirect('/projects');
