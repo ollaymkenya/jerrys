@@ -1,10 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const User = require('../models/User');
-
 const siteControllers = require('../controllers/site');
-const { body, check } = require('express-validator');
 
 router.get('/', siteControllers.getIndex);
 
@@ -12,11 +9,15 @@ router.get('/about', siteControllers.getAbout);
 
 router.get('/contacts', siteControllers.getContacts);
 
+<<<<<<< HEAD
+router.post('/contacts', siteControllers.postContacts);
+=======
 router.post("/contacts",siteControllers.postContacts);
+>>>>>>> master
 
 router.get('/samples', siteControllers.getSamples);
 
-router.get('/faq', siteControllers.getFAQ);
+router.get('/faq/:searchQuery', siteControllers.getFAQ);
 
 router.get('/sales', siteControllers.getSales);
 

@@ -1,24 +1,30 @@
 const Parameter = require("../models/Parameter");
-const User = require("../models/User");
-const Chatroom = require("../models/Chatroom");
 const Faq = require("../models/Faq");
 const Sample = require("../models/Samples");
+const testimonialUtils = require('../utils/testmonials');
 const { validateUser, signUser } = require("../utils/auth");
-const sendinBlue = require("nodemailer-sendinblue-transport");
-const nodemailer = require('nodemailer');
 
-const { validationResult } = require('express-validator');
-const { getMaxListeners } = require("../models/Faq");
+const {
+    validateUser,
+    signUser
+} = require("../utils/auth");
+const Testimonial = require("../models/Testimonial");
+
+const {
+    validationResult
+} = require('express-validator');
 const stripe = require("stripe")("sk_test_51HgzMMJPyNo4yUQMT58hHpGHUVN8XPFYzZLsIXKYZpBzhmy1c8unL9a9JHMNy7tUOaNkmlAkHsgy6MsDA81cXIZE00S3ddcyAm");
+
+const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
     service: 'SendinBlue',
     auth: {
-      user: 'olivermuriithi11@gmail.com',
-      pass: '7qMB5hsJLbcXdYEK'
+        user: 'olivermuriithi11@gmail.com',
+        pass: '7qMB5hsJLbcXdYEK'
     }
-  });
-  
+});
+
 exports.getIndex = (req, res, next) => {
     res.render('site/index', {
         title: 'JTT',
@@ -26,41 +32,66 @@ exports.getIndex = (req, res, next) => {
     });
 }
 
-exports.getAbout = (req, res, next) => {
+exports.getAbout = async (req, res, next) => {
+    testimonialUtils.publishTestimonial();
+    let testimonials = await Testimonial.find({
+        published: true
+    }).populate('owner');
     res.render('site/about', {
         title: 'About Me',
-        path: '/about'
+        path: '/about',
+        testimonials: testimonials
     });
 }
 
 exports.getContacts = (req, res, next) => {
     res.render('site/contacts', {
         title: 'Contact Me',
-        path: '/contacts'
+        path: '/contacts',
+        errorMessage: ''
     });
 }
 
-exports.postContacts =(req,res,next) =>{
+exports.postContacts = (req, res, next) => {
+    console.log(req.body);
+    let email = req.body.email;
+    let question = req.body.question;
+    let questionContent = req.body.questionContent;
+    if (!email || !question || !questionContent) {
+        return res.status(422).render('site/contacts', {
+            title: 'Contact Me',
+            path: '/contacts',
+            errorMessage: "Please fill all the fields"
+        });
+    }
     transporter
-    .sendMail({
-      to: "jerrymuthomi@gmail.com",
-      from: req.body.email,
-      subject: req.body.question,
-      html: req.body.questionContent,
-      
-    })
-res.redirect("/contacts")
-
-console.log(req.body);
+        .sendMail({
+            to: 'ireneruos@gmail.com',
+            from: "olivermuriithi11@gmail.com",
+            subject: `An email from ${req.body.email}`,
+            html: `
+                    <h1>Question: ${req.body.question}</h1>
+                    <p>Question content: ${req.body.questionContent}</p>
+                    <br>
+                    <br>
+                    <small><i>This is an email sent from JTW's contacts page</i></small>
+                `
+        })
+    res.redirect('/contacts');
 }
 
-exports.getSamples = (req, res, next) => {
+exports.getSamples = async (req, res, next) => {
+    let testimonials = await Testimonial.find({
+        published: true
+    }).populate('owner');
+    console.log(testimonials);
     Sample.find()
         .then((sampleList) => {
             res.render("site/samples", {
                 samples: sampleList,
                 title: "Samples",
                 path: "/samples",
+                testimonials: testimonials
             });
         })
         .catch((err) => {
@@ -70,14 +101,16 @@ exports.getSamples = (req, res, next) => {
 
 
 exports.getFAQ = (req, res, next) => {
+    let searchQuery = req.params.searchQuery === 'null' ? '' : req.params.searchQuery;
+    console.log(searchQuery);
     Faq.find()
         .then((faqList) => {
-            console.log(faqList);
+            //console.log(faqList);
             res.render('site/faq', {
-
                 faqs: faqList,
                 title: 'F.A.Q',
-                path: '/faq'
+                path: '/faq',
+                searchQuery: searchQuery
             });
 
         })
@@ -87,10 +120,14 @@ exports.getFAQ = (req, res, next) => {
 
 };
 
-exports.getSales = (req, res, next) => {
+exports.getSales = async (req, res, next) => {
+    let testimonials = await Testimonial.find({
+        published: true
+    }).populate('owner');
     res.render('site/sales', {
         title: 'Write My Paper',
-        path: '/sales'
+        path: '/sales',
+        testimonials: testimonials
     });
 }
 
@@ -105,14 +142,13 @@ exports.getPaper = (req, res, next) => {
                 path: '/paper',
                 parameters: parameters,
                 user: user,
-                errorMessage: ''
+                errorMessage: '',
             });
         })
 }
 
 exports.postNewPaper = async (req, res, next) => {
     const resources = req.files;
-    console.log('hello');
     let user;
     const checkedSwitcher = req.body.checkedSwitcher;
     const errors = validationResult(req);

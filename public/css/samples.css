@@ -43,7 +43,8 @@ header {
     font-family: 'Open Sans', sans-serif;
 }
 
-.sampels-list {
+.sampels-list,
+.sampels-dashboard__list {
     font-family: 'Roboto', 'sans-serif';
     width: 80%;
     margin: 2rem auto;
@@ -52,6 +53,10 @@ header {
 
 .sampels-list li {
     margin: 1rem auto;
+}
+
+.sampels-dashboard__list {
+    width: 100%;
 }
 
 .samples-list__item {
@@ -97,4 +102,98 @@ header {
 .samples-list__item-meta small:nth-child(2) {
     margin-left: 2rem;
     margin-right: 2rem;
+}
+
+.samples-list__item-meta button {
+    border: none;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07),
+        0 2px 4px rgba(0, 0, 0, 0.07),
+        0 4px 8px rgba(0, 0, 0, 0.07),
+        0 8px 16px rgba(0, 0, 0, 0.07),
+        0 16px 32px rgba(0, 0, 0, 0.07),
+        0 32px 64px rgba(0, 0, 0, 0.07);
+    width: 20px;
+    max-width: 20px;
+    min-width: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* samples list item of dashboard */
+.samples-list__dashboard-item {
+    border: 1px solid #f1f1f1;
+    border-radius: 5px;
+    background-color: #f7f7f7;
+    margin: .5rem auto;
+}
+
+/* upload file section */
+.file-wrapper {
+    width: 95%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media screen and (max-width:500px) {
+    .file-wrapper {
+        width: 95%;
+    }
+}
+
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    cursor: pointer;
+    width: 100%;
+}
+
+.upload-file {
+    border: 1px dashed #dfd5c2;
+    border-radius: 5px;
+    height: 90px;
+    cursor: pointer;
+    background-color: #fff;
+    width: 100%;
+}
+
+.highlight-green {
+    color: #459373;
+    text-decoration: underline;
+    font-size: .9rem;
+    font-weight: 500;
+}
+
+.upload-btn-wrapper input[type='file'] {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+    height: 100%;
+    cursor: pointer;
+}
+
+.upload-btn ion-icon {
+    color: #459373;
+}
+
+.success {
+    font-size: 22px;
+    --ionicon-stroke-width: 50px;
+    display: none;
+}
+
+.d-block {
+    display: block;
+}
+
+
+.d-none {
+    display: none;
 }

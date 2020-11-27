@@ -201,6 +201,6 @@ main {
     background-color: #9c9c9c;
 }
 
-.projects-nav__list li.active a{
+.projects-nav__list li.active span{
     color: #ffffff;
 }
