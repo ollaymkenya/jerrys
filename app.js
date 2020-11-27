@@ -167,13 +167,9 @@ io.on('connection', (socket) => {
   });
 });
 
-mongoose
-  .connect(MONGODB_URI, {
-    useUnifiedTopology: true,
-    useNewUrlParser: true
-  })
+mongoose.connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
   .then((result) => {
-    http.listen(PORT, hostname);
+    http.listen(PORT);
   })
   .catch((err) => {
     console.log(err);
