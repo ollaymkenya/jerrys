@@ -10,20 +10,25 @@
     <div class="sample-container main">
         <div class="projects-nav">
             <ul class="projects-nav__list">
+                <a href="/content-faq">
                 <li class="<%= path === '/content-faq' ? 'active' : '' %>">
-                    <a href="/content-faq"><span>faq</span></a>
+                   <span>faq</span>
                 </li>
+            </a>
+                <a href="/content-testimonials">
                 <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
-                    <a href="/content-testimonials"><span>testimonials</span></a>
+                    <span>testimonials</span>
                 </li>
+            </a>
+                <a href="/content-users">
                 <li class="<%= path === '/content-users' ? 'active' : '' %>">
-                    <a href="/content-users"><span>users</span></a>
+                   <span>users</span>
                 </li>
-                <a href="/content-sample">
-                <li class="<%= path === '/content-sample' ? 'active' : '' %>">
-                    <span>samples</span>
+            </a>
+                <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
+                <span>samples</span>
                 </li>
-                </a>
+            </a>
             </ul>
         </div>
         <div class="contentfaqs">
@@ -32,7 +37,7 @@
             </div>
             <div class="contentfaqs-body">
                 <div class="contentfaqs-changer">
-                    <form action="/content-sample" class="/faqs-form" method="POST">
+                    <form action="/content-sample" class="/faqs-form" enctype="multipart/form-data" method="POST">
                         <div class="contentfaqs-input__container">
                             <label for="testimonial">Title</label>
                             <input type="text" id="testimonial" name="sampleTitle">
@@ -81,10 +86,10 @@
                         </span>
                     </div>
                     <div class="samples-wrapper">
-                        <ul class="sampels-list">
+                        <ul class="sampels-dashboard__list">
                             <% for(let i = 0; i < samples.length; i++) { %> 
                             <li>
-                                <div class="samples-list__item">
+                                <div class="samples-list__dashboard-item">
                                     <div class="samples-list__item-info">
                                         <div class="sample-info__item-title">
                                             <p><%= samples[i].sampleTitle %> </p>
@@ -95,18 +100,15 @@
                                     </div>
                                     <div class="samples-list__item-meta">
                                         <small>Date: <span class="highlight"><%= `${new Date(samples[i].updatedAt ).getDate() }/${new Date(samples[i].updatedAt ).getMonth()}/${new Date(samples[i].updatedAt ).getFullYear()}` %></span></small>
-                                        <small>Pages: <span class="highlight"><%= samples[i].numberofPages %></span></small>
-                                        <a href="#"><small>
-                                                <ion-icon name="download-outline"></ion-icon>PDF
-                                            </small></a>
+                                        <small>Pages: <span class="highlight"><%= samples[i].numberofPages %></span></small>                              
                                             <form action="/delete-sample" method="post">
                                             <button type="submit">
                                                 <input type="hidden" name="sampleID" value="<%= samples[i].id %>">
                                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                                 <div class="trash-button" >
-                                                    <ion-icon name="trash-outline"></ion-icon>
+                                                   <small class="danger"><ion-icon name="trash-outline"></ion-icon></small> 
                                                 </div>
-                                        </button>
+                                            </button>
                                     </form>
                                     </div>
                                 </button>
@@ -122,6 +124,16 @@
     
     <%- include('../includes/dashprofile.ejs')%>
 </main>
+<script>
+    document.getElementById('selectfile').onchange = function () {
+            console.log(this.files)
+            document.getElementById('blankFile').innerHTML =
+                `<span class='highlight-green'><ion-icon name="document-attach-outline"></ion-icon> ${this.files[0].name}</span>`;
+            if (document.getElementById('info')) {
+                document.getElementById('info').remove();
+            }
+        };
+</script>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
 </body>

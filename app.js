@@ -8,7 +8,10 @@ const multer = require('multer');
 const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
-const { formatMessage, saveMsg } = require("./utils/messages");
+const {
+  formatMessage,
+  saveMsg
+} = require("./utils/messages");
 
 const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw";
 // const MONGODB_URI = process.env.MONGODB_URI;
@@ -19,13 +22,16 @@ const io = require("socket.io")(http);
 const hostname = 'localhost';
 
 const store = new MongoDBStore({
-  uri: MONGODB_URI,
+  url: MONGODB_URI,
   collection: "sessions",
-});
+})
+ 
+app.set("views", "./views");
+app.set("view engine", "ejs");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'paperDetails')
+    cb(null, 'paperDetails'); 
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.parse(new Date())}-${file.originalname}`);
@@ -33,16 +39,12 @@ const storage = multer.diskStorage({
 })
 
 const fileFilter = (req, file, callb) => {
-  console.log(file);
   if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'application/pdf' || file.mimetype === 'application/msword' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.mimetype === 'application/vnd.ms-powerpoint' || file.mimetype === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
-    callb(null, true)
-  } else {
-    callb(null, false)
+    return callb(null, true)
+  }else{
+    callb(null, false);
   }
 }
-
-app.set("views", "./views");
-app.set("view engine", "ejs");
 
 const siteRoutes = require("./routes/site");
 const authRoutes = require("./routes/auth");
@@ -59,13 +61,14 @@ const csrfProtection = csrf();
 app.use(express.static(path.join(__dirname, "views")));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname, "paperDetails")));
+app.use(express.static(path.join(__dirname, "sampledetails")));
 
 const PORT = process.env.PORT || 3000;
 
 const {
   NODE_ENV = "development",
-  SESS_SECRET = "jtwisawesome",
-  SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
+    SESS_SECRET = "jtwisawesome",
+    SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
 } = process.env;
 
 const IN_PROD = NODE_ENV === "production";
@@ -92,8 +95,7 @@ const csrfExclusion = ['/webhooks/stripe'];
 app.use(function (req, res, next) {
   if (csrfExclusion.indexOf(req.path) !== -1) {
     next();
-  }
-  else {
+  } else {
     csrfProtection(req, res, next);
   }
 });
@@ -121,8 +123,7 @@ app.use((req, res, next) => {
   if (csrfExclusion.indexOf(req.path) !== -1) {
     console.log();
     next();
-  }
-  else {
+  } else {
     res.locals.isAuthenticated = req.session.isLoggedIn;
     res.locals.csrfToken = req.csrfToken();
     res.locals.paper = req.session.paper;
@@ -137,7 +138,9 @@ app.use(adminRoutes);
 app.use(webhookRoutes);
 
 app.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
+  const {
+    items
+  } = req.body;
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateOrderAmount(items),
@@ -164,19 +167,13 @@ io.on('connection', (socket) => {
 });
 
 mongoose
-  .connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
+  .connect(MONGODB_URI, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+  })
   .then((result) => {
     http.listen(PORT, hostname);
   })
   .catch((err) => {
     console.log(err);
   });
-
-    // socket.on('joinRoom', ({ userRoom }) => {
-  //   socket.join(userRoom);
-  //   //Listen for chat messages
-  //   socket.on("userMessage", (data) => {
-  //     io.to(userRoom).emit("userMessage", formatMessage(data.ownerId, data.message));
-  //     saveMsg(data.ownerId, data.message, userRoom);
-  //   });
-  // });

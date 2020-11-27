@@ -7,18 +7,25 @@
     <div class="users-container main">
         <div class="projects-nav">
             <ul class="projects-nav__list">
+                <a href="/content-faq">
                 <li class="<%= path === '/content-faq' ? 'active' : '' %>">
-                    <a href="/content-faq"><span>faq</span></a>
+                   <span>faq</span>
                 </li>
+            </a>
+                <a href="/content-testimonials">
                 <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
-                    <a href="/content-testimonials"><span>testimonials</span></a>
+                    <span>testimonials</span>
                 </li>
+            </a>
+                <a href="/content-users">
                 <li class="<%= path === '/content-users' ? 'active' : '' %>">
-                    <a href="/content-users"><span>users</span></a>
+                   <span>users</span>
                 </li>
-                <li class="<%= path === '/content-sample' ? 'active' : '' %>">
-                    <a href="/content-sample"><span>samples</span></a>
+            </a>
+                <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
+                <span>samples</span>
                 </li>
+            </a>
             </ul>
         </div>
         <div class="users">

@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="css/faq.css">
+<link rel="stylesheet" href="/css/faq.css">
 <%- include('../includes/head.ejs')%>
 </head>
 
@@ -9,10 +9,7 @@
         <div class="faq-header__text">
             <h1>F.A.Q</h1>
             <div class="faq-search">
-                <input type="text" name="search" placeholder="search">
-                <a href="">
-                    <ion-icon name="search"></ion-icon>
-                </a>
+                <input type="text" name="search" placeholder="search" id="faq-search" value="<%= searchQuery ? searchQuery : ''%>">
             </div>
         </div>
     </div>
@@ -21,8 +18,8 @@
         <div class="main-faq__nav">
       
             <ul class="faq-nav__list" >
-                <li>
-                    <div class="faq-nav__list-item active" data-categoryId="General Iinformation">
+                <li class="active">
+                    <div class="faq-nav__list-item" data-categoryId="General Information">
                         <h4>
                             General Questions
                         </h4>
@@ -63,7 +60,7 @@
         <div class="faq-qanda">
             <ul class="faq-qanda__list">
             <% for(let i=0; i<faqs.length; i++) { %>
-            <% if(faqs[i].category === 'General Iinformation') { %> 
+            <% if(faqs[i].category === 'General Information') { %> 
                 <li class="general-information faqandacontainer" data-categoryId="<%= faqs[i].category %>"> 
                     <div class="faq-qanda__list-item">
                         <div class="qanda-list__item-title">
@@ -125,5 +122,5 @@
         </div>
     </main>
     <%- include('../includes/footer.ejs')%>
-    <script src="js/faq.js"></script>
+    <script src="/js/faq.js"></script>
     <%- include('../includes/end.ejs')%>

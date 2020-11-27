@@ -30,8 +30,8 @@
                         <div class="samples-list__item-meta">
                             <small>Date: <span class="highlight"><%= `${new Date(samples[i].updatedAt ).getDate() }/${new Date(samples[i].updatedAt ).getMonth()}/${new Date(samples[i].updatedAt ).getFullYear()}` %></span></small>
                             <small>Pages: <span class="highlight"><%= samples[i].numberofPages %></span></small>
-                            <a href="#"><small>
-                                    <ion-icon name="download-outline"></ion-icon>PDF
+                            <a href="<%= samples[i].fileLink %>" target="_blank"><small>
+                                    <ion-icon name="download-outline"></ion-icon> <%= samples[i].extName.toUpperCase() %>.
                                 </small></a>
                         </div>
                     </div>

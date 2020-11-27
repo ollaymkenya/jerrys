@@ -22,7 +22,7 @@ router.post('/delete_faq' , Auth.isAuth, adminControllers.postDeletefaq)
 
 router.get('/content-sample',Auth.isAuth, adminControllers.getAdminSample )
 
-router.post('/content-sample',Auth.isAuth, adminControllers.postAdminSample )
+router.post('/content-sample', Auth.isAuth, adminControllers.postAdminSample )
 
 router.post('/delete-sample',Auth.isAuth, adminControllers.postDeleteSample )
 

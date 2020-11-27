@@ -728,10 +728,16 @@ footer {
     .testi {
         flex-direction: row;
         padding: 3rem;
+        width: 100%;
+    }
+
+    .testi .client{
+        width: calc(33.33% - 12.5px);
+        align-self: stretch;
     }
 
     .wrapper .testi .client .say h3 {
-        transform: translateY(-200px);
+        transform: translateY(-220px);
     }
 
     .wrapper .testi .client.show .say h3 {
@@ -746,6 +752,9 @@ footer {
         width: 100%;
     }
 
+    .wrapper .testi .client .say {
+        height: calc(100% - 100px);
+    }
     .wrapper .testi .client .profile {
         background: #fff;
     }
