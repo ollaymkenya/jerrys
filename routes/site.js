@@ -9,11 +9,7 @@ router.get('/about', siteControllers.getAbout);
 
 router.get('/contacts', siteControllers.getContacts);
 
-<<<<<<< HEAD
 router.post('/contacts', siteControllers.postContacts);
-=======
-router.post("/contacts",siteControllers.postContacts);
->>>>>>> master
 
 router.get('/samples', siteControllers.getSamples);
 
