@@ -136,6 +136,11 @@ header {
     transform-origin: left;
 }
 
+.faq-nav__list li.active::before {
+    transform: scaleX(1);
+    background-color: #333333;
+}
+
 @media screen and (max-width: 1020px) {
     .faq-nav__list {
         flex-direction: column;
@@ -185,6 +190,9 @@ header {
     .faq-nav__list li::before {
         display: none;
     }
+}
+.faq-nav__list li .faq-nav__list-item{
+    pointer-events: none;
 }
 
 .faq-qanda {

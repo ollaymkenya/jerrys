@@ -4,13 +4,19 @@ const Testimonial = require("../models/Testimonial");
 const Chatroom = require("../models/Chatroom");
 const User = require("../models/User");
 const crypto = require("crypto");
+const testimonialUtils = require('../utils/testmonials');
+const {
+    response
+} = require("express");
 
 exports.getDashboard = (req, res, next) => {
     const user = req.user;
     let projects;
     let messages;
     Project
-        .find({ ownerId: user.id })
+        .find({
+            ownerId: user.id
+        })
         .then((project) => {
             return project;
         })
@@ -142,7 +148,9 @@ exports.getDashboardTestimonials = async (req, res, next) => {
     if (user.accountType == '5f971a68421e6d53753718c5') {
         testimonialz = await Testimonial.find().populate('owner')
     } else {
-        testimonialz = await Testimonial.find({ owner: user.id }).populate('owner')
+        testimonialz = await Testimonial.find({
+            owner: user.id
+        }).populate('owner')
     }
     res.render("user/content-testimonials", {
         title: "Content",
@@ -166,20 +174,20 @@ exports.postAddTestimonail = (req, res, next) => {
         });
 };
 
-exports.postPublishTestimonial = (req, res, next) => {
-    let testimony;
-    Testimonial
-        .findOne({ _id: req.body.testimonialId })
-        .then((testimonial) => {
-            testimony = testimonial;
-            if (testimony.published === true) {
-                testimony.published = false
-            } else {
-                testimony.published = true
-            }
-            testimony.save()
-            res.redirect('/content-testimonials');
-        })
+exports.postPublishTestimonial = async (req, res, next) => {
+    let publishedTestimonials = await Testimonial.find({
+        published: true
+    })
+    let testimony = await Testimonial.findOne({
+        _id: req.body.testimonialId
+    })
+    if (testimony.published === true) {
+        testimony.published = false;
+    } else {
+        testimony.published = true;
+    }
+    await testimony.save();
+    res.redirect('/content-testimonials');
 };
 
 exports.postDeleteTestimonial = (req, res, next) => {

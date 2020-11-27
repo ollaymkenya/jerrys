@@ -75,7 +75,9 @@ exports.postEditParam = async (req, res, next) => {
   let name = req.body.paramName;
   let price = req.body.paramPrice;
   Parameter
-    .findOne({ _id: paramid })
+    .findOne({
+      _id: paramid
+    })
     .then((parameter) => {
       param = parameter;
       param.name = name;
@@ -88,7 +90,9 @@ exports.postEditParam = async (req, res, next) => {
 exports.postDeleteParam = async (req, res, next) => {
   let param = req.body.paramId;
   await Parameter
-    .findOneAndDelete({ _id: param })
+    .findOneAndDelete({
+      _id: param
+    })
   res.redirect('/projects-newParameter');
 };
 
@@ -108,7 +112,7 @@ exports.getAdminFaq = (req, res, next) => {
 };
 
 exports.postAdminFaq = (req, res, next) => {
-  const question = req.body.faqQuestion;
+  const question = req.body.faqQuestion; 
   const answer = req.body.faqAnswer;
   const faqCategory = req.body.faqCategory;
   const faq = new Faq({
@@ -127,10 +131,12 @@ exports.postAdminFaq = (req, res, next) => {
     });
 };
 
-exports.postDeletefaq = async (req,res,next) => {
- let faq = req.body.faqId;  
- await Faq.findOneAndDelete({_id: faq})
- res.redirect('/content-faq')
+exports.postDeletefaq = async (req, res, next) => {
+  let faq = req.body.faqId;
+  await Faq.findOneAndDelete({
+    _id: faq
+  })
+  res.redirect('/content-faq')
 };
 
 exports.getAdminUsers = async (req, res, next) => {
@@ -140,39 +146,44 @@ exports.getAdminUsers = async (req, res, next) => {
     title: "Users",
     path: "/content-users",
     user: req.user,
-    users, users,
+    users,
+    users,
     accounttypes
   });
 };
 
-exports.getAdminSample=(req,res,next) => {
+exports.getAdminSample = (req, res, next) => {
   Sample.find()
-     .then((sampleList)=>{
-      res.render("admin/content-sample",{
-        samples:sampleList,
-        title:"sample",
-        path:"/content-sample",
+    .then((sampleList) => {
+      res.render("admin/content-sample", {
+        samples: sampleList,
+        title: "sample",
+        path: "/content-sample",
       });
-     })
-     .catch((err)=>{
-        console.log(err) 
-     });
+    })
+    .catch((err) => {
+      console.log(err)
+    });
 };
 
-exports.postAdminSample=(req,res,next) =>{
+exports.postAdminSample = (req, res, next) => {
+  const resource = req.files[0];
   const sampleTitle = req.body.sampleTitle;
   const sampleCourse = req.body.sampleCourse;
   const numberofPages = req.body.samplepages;
+  const fileLink = resource.filename;
+  const extName = resource.originalname.split('.')[1];
   const sample = new Sample({
-  sampleTitle,
-  sampleCourse,
-  numberofPages,
+    fileLink,
+    extName,
+    sampleTitle,
+    sampleCourse,
+    numberofPages,
   });
- sample
+  sample
     .save()
     .then((result) => {
       res.redirect("/content-sample");
-      console.log(sample);
     })
     .catch((err) => {
       console.log(err);
@@ -180,17 +191,23 @@ exports.postAdminSample=(req,res,next) =>{
     });
 }
 
-exports.postDeleteSample = async (req,res,next) => {
-  let   sample = req.body.sampleID;  
-  await Sample.findOneAndDelete({_id: sample})
+exports.postDeleteSample = async (req, res, next) => {
+  let sample = req.body.sampleID;
+  await Sample.findOneAndDelete({
+    _id: sample
+  })
   res.redirect('/content-sample')
- };
+};
 
 exports.postDeleteUser = (req, res, next) => {
   let userId = req.body.userId;
-  User.findOneAndDelete({ _id: userId })
+  User.findOneAndDelete({
+      _id: userId
+    })
     .then((user) => {
-      Chatroom.findOneAndDelete({ user2Id: req.body.userId })
+      Chatroom.findOneAndDelete({
+          user2Id: req.body.userId
+        })
         .then((result) => {
           res.redirect('/content-users');
         })
@@ -206,7 +223,9 @@ exports.postAddEditor = (req, res, next) => {
       return res.redirect("/login");
     }
     const token = buffer.toString("hex");
-    User.findOne({ email: user.email })
+    User.findOne({
+        email: user.email
+      })
       .then((uzer) => {
         if (!uzer) {
           req.flash("error", "No account with that email found.")
@@ -271,7 +290,9 @@ exports.getCheckout = async (req, res, next) => {
     amount: totalPrice * 100,
     currency: "usd",
     receipt_email: req.user.email,
-    metadata: { integration_check: 'accept_a_payment' }
+    metadata: {
+      integration_check: 'accept_a_payment'
+    }
   });
 
   res.render("auth/checkout", {
@@ -321,19 +342,17 @@ exports.postCreatePaper = (req, res) => {
           .then((projo) => {
             projecti = projo
             const documentDefination = {
-              content: [
-                {
+              content: [{
                   alignment: 'justify',
-                  columns: [
-                    {
+                  columns: [{
                       text: `${projo.topic}`
                     },
                     {
                       text: `${date}`,
                       style: 'noma'
                     }
-                  ]
-                  , style: 'header'
+                  ],
+                  style: 'header'
                 },
                 {
                   style: 'tableExample',
@@ -343,18 +362,17 @@ exports.postCreatePaper = (req, res) => {
                     widths: [200, 200],
                     body: [
                       [{
-                        text: 'Paper Details',
-                        style: 'tableHeader',
-                        fillColor: '#eeffee'
-                      },
-                      {
-                        text: 'Values',
-                        style: 'tableHeader',
-                        fillColor: '#eeffee'
-                      }
-                      ],
-                      [
+                          text: 'Paper Details',
+                          style: 'tableHeader',
+                          fillColor: '#eeffee'
+                        },
                         {
+                          text: 'Values',
+                          style: 'tableHeader',
+                          fillColor: '#eeffee'
+                        }
+                      ],
+                      [{
                           border: [false, false, false, true],
                           text: 'Topic'
                         },
@@ -363,8 +381,7 @@ exports.postCreatePaper = (req, res) => {
                           text: `${projo.topic}`
                         }
                       ],
-                      [
-                        {
+                      [{
                           border: [false, false, false, true],
                           text: 'Type Of Paper',
                           fillColor: '#eeffee'
@@ -375,8 +392,7 @@ exports.postCreatePaper = (req, res) => {
                           fillColor: '#eeffee'
                         }
                       ],
-                      [
-                        {
+                      [{
                           border: [false, false, false, true],
                           text: 'Subject'
                         },
@@ -385,8 +401,7 @@ exports.postCreatePaper = (req, res) => {
                           text: `${projo.subject.name}`
                         }
                       ],
-                      [
-                        {
+                      [{
                           border: [false, false, false, true],
                           text: 'Order Instructions',
                           fillColor: '#eeffee'
@@ -397,8 +412,7 @@ exports.postCreatePaper = (req, res) => {
                           fillColor: '#eeffee'
                         }
                       ],
-                      [
-                        {
+                      [{
                           border: [false, false, false, true],
                           text: 'Style'
                         },
@@ -407,8 +421,7 @@ exports.postCreatePaper = (req, res) => {
                           text: `${projo.style}`
                         }
                       ],
-                      [
-                        {
+                      [{
                           border: [false, false, false, true],
                           text: 'Urgency',
                           fillColor: '#eeffee'
@@ -419,8 +432,7 @@ exports.postCreatePaper = (req, res) => {
                           fillColor: '#eeffee'
                         }
                       ],
-                      [
-                        {
+                      [{
                           border: [false, false, false, true],
                           text: 'Number of sources'
                         },
@@ -429,8 +441,7 @@ exports.postCreatePaper = (req, res) => {
                           text: `${projo.numberOfSources}`
                         }
                       ],
-                      [
-                        {
+                      [{
                           border: [false, false, false, true],
                           text: 'Academic Level',
                           fillColor: '#eeffee'
@@ -477,12 +488,10 @@ exports.postCreatePaper = (req, res) => {
               .sendMail({
                 to: "ngunyangimark@gmail.com",
                 from: "olivermuriithi11@gmail.com",
-                attachments: [
-                  {
-                    filename: 'document.pdf',
-                    path: path.join(__dirname, '..', 'document.pdf')
-                  }
-                ],
+                attachments: [{
+                  filename: 'document.pdf',
+                  path: path.join(__dirname, '..', 'document.pdf')
+                }],
                 subject: "New job!!!",
                 html: `
               <h1>A new project from ${projecti.ownerId.name}</h1>
