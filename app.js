@@ -13,7 +13,8 @@ const {
   saveMsg
 } = require("./utils/messages");
 
-const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw?authSource=admin";
+
+const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw?retryWrites=true&w=majority";
 // const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
