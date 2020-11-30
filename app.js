@@ -9,7 +9,7 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
 
-const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw?retryWrites=true&w=majority";
+const MONGODB_URI = "mongodb+srv://muriithi:V88ezWCkLrypqmR@cluster0.uhrmt.mongodb.net/jtw?retryWrites=true&w=majority";
 // const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
@@ -17,7 +17,7 @@ const http = require("http").Server(app);
 const io = require("socket.io")(http);
 
 const store = new MongoDBStore({
-  url: MONGODB_URI,
+  uri: MONGODB_URI,
   collection: "sessions",
 })
 
@@ -161,7 +161,7 @@ io.on('connection', (socket) => {
   });
 });
 
-mongoose.connect(MONGODB_URI, { useUnifiedTopology: true, useNewUrlParser: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then((result) => {
     http.listen(PORT);
   })
