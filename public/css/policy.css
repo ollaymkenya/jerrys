@@ -23,6 +23,12 @@
     justify-content: center;
 }
 
+@media screen and (max-width: 568px) {
+    .policy-container__header {
+        font-size: 1.2rem;
+    }
+}
+
 .policy-container__text {
     background-color: rgba(0, 0, 0, 0.4);
     display: flex;

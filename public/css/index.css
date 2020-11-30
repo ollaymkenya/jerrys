@@ -296,9 +296,6 @@ header {
     background-image: -o-radial-gradient(center, cover, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.1) 90%), -o-repeating-linear-gradient(top, transparent 0%, transparent 29px, rgba(239, 207, 173, 0.7) 29px, rgba(239, 207, 173, 0.7) 30px);
     border: 1px solid #c3baaa;
     border-color: rgba(195, 186, 170, 0.9);
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
     -webkit-box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), inset 0 0 5px #d8e071, 0 0 1px rgba(0, 0, 0, 0.1), 0 2px rgba(0, 0, 0, 0.02);
     box-shadow: inset 0 1px rgba(255, 255, 255, 0.5), inset 0 0 5px #d8e071, 0 0 1px rgba(0, 0, 0, 0.1), 0 2px rgba(0, 0, 0, 0.02);
 }
@@ -309,6 +306,7 @@ header {
     position: absolute;
     top: 0;
     bottom: 0;
+    height: 100%;
 }
 
 .notepaper:before {
@@ -379,7 +377,13 @@ header {
     }
 
     .notepaper {
-        flex: 0 0 calc(80%);
+        flex: 1 1 calc(80%);
+    }
+}
+
+@media screen and (max-width: 578px) {
+    .notepaper {
+        flex: 1 1 calc(100%);
     }
 }
 
@@ -408,6 +412,7 @@ header {
 .more-title {
     color: #73777c;
     font-weight: 600;
+    font-size: .8rem;
     margin-bottom: 1rem;
 }
 
@@ -420,70 +425,87 @@ header {
 }
 
 .index-card__container {
-    width: 85%;
+    width: 80%;
     margin: auto;
     display: flex;
 }
 
+@media screen and (max-width: 568px) {
+    .index-card__container {
+        width: 100%;
+    }
+}
+
 .index-card {
-    display: flex;
-    flex-direction: column;
-    color: #586048;
-    height: 450px;
-    min-height: 400px;
-    padding: 1rem;
-    margin: 0 1rem;
-    box-shadow: 0 2px 4px rgba(27, 31, 35, .15);
-    flex: 1 1 calc(33.33% - .5rem);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15),
+        0 2px 2px rgba(0, 0, 0, 0.15),
+        0 4px 4px rgba(0, 0, 0, 0.15),
+        0 8px 8px rgba(0, 0, 0, 0.15);
+    flex: 0 0 calc(33.33%);
+    margin: .5rem;
+    height: 550px;
 }
 
 .index-card #img1 {
     background: url('../images/books.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .index-card #img2 {
     background: url('../images/parker-gibbons-kfwPJieZVwI-unsplash.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 .index-card #img3 {
     background: url('../images/surr-sign-up.png');
-}
-
-.index-card #img1,
-.index-card #img2,
-.index-card #img3 {
-    width: 100%;
-    height: 40%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.img-container {
+    display: block;
+    width: 80%;
+    height: 250px;
     border-radius: 5px;
-    margin: 0 auto 1rem auto;
+    border: 1px solid #efefef;
+    margin: auto;
 }
 
 .index-card h3 {
+    width: 80%;
+    height: fit-content;
+    min-height: 60px;
     font-weight: 500;
     font-family: 'Roboto', sans-serif;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     align-self: start;
     color: #333333;
     line-height: 2rem;
+    margin: 0 auto .5rem auto;
 }
 
-.index-card ul li{
+.index-card ul {
+    width: 80%;
+    height: 180px;
+    margin: 0 auto .5rem auto;
+}
+
+.index-card ul li {
     font-size: .9rem;
     font-weight: 500;
     align-self: end;
-    padding: .5rem 0;
-    border-bottom: 1px solid #e1e4e8;
+    line-height: 1.5rem;
 }
 
 .index-card p {
     font-size: .9rem;
     font-weight: 500;
     align-self: end;
-    padding: .5rem 0;
-    border-bottom: 1px solid #e1e4e8;
 }
 
 .index-card .more-link {
@@ -493,9 +515,13 @@ header {
     display: flex;
     justify-content: space-between;
     color: #1074e7;
+    width: 80%;
+    margin: 0 auto;
+    padding: .75rem 0;
+    border-top: 1px solid #dbdbdb;
 }
 
-.index-card .more-link a{
+.index-card .more-link a {
     color: #1074e7;
 }
 

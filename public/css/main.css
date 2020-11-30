@@ -255,63 +255,61 @@ nav {
     .menu-bar {
         display: block;
         position: fixed;
-        width: 2rem;
-        height: 2rem;
+        width: 2.4rem;
+        height: 2.4rem;
         top: 2rem;
         right: 2rem;
         z-index: 999;
         cursor: pointer;
+        background-color: rgba(255, 255, 255, 1);
+        border-radius: 10%;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.15),
+            0 2px 2px rgba(0, 0, 0, 0.15),
+            0 4px 4px rgba(0, 0, 0, 0.15),
+            0 8px 8px rgba(0, 0, 0, 0.15);
     }
 
-    .bar,
-    .bar::before,
-    .bar::after {
-        position: absolute;
-        background-color: #f7f7f7;
+    .line1,
+    .line2,
+    .line3 {
+        width: 60%;
         margin: auto;
-        width: 100%;
         height: 3px;
-        content: "";
-        top: 50%;
-        left: 0;
-        transition: all .5s cubic-bezier(0.77, 0, 0.175, 1);
+        border-radius: 5px;
+        background-color: #adadad;
+        transition: .5s ease;
     }
 
-    .bar {
-        margin-top: -1px;
-        border-radius: 10px;
-    }
-
-    .bar::before {
-        border-radius: 10px;
-        top: -.7rem;
-    }
-
-    .bar::after {
-        border-radius: 10px;
+    .line1 {
+        position: absolute;
         top: .7rem;
+        left: 7px;
     }
 
-    .bar::before,
-    .bar::after {
-        transform: rotate(0deg);
+    .line2 {
+        position: absolute;
+        top: 1.2rem;
+        left: 7px;
     }
 
-    .active .bar {
-        background-color: transparent;
+    .line3 {
+        position: absolute;
+        top: 1.7rem;
+        left: 7px;
     }
 
-    .active .bar::before {
+    .menu-bar.active .line1 {
+        top: 1.2rem;
         transform: rotate(45deg);
     }
 
-    .active .bar::after {
-        transform: rotate(-45deg);
+    .menu-bar.active .line2 {
+        opacity: 0;
     }
 
-    .active .bar::before,
-    .active .bar::after {
-        top: 0;
+    .menu-bar.active .line3 {
+        top: 1.2rem;
+        transform: rotate(-45deg);
     }
 
     nav {
@@ -374,7 +372,7 @@ footer {
 
 @media screen and (max-width: 876px) {
     .footer {
-       flex-direction: column;
+        flex-direction: column;
     }
 }
 
@@ -580,6 +578,18 @@ footer {
     font-size: 2rem;
 }
 
+@media screen and (max-width: 768px) {
+    .justify-title {
+        font-size: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .justify-title {
+        font-size: 1.2rem;
+    }
+}
+
 .justify-sub__title {
     color: #333333;
     padding: .5rem 0;
@@ -731,7 +741,7 @@ footer {
         width: 100%;
     }
 
-    .testi .client{
+    .testi .client {
         width: calc(33.33% - 12.5px);
         align-self: stretch;
     }
@@ -755,6 +765,7 @@ footer {
     .wrapper .testi .client .say {
         height: calc(100% - 100px);
     }
+
     .wrapper .testi .client .profile {
         background: #fff;
     }

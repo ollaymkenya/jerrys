@@ -222,7 +222,7 @@ header {
 @media screen and (max-width: 1000px) {
     .contacts-box {
         flex-direction: column;
-        width: 80%;
+        width: 90%;
         margin: auto;
     }
 
