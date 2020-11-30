@@ -8,11 +8,6 @@ const multer = require('multer');
 const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
-const {
-  formatMessage,
-  saveMsg
-} = require("./utils/messages");
-
 
 const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw?retryWrites=true&w=majority";
 // const MONGODB_URI = process.env.MONGODB_URI;
@@ -20,7 +15,6 @@ const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net
 const app = express();
 const http = require("http").Server(app);
 const io = require("socket.io")(http);
-const hostname = 'localhost';
 
 const store = new MongoDBStore({
   url: MONGODB_URI,

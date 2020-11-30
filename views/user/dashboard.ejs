@@ -1,8 +1,9 @@
 <link rel="stylesheet" href="css/dashboard.css">
 <link rel="stylesheet" href="css/dashboardhome.css">
 <%- include('../includes/head.ejs')%>
-
 </head>
+<body>
+    <%- include('../includes/navigation.ejs')%>
 <main>
     <%-include('../includes/dashnav.ejs')%>
     <div class="main home-container">
@@ -178,6 +179,7 @@
         });
     });
 </script>
+<%- include('../includes/end.ejs')%>
 </body>
 
 </html>

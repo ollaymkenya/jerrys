@@ -1,8 +1,12 @@
 const Parameter = require("../models/Parameter");
 const Faq = require("../models/Faq");
 const Sample = require("../models/Samples");
+const Users = require("../models/User")
 const testimonialUtils = require('../utils/testmonials');
-const { validateUser, signUser } = require("../utils/auth");
+const {
+    validateUser,
+    signUser
+} = require("../utils/auth");
 
 const Testimonial = require("../models/Testimonial");
 
@@ -21,7 +25,9 @@ const transporter = nodemailer.createTransport({
     }
 });
 
-exports.getIndex = (req, res, next) => {
+exports.getIndex = async (req, res, next) => {
+    let users = await Users.find()
+    console.log(users);
     res.render('site/index', {
         title: 'JTT',
         path: '/'

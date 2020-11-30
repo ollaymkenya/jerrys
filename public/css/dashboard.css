@@ -201,6 +201,17 @@ main {
     background-color: #9c9c9c;
 }
 
-.projects-nav__list li.active span{
+.projects-nav__list li.active span {
     color: #ffffff;
+}
+
+/* mobile only dashboard nav */
+@media screen and (min-width: 769px) {
+    nav {
+        display: none;
+    }
+
+    .menu-bar {
+        display: none !important;
+    }
 }
