@@ -25,13 +25,13 @@ const store = new MongoDBStore({
   url: MONGODB_URI,
   collection: "sessions",
 })
- 
+
 app.set("views", "./views");
 app.set("view engine", "ejs");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'paperDetails'); 
+    cb(null, 'paperDetails');
   },
   filename: function (req, file, cb) {
     cb(null, `${Date.parse(new Date())}-${file.originalname}`);
@@ -41,7 +41,7 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, callb) => {
   if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'application/pdf' || file.mimetype === 'application/msword' || file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.mimetype === 'application/vnd.ms-powerpoint' || file.mimetype === 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
     return callb(null, true)
-  }else{
+  } else {
     callb(null, false);
   }
 }
@@ -67,8 +67,8 @@ const PORT = process.env.PORT || 3000;
 
 const {
   NODE_ENV = "development",
-    SESS_SECRET = "jtwisawesome",
-    SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
+  SESS_SECRET = "jtwisawesome",
+  SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
 } = process.env;
 
 const IN_PROD = NODE_ENV === "production";
