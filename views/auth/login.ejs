@@ -10,16 +10,16 @@
             <% if(errorMessage){ %>
             <div class="flash-message flash-message-danger"><span class="bold">Oh snap!</span><%= errorMessage %></div>
             <% } %>
-            <form action="/login" method="POST" autocomplete="off">
+            <form action="/login" method="POST" autocomplete="off" novalidate>
                 <div class="form-header">
                     <h1>Hi there</h1>
                 </div>
                 <p>Please log in before continuing</p>
                 <div class="form-body">
                     <label for="email">Email</label>
-                    <input type="email" placeholder="Email" name="email" />
+                    <input type="email" placeholder="Email" name="email" value= "<%= oldLoginInput.email %>" />
                     <label for="password">Password</label>
-                    <input type="password" placeholder="Password" name="password" />
+                    <input type="password" placeholder="Password" name="password" value= "<%= oldLoginInput.password %>"/>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit">Sign In</button>
                 </div>

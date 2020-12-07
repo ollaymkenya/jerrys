@@ -76,11 +76,13 @@
                                         d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
                                 </svg>
                             </span>
-                            <span class="tooltip explore-menu" role="tooltip">
-                                <ul class="explore-menu__list">
-                                    <li><a href="/content-faq">Feedback</a></li>
-                                </ul>
-                            </span>
+                            <% if (accountType !== "Editor") { %>
+                                <span class="tooltip explore-menu" role="tooltip">
+                                    <ul class="explore-menu__list">
+                                        <li><a href="/content-testimonials">Feedback</a></li>
+                                    </ul>
+                                </span>
+                            <% } %>
                         </div>
                     </div>
                 </div>

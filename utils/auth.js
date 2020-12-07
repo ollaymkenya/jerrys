@@ -139,7 +139,28 @@ function accountTypeVerifier(accountType) {
     return accountId;
 }
 
+// Authenticating admin
+
+function accountType(id){
+    let accountType;
+  switch (id) {
+      case "5f971a68421e6d53753718c5":
+          accountType="Admin"
+          break;
+          case "5f971aa4421e6d53753718c6":
+          accountType="Editor"
+          break;
+          case "5f971ab4421e6d53753718c7":
+          accountType="Client"
+          break;
+      default:"null"
+          break;
+  }
+  return accountType;
+};
+
 module.exports = {
     validateUser,
-    signUser
+    signUser,
+    accountType
 }

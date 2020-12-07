@@ -66,6 +66,9 @@ main {
     justify-content: space-between;
     margin: 1rem 0;
 }
+.paper-form__form-item input.invalid{
+    border-color: red;
+}
 
 @media screen and (max-width: 768px) {
     .paper-form__form-item {

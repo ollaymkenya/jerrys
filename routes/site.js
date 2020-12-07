@@ -3,6 +3,8 @@ const router = express.Router();
 
 const siteControllers = require('../controllers/site');
 
+const { body, check } = require('express-validator');
+
 router.get('/', siteControllers.getIndex);
 
 router.get('/about', siteControllers.getAbout);
@@ -19,7 +21,17 @@ router.get('/sales', siteControllers.getSales);
 
 router.get('/paper', siteControllers.getPaper);
 
-router.post('/new-paper', siteControllers.postNewPaper);
+router.post('/new-paper',[
+    check('email')
+        .isEmail()
+        .withMessage("Please enter a valid email.")
+        .normalizeEmail(),
+    body('password', 'Your password should not be less than 3 characters')
+        .isLength({ min: 5 })
+        .isAlphanumeric()
+        .trim()
+]
+, siteControllers.postNewPaper);
 
 router.get('/books', siteControllers.getBooks);
 

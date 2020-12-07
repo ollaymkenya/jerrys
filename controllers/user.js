@@ -106,7 +106,6 @@ exports.getDashboardChatRoom = async (req, res, next) => {
 
 exports.postMessage = (req, res, next) => {
     let chatRoom = req.params.chatRoom;
-    console.log(req.body);
     res.redirect(`/chat/${chatRoom}`);
 }
 
@@ -133,6 +132,7 @@ exports.getProjects = async (req, res, next) => {
         user: user,
         projects: projects
     });
+    //console.log(user.username);
 };
 
 exports.getProject = (req, res, next) => {

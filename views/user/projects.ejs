@@ -10,9 +10,11 @@
                 <li class="<%= path === '/projects' ? 'active' : '' %>">
                     <a href="/projects"><span>projects</span></a>
                 </li>
+                <% if (accountType === "Admin") { %> 
                 <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
                     <a href="/projects-newParameter"><span>parameters</span></a>
                 </li>
+            <% } %> 
             </ul>
         </div>
         <div class="projects">
@@ -27,30 +29,63 @@
                 </span>
             </div>
             <ul class="projects-list">
-                <% for(let i = 0; i < projects.length; i++) { %>
-                <% var project = projects[i] %>
-                <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
-                <li>
-                    <div class="projects-list__item">
-                        <div class="projects-information">
-                            <div class="projects-information__header">
-                                <h4><%= project.topic %></h4>
-                                <span><%= username %></span>
+                <% if (accountType === "Client") { %>
+                    <% for(let i = 0; i < projects.length; i++) { %>
+                        <% var project = projects[i] %>
+                        <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
+                        <% var projectOwnerId = projects[i] && projects[i].ownerId ? projects[i].ownerId._id : null %>
+                        <% if(JSON.stringify(user._id) === JSON.stringify(projectOwnerId)) {%> 
+                            <li>
+                                <div class="projects-list__item">
+                                    <div class="projects-information">
+                                        <div class="projects-information__header">
+                                            <h4><%= project.topic %></h4>
+                                            <span><%= username %></span>
+                                        </div>
+                                        <div class="projects-information__body">
+                                            <span>Submitted on: 2 October 2020</span>
+                                            <span style ='<%= project.completed ? "color: green;": "color:red;"%>'><%= project.completed ? 'completed': 'incomplete'%></span>
+                                        </div>
+                                    </div>
+                                    <div class="projects-menu">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                            <path fill="none" d="M0 0h24v24H0z" />
+                                            <path
+                                                d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </li>
+                        <% } %>
+                    <% } %>
+                <% } else if(accountType === "Admin" || accountType === "Editor") {%>
+                    <% for(let i = 0; i < projects.length; i++) { %>
+                        <% var project = projects[i] %>
+                        <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
+                        <% var email = projects[i] && projects[i].ownerId ? projects[i].ownerId.email : null %>
+                        <% var projectOwnerId = projects[i] && projects[i].ownerId ? projects[i].ownerId._id : null %>
+                        <li>
+                            <div class="projects-list__item">
+                                <div class="projects-information">
+                                    <div class="projects-information__header">
+                                        <h4><%= project.topic %></h4>
+                                        <span><%= accountType === "Admin" ? email : username %></span>
+                                    </div>
+                                    <div class="projects-information__body">
+                                        <span>Submitted on: 2 October 2020</span>
+                                        <span style ='<%= project.completed ? "color: green;": "color:red;"%>'><%= project.completed ? 'completed': 'incomplete'%></span>
+                                    </div>
+                                </div>
+                                <div class="projects-menu">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                        <path fill="none" d="M0 0h24v24H0z" />
+                                        <path
+                                            d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                                    </svg>
+                                </div>
                             </div>
-                            <div class="projects-information__body">
-                                <span>Submitted on: 2 October 2020</span>
-                                <span style ='<%= project.completed ? "color: green;": "color:red;"%>'><%= project.completed ? 'completed': 'incomplete'%></span>
-                            </div>
-                        </div>
-                        <div class="projects-menu">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                <path fill="none" d="M0 0h24v24H0z" />
-                                <path
-                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                            </svg>
-                        </div>
-                    </div>
-                </li>
+                        </li>
+                    <% } %>
                 <% } %>
             </ul>
         </div>

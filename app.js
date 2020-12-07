@@ -9,11 +9,14 @@ const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
 const {
+  accountType
+} = require("./utils/auth");
+const {
   formatMessage,
   saveMsg
 } = require("./utils/messages");
 
-const MONGODB_URI = "mongodb+srv://muriithi:olimkenya@cluster0.uhrmt.mongodb.net/jtw";
+const MONGODB_URI = "mongodb+srv://muriithi:V88ezWCkLrypqmR@cluster0.uhrmt.mongodb.net/jtw";
 // const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
@@ -22,7 +25,7 @@ const io = require("socket.io")(http);
 const hostname = 'localhost';
 
 const store = new MongoDBStore({
-  url: MONGODB_URI,
+  uri: MONGODB_URI,
   collection: "sessions",
 })
 
@@ -54,8 +57,13 @@ const webhookRoutes = require("./routes/webhook");
 const errorRoutes = require("./routes/error");
 const User = require("./models/User");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: storage, fileFilter: fileFilter }).array('selectfile', 12));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(multer({
+  storage: storage,
+  fileFilter: fileFilter
+}).array('selectfile', 12));
 const csrfProtection = csrf();
 
 app.use(express.static(path.join(__dirname, "views")));
@@ -67,8 +75,8 @@ const PORT = process.env.PORT || 3000;
 
 const {
   NODE_ENV = "development",
-  SESS_SECRET = "jtwisawesome",
-  SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
+    SESS_SECRET = "jtwisawesome",
+    SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
 } = process.env;
 
 const IN_PROD = NODE_ENV === "production";
@@ -121,7 +129,6 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   if (csrfExclusion.indexOf(req.path) !== -1) {
-    console.log();
     next();
   } else {
     res.locals.isAuthenticated = req.session.isLoggedIn;
@@ -130,6 +137,16 @@ app.use((req, res, next) => {
     next();
   }
 });
+
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  let accType = `${req.session.user.accountType}`
+  res.locals.accountType = accountType(accType) || 'Site';
+  next();
+});
+
 
 app.use(siteRoutes);
 app.use(authRoutes);

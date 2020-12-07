@@ -4,6 +4,10 @@ const Sample = require("../models/Samples");
 const Users = require("../models/User")
 const testimonialUtils = require('../utils/testmonials');
 const {
+    body,
+    check
+} = require('express-validator');
+const {
     validateUser,
     signUser
 } = require("../utils/auth");
@@ -27,7 +31,7 @@ const transporter = nodemailer.createTransport({
 
 exports.getIndex = async (req, res, next) => {
     let users = await Users.find()
-    console.log(users);
+    //console.log(users);
     res.render('site/index', {
         title: 'JTT',
         path: '/'
@@ -55,7 +59,7 @@ exports.getContacts = (req, res, next) => {
 }
 
 exports.postContacts = (req, res, next) => {
-    console.log(req.body);
+    //console.log(req.body);
     let email = req.body.email;
     let question = req.body.question;
     let questionContent = req.body.questionContent;
@@ -86,7 +90,7 @@ exports.getSamples = async (req, res, next) => {
     let testimonials = await Testimonial.find({
         published: true
     }).populate('owner');
-    console.log(testimonials);
+    //console.log(testimonials);
     Sample.find()
         .then((sampleList) => {
             res.render("site/samples", {
@@ -104,7 +108,7 @@ exports.getSamples = async (req, res, next) => {
 
 exports.getFAQ = (req, res, next) => {
     let searchQuery = req.params.searchQuery === 'null' ? '' : req.params.searchQuery;
-    console.log(searchQuery);
+    //console.log(searchQuery);
     Faq.find()
         .then((faqList) => {
             //console.log(faqList);
@@ -145,27 +149,58 @@ exports.getPaper = (req, res, next) => {
                 parameters: parameters,
                 user: user,
                 errorMessage: '',
+                oldLoginInput: {
+                    email: "",
+                    password: "",
+                    subject: "",
+                    topic: "",
+                    orderInstructions: "",
+                    nofSources: "",
+                    noOfPages: "",
+                    urgency: "",
+                    discountCode: "",
+                    typeOfPaper: "",
+                    username: "",
+                    confirmPassword: "",
+                    checkedSwitcher: "",
+                    resources: "",
+                    errorField: ""
+                },
+                  validationErrors: []
+
             });
         })
 }
 
 exports.postNewPaper = async (req, res, next) => {
-    const resources = req.files;
+    //console.log(req.files);
+    let resources = req.files;
     let user;
     const checkedSwitcher = req.body.checkedSwitcher;
     const errors = validationResult(req);
-    const email = req.body.email;
+    const email = req.body.email === '@' ? '' : req.body.email;
     const password = req.body.password;
-    const username = req.body.username;
-    const signemail = req.body.signemail;
-    const signpassword = req.body.signpassword;
+    const username = req.body.username.trim();
+    const typeOfPaper = req.body.typeOfPaper;
+    const subject = req.body.subject;
+    const topic = req.body.topic;
+    const orderInstructions = req.body.orderInstructions;
+    const nofSources = req.body.nofSources;
+    const urgency = req.body.urgency;
+    const noOfPages = req.body.noOfPages;
+    const discountCode = req.body.discountCode;
     const confirmPassword = req.body.confirmPassword;
+    const service = req.body.service;
+
     let parameters = await Parameter.find().populate('category');
     let mode;
     let paper = req.body;
+
     if (checkedSwitcher === 'on') {
         mode = 'login';
+
         if (!errors.isEmpty()) {
+            resources = resources.length < 1 ? '' : 'Files already saved';
             console.log(errors.array());
             return res.status(422).render("site/paper", {
                 title: "Paper",
@@ -174,6 +209,18 @@ exports.postNewPaper = async (req, res, next) => {
                 oldLoginInput: {
                     email: email,
                     password: password,
+                    subject: subject,
+                    topic: topic,
+                    orderInstructions: orderInstructions,
+                    nofSources: nofSources,
+                    noOfPages: noOfPages,
+                    urgency: urgency,
+                    discountCode: discountCode,
+                    typeOfPaper: typeOfPaper,
+                    checkedSwitcher: 'on',
+                    resources: resources,
+                    service: service,
+                    errorField: ""
                 },
                 validationErrors: errors.array(),
                 parameters,
@@ -205,40 +252,97 @@ exports.postNewPaper = async (req, res, next) => {
         mode = 'signup';
         let accountType = 'client';
         let redirectPage = '/checkout';
-        // If any errors redirect back to paper page
-        if (!errors.isEmpty()) {
-            console.log(errors.array());
+        // if no username:
+        if(!username || username.length < 3){
+            resources = resources.length < 1 ? '' : 'Files already saved';
             return res.status(422).render("site/paper", {
                 title: "Paper",
                 path: "/paper",
-                errorMessage: errors.array()[0].msg,
-                oldSignupInput: {
+                errorMessage: 'Your username should contain more than 2 characters',
+                oldLoginInput: {
+                    subject: subject,
+                    topic: topic,
+                    orderInstructions: orderInstructions,
+                    nofSources: nofSources,
+                    noOfPages: noOfPages,
+                    urgency: urgency,
+                    discountCode: discountCode,
+                    typeOfPaper: typeOfPaper,
                     username: username,
                     email: email,
                     password: password,
+                    confirmPassword: confirmPassword,
+                    checkedSwitcher: '',
+                    resources: resources,
+                    service: service,
+                    errorField: 'password'
                 },
                 validationErrors: errors.array(),
                 parameters,
                 user
             })
         }
-        let result = await validateUser(mode, signemail, signpassword, confirmPassword)
+        // If any errors redirect back to paper page
+        if (!errors.isEmpty()) {
+            resources = resources.length < 1 ? '' : 'Files already saved';
+            console.log(errors.array());
+            return res.status(422).render("site/paper", {
+                title: "Paper",
+                path: "/paper",
+                errorMessage: errors.array()[0].msg,
+                oldLoginInput: {
+                    subject: subject,
+                    topic: topic,
+                    orderInstructions: orderInstructions,
+                    nofSources: nofSources,
+                    noOfPages: noOfPages,
+                    urgency: urgency,
+                    discountCode: discountCode,
+                    typeOfPaper: typeOfPaper,
+                    username: username,
+                    email: email,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                    checkedSwitcher: '',
+                    resources: resources,
+                    service: service,
+                    errorField: ""
+                },
+                validationErrors: errors.array(),
+                parameters,
+                user
+            })
+        }
+        let result = await validateUser(mode, email, password, confirmPassword)
         if (!result.validated) {
             return res.status(422).render("site/paper", {
                 title: "Paper",
                 path: "/paper",
                 errorMessage: result.message,
-                oldSignupInput: {
+                oldLoginInput: {
+                    subject: subject,
+                    topic: topic,
+                    orderInstructions: orderInstructions,
+                    nofSources: nofSources,
+                    noOfPages: noOfPages,
+                    urgency: urgency,
+                    discountCode: discountCode,
+                    typeOfPaper: typeOfPaper,
                     username: username,
-                    email: signemail,
-                    password: signpassword,
+                    email: email,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                    checkedSwitcher: '',
+                    resources: resources,
+                    service: service,
+                    errorField: "confirm password"
                 },
-                validationErrors: errors.array,
+                validationErrors: [],
                 parameters,
                 user
             })
         }
-        signUser(username, signemail, signpassword, accountType, redirectPage, req, res);
+        signUser(username, email, password, accountType, redirectPage, req, res);
         req.session.paper = paper;
         req.session.files = resources;
     } else {
