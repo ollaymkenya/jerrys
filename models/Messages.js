@@ -23,13 +23,24 @@ const messagesSchema = new Schema(
       ref: "Chatroom",
       required: true,
     },
-    type: {
+    messageType: {
       type: Schema.Types.ObjectId,
       ref: "MessageTypes",
       required: true
+    },
+    sentTime: {
+      type: Date,
+      required: true
+    },
+    receivedTime: {
+      type: Date,
+      required: true
+    },
+    receipt: {
+      type: String,
+      default: 'unread'
     }
-  },
-  { timestamps: true }
+  }
 );
 
 const Messages = mongoose.model("Messages", messagesSchema);

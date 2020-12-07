@@ -171,21 +171,3 @@
     background-size: cover;
     background-repeat: no-repeat;
 }
-
-.tooltip {
-    border: 1.5px solid #9c9c9c;
-    border-radius: 5px;
-    padding: 4px 8px;
-    font-size: 13px;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.tooltip[data-show] {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.projects-menu__list li{
-    margin: .2rem 0;
-}

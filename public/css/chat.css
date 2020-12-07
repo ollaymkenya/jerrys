@@ -1,4 +1,4 @@
-*{
+* {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -163,14 +163,21 @@
     -webkit-user-select: none;
 }
 
-.message-item span {
+.message-item span{
     font-size: .7rem;
     color: #9c9c9c;
-    align-self: flex-end;
     justify-content: baseline;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+}
+
+.message-home span {
+    align-self: flex-end;
+}
+
+.message-away span {
+    align-self: flex-start;
 }
 
 .message-away {
@@ -189,8 +196,8 @@
     position: relative;
 }
 
-.input-message{
-    border: .7px solid #808080;
+.input-message {
+    border: .7px solid #9c9c9c;
     border-radius: 25px;
     min-height: fit-content;
     height: max-content;
@@ -205,15 +212,16 @@
     right: 2.5rem;
 }
 
-.emoji-btn{
+.emoji-btn {
     margin-bottom: .25rem;
     margin-left: .5rem;
     margin-right: .5rem;
     font-size: 1.5rem;
     color: #000000;
+    cursor: pointer;
 }
 
-.submit-btn{
+.submit-btn {
     margin-bottom: .2rem;
     margin-right: .5rem;
     margin-left: .5rem;
@@ -222,17 +230,17 @@
     height: 100%;
 }
 
-.submit-btn button{
+.submit-btn button {
     border: none;
     background-color: transparent;
     outline: none;
-    color:#0095F6;
+    color: #0095F6;
     height: 100%;
     cursor: pointer;
     width: 20px;
 }
 
-.chattingBox{
+.chattingBox {
     width: calc(100% - 5rem);
     min-height: 100%;
     left: -1px;
@@ -244,5 +252,5 @@
 
 .editableDiv[contentEditable="true"]:empty:before {
     content: attr(placeholder);
-    color: #808080;
-  }
+    color: #9c9c9c;
+}

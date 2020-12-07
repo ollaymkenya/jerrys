@@ -11,8 +11,6 @@ router.get('/chat', Auth.isAuth, userControllers.getDashboardChat);
 
 router.get('/chat/:chatRoom', Auth.isAuth, userControllers.getDashboardChatRoom);
 
-router.post('/chat/:chatRoom/message', Auth.isAuth, userControllers.postMessage);
-
 router.get('/projects-newProject', Auth.isAuth, userControllers.getDashboardNewProjects);
 
 router.get('/projects', Auth.isAuth, userControllers.getProjects);

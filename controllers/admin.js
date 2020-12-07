@@ -508,3 +508,101 @@ exports.postCreatePaper = async (req, res) => {
     })
   }
 }
+
+exports.postSubmitWork = async (req, res, next) => {
+  // declare variables
+  let projectId = req.body.projectId;
+  let workLink = req.body.work;
+  let projectTopic;
+  let userId;
+  let toEmail;
+  // edit the project in the database
+
+  // If project link is blank
+  if (!workLink || workLink === '') {
+    return res.redirect('/projects');
+  }
+
+  let project = await Project.findById(projectId);
+  projectTopic = project.topic;
+  userId = project.ownerId;
+  let completed = {
+    value: true,
+    date: JSON.stringify(new Date())
+  }
+  project.completed = completed;
+  project.assignmentWork = workLink;
+  await project.save();
+  // send the user an email that their projo is complete
+  let user = await User.findById(userId);
+  toEmail = user.email;
+  transporter
+    .sendMail({
+      to: toEmail,
+      from: "olivermuriithi11@gmail.com",
+      subject: "Your job is complete!!!",
+      html: `
+              <h1>Your project titled '${projectTopic}' is complete</h1>
+              <p>Click this <a href="${workLink}">link</a> to access It</p>
+              `
+    })
+  //redirect the editor successfully
+  console.log(req.body);
+  res.redirect('/projects');
+}
+
+exports.postEditWork = async (req, res, next) => {
+  // declare variables
+  let projectId = req.params.projectId;
+  let workLink = req.body.work;
+  let projectTopic;
+  let userId;
+  let toEmail;
+  let completed;
+
+  // edit the project in the database
+  let project = await Project.findById(projectId);
+
+  // If project link is blank
+  if (!workLink || workLink === '') {
+    completed = {
+      value: null,
+      date: null
+    }
+    project.completed = completed;
+    project.assignmentWork = null;
+    await project.save();
+    return res.redirect('/projects');
+  }
+  // If project link contains some changes
+  else if (wordLink && wordLink !== project.assignmentWork) {
+    projectTopic = project.topic;
+    userId = project.ownerId;
+    completed = {
+      value: true,
+      date: JSON.stringify(new Date())
+    }
+    project.completed = completed;
+    project.assignmentWork = workLink;
+    await project.save();
+    // send the user an email that their projo is completed once more
+    let user = await User.findById(userId);
+    toEmail = user.email;
+    transporter
+      .sendMail({
+        to: toEmail,
+        from: "olivermuriithi11@gmail.com",
+        subject: "Some changes to your job submission",
+        html: `
+              <h1>Your project titled '${projectTopic}' has been changed</h1>
+              <p>Click this <a href="${workLink}">link</a> to access It</p>
+              `
+      })
+    //redirect the editor successfully
+    console.log(req.body);
+    return res.redirect('/projects');
+  }
+  else {
+    return res.redirect('/projects');
+  }
+}

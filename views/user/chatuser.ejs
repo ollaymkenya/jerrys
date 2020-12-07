@@ -35,15 +35,21 @@
                 <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
                 <div class="user-messages__text">
                     <h4><%= otherUser.username %></h4>
-                    <span>offline</span>
                 </div>
             </div>
             <div class="chat-messages__body">
                 <ul class="messages-list">
                     <p class="center" style="font-size: .8rem; color: #808080; margin-bottom: .7rem;">
-                        This is the begining of your conversation with <%= otherUser.value %>. Chats are not currently
-                        secure
+                        This is the begining of your conversation with <%= otherUser.username %>. Chats are currently
+                        not secure
                     </p>
+                    <% for(let i = 0; i < messages.length; i++) { %>
+                    <% var isCurrent = JSON.stringify(messages[i].fromId) ===  JSON.stringify(user.id)%>
+                    <li class="message-item <%= isCurrent ? 'message-home' : 'message-away' %>">
+                        <p><%= messages[i].message %></p>
+                        <span> <%= isCurrent ? messages[i].sentTime : messages[i].receivedTime %> </span>
+                    </li>
+                    <% } %>
                 </ul>
             </div>
             <div class="chat-messages__footer">
@@ -53,9 +59,24 @@
                     <input type="hidden" name="username" value="<%= user.username %>">
                     <input type="hidden" name="otherUser" value="<%= otherUser.id %>">
                     <input type="hidden" name="otherUserName" value="<%= otherUser.username %>">
+                    <input type="hidden" name="chatRoomId" value="<%= chatRoomId %>">
                     <input type="hidden" name="message" id="message">
-                    <span class="emoji-btn">
-                        <ion-icon name="happy-outline"></ion-icon>
+                    <div class="emoji-body">
+                        <input name="emojiSearch" id="emojiSearch" placeholder="Search emoji">
+                        <div class="emoji-category">
+                            <ion-icon name="happy-outline" class="smiley-btn" data-category="smileys-emotion" id="smileys-emotion"></ion-icon>
+                            <ion-icon name="paw-outline" class="animals-btn" data-category="animals-nature" id="animals-nature"></ion-icon>
+                            <ion-icon name="fast-food-outline" class="foods-btn" data-category="food-drink" id="food-drink"></ion-icon>
+                            <ion-icon name="basketball-outline" class="activities-btn" data-category="activities" id="activities"></ion-icon>
+                            <ion-icon name="airplane-outline" class="travel-btn" data-category="travel-places" id="travel-places"></ion-icon>
+                            <ion-icon name="bulb-outline" class="objects-btn" data-category="objects" id="objects"></ion-icon>
+                            <ion-icon name="text-outline" class="symbols-btn" data-category="symbols" id="symbols"></ion-icon>
+                            <ion-icon name="flag-outline" class="flags-btn" data-category="flags" id="flags"></ion-icon>
+                        </div>
+                        <div class="emoji-container"></div>
+                    </div>
+                    <span class="emoji-btn" data-category="smileys-emotion">
+                        <ion-icon name="happy-outline" style="pointer-events: none;"></ion-icon>
                     </span>
                     <div class="chattingBox editableDiv" id="editableDiv" contenteditable=true
                         placeholder="Type a message..." role="textbox">
@@ -78,15 +99,39 @@
 </main>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+<script src="https://unpkg.com/dayjs@1.8.21/plugin/localizedFormat.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    document.getElementById('editableDiv').addEventListener('input', () => {
-        let currentMessage = document.getElementById('editableDiv').innerText;
-        document.getElementById('message').value = currentMessage;
+    const projectsToggle = document.querySelector('.emoji-btn');
+    const projectsMenu = document.querySelector('.emoji-body');
+    Popper.createPopper(projectsToggle, projectsMenu, {
+        modifiers: [{
+            name: 'offset',
+            options: {
+                offset: [80, 35],
+            },
+        }, ],
+    });
+
+    const hideEvents = ['mouseleave', 'focusout'];
+    const showEvents = ['click'];
+
+    showEvents.forEach(event => {
+        projectsToggle.addEventListener(event, () => {
+            projectsMenu.setAttribute('data-show', '');
+        });
+    });
+
+    hideEvents.forEach(event => {
+        projectsMenu.addEventListener(event, () => {
+            projectsMenu.removeAttribute('data-show');
+        });
     });
 </script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/chats.js"></script>
+<script src="/js/chatsUsers.js"></script>
+<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

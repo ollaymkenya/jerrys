@@ -50,9 +50,12 @@
                 </ul>
             </div>
         </div>
+        <input type="hidden" name="" class="userId" value="<%=user.id%> ">
     </div>
     <%- include('../includes/dashprofile.ejs')%>
 </main>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/chats.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
 </body>

@@ -3,11 +3,10 @@ const Messages = require("../models/Messages");
 const Testimonial = require("../models/Testimonial");
 const Chatroom = require("../models/Chatroom");
 const User = require("../models/User");
-const crypto = require("crypto");
-const testimonialUtils = require('../utils/testmonials');
-const {
-    response
-} = require("express");
+
+const dayjs = require('dayjs');
+const LocalizedFormat = require("../node_modules/dayjs/plugin/localizedFormat");
+dayjs.extend(LocalizedFormat);
 
 exports.getDashboard = (req, res, next) => {
     const user = req.user;
@@ -69,10 +68,20 @@ exports.getDashboardChat = (req, res, next) => {
 
 exports.getDashboardChatRoom = async (req, res, next) => {
     const user = req.user;
+    let chatRoomId = req.params.chatRoom;
     let contacts = [];
     let contactsid;
     const userRoomId = req.params.chatRoom;
     const userRoom = await Chatroom.findById(userRoomId);
+    let messages = await Messages.find({chatRoom: chatRoomId});
+    messages = await Promise.all(messages.map(async (message) => {
+        message = await message.toObject();
+        message.sentTime = dayjs(message.sentTime).format('LT');
+        message.receivedTime = dayjs(message.receivedTime).format('LT');
+        return message;
+    }))
+
+    console.log(messages);
     let otherUser;
     Chatroom
         .find()
@@ -99,16 +108,12 @@ exports.getDashboardChatRoom = async (req, res, next) => {
                 contacts,
                 userRoom,
                 otherUser,
-                userRoomId
+                userRoomId,
+                chatRoomId,
+                messages
             });
         })
 };
-
-exports.postMessage = (req, res, next) => {
-    let chatRoom = req.params.chatRoom;
-    console.log(req.body);
-    res.redirect(`/chat/${chatRoom}`);
-}
 
 exports.getDashboardNewProjects = (req, res, next) => {
     const user = req.user;

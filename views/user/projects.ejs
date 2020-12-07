@@ -29,7 +29,9 @@
             <ul class="projects-list">
                 <% for(let i = 0; i < projects.length; i++) { %>
                 <% var project = projects[i] %>
-                <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
+                <% var username = project && project.ownerId ? project.ownerId.username : null %>
+                <% var completed = project && project.completed ? project.completed.value : null %>
+                <% var completedDate = project && project.completed ? project.completed.date : null %>
                 <li>
                     <div class="projects-list__item">
                         <div class="projects-information">
@@ -38,11 +40,15 @@
                                 <span><%= username %></span>
                             </div>
                             <div class="projects-information__body">
-                                <span>Submitted on: 2 October 2020</span>
-                                <span style ='<%= project.completed ? "color: green;": "color:red;"%>'><%= project.completed ? 'completed': 'incomplete'%></span>
+                                <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
+                                    <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
+                                </span>
+                                <span style='<%= completed ? "color: green;": "color:red;"%>'>
+                                    <%= completed ? 'completed': 'incomplete'%>
+                                </span>
                             </div>
                         </div>
-                        <div class="projects-menu">
+                        <div class="projects-toggle">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                 <path fill="none" d="M0 0h24v24H0z" />
                                 <path
@@ -50,6 +56,17 @@
                             </svg>
                         </div>
                     </div>
+                    <span class="tooltip projects-menu projects-menu" role="tooltip">
+                        <ul class="projects-menu__list">
+                            <% if (!completed) { %>
+                            <li class="toggleSubmit" data-project-id="<%= project._id%>">Submit work</li>
+                            <% } %>
+                            <% if (completed) { %>
+                            <li class="toggleEdit" data-project-id="<%= project._id%>" data-work-link="<%=project.assignmentWork%>">Edit work</li>
+                            <li><a href="<%=project.assignmentWork%>" target="_blank">See work</a></li>
+                            <% } %>
+                        </ul>
+                    </span>
                 </li>
                 <% } %>
             </ul>
@@ -57,8 +74,85 @@
     </div>
     <%- include('../includes/dashprofile.ejs')%>
 </main>
+<div class="modal-bg">
+    <div class="usermodal">
+        <form action="/submit-work" method="POST" class="user-form">
+            <label for="work">Submit the work</label>
+            <input type="text" placeholder="Work link" name="work">
+            <input type="hidden" name="projectId" value="">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="btn-primary modal-close"> Submit work</button>
+        </form>
+        <span class="modal-close1">
+            <ion-icon name="close-circle-outline"></ion-icon>
+        </span>
+    </div>
+</div>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+<script>
+    for (let i = 0; i < document.getElementsByClassName('projects-list__item').length; i++) {
+        const projectsToggle = document.getElementsByClassName('projects-list__item')[i].lastElementChild;
+        const projectsMenu = document.getElementsByClassName('projects-list__item')[i].parentElement.lastElementChild;
+        Popper.createPopper(projectsToggle, projectsMenu, {
+            modifiers: [{
+                name: 'offset',
+                options: {
+                    offset: [0, 8],
+                },
+            }, ],
+        });
+    }
+
+    const hideEvents = ['mouseleave', 'focusout'];
+    const showEvents = ['click'];
+
+    for (let i = 0; i < document.getElementsByClassName('projects-list__item').length; i++) {
+        const projectsToggle = document.getElementsByClassName('projects-list__item')[i].lastElementChild;
+        const projectsMenu = document.getElementsByClassName('projects-list__item')[i].parentElement.lastElementChild;
+
+        showEvents.forEach(event => {
+            projectsToggle.addEventListener(event, () => {
+                projectsMenu.setAttribute('data-show', '');
+            });
+        });
+
+        hideEvents.forEach(event => {
+            projectsMenu.addEventListener(event, () => {
+                projectsMenu.removeAttribute('data-show');
+            });
+        });
+    }
+
+    let modalBg = document.querySelector('.modal-bg');
+    document.querySelectorAll(".toggleSubmit").forEach(toggleSubmit => {
+        toggleSubmit.addEventListener("click", (e) => {
+            modalBg.querySelector('[name="projectId"]').value = e.target.dataset.projectId;
+            modalBg.classList.add('bg-active');
+        })
+    });
+
+    document.querySelectorAll(".toggleEdit").forEach(toggleEdit => {
+        toggleEdit.addEventListener("click", (e) => {
+            modalBg.querySelector('[name="projectId"]').value = e.target.dataset.projectId;
+            modalBg.querySelector('[name="work"]').value = e.target.dataset.workLink;
+            modalBg.querySelector('form').action = `/edit-work/${e.target.dataset.projectId}`
+            modalBg.classList.add('bg-active');
+        })
+    });
+
+    let modalClose = document.querySelector('.modal-close');
+    let modalClose1 = document.querySelector('.modal-close1');
+
+    modalClose.addEventListener('click', () => {
+        modalBg.classList.remove('bg-active');
+    })
+
+    modalClose1.addEventListener('click', () => {
+        modalBg.classList.remove('bg-active');
+    })
+</script>
 </body>
 
 </html>

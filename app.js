@@ -47,7 +47,9 @@ const userRoutes = require("./routes/user");
 const adminRoutes = require("./routes/admin");
 const webhookRoutes = require("./routes/webhook");
 const errorRoutes = require("./routes/error");
+const messages = require("./messages/messages");
 const User = require("./models/User");
+const { table } = require("console");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: storage, fileFilter: fileFilter }).array('selectfile', 12));
@@ -150,14 +152,44 @@ app.post("/create-payment-intent", async (req, res) => {
 app.use(errorRoutes);
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  // adding a user to the chat space
+  socket.on('joinChatSpace', async (id, callb) => {
+    let promise = await new Promise(async (resolve, reject) => {
+      resolve({
+        peopleOnline: await messages.addToChatSpace(id),
+        unreadMessages: await messages.getUnredMessages(id)
+      })
+    })
+    callb(promise);
+  })
 
-  socket.on('new message', (message) => {
-    io.emit('message back', message);
+  //make online functionality and messages can be received
+  console.log('a user joined the chat space');
+
+  socket.on('new message', async (messg) => {
+    let receivedTime = await messages.getReceivedTime(messg);
+    let msg = { ...messg, receivedTime };
+    messages.saveMessage(msg);
+    io.to(messg.chatRoom).emit('message back', msg);
   });
 
+  socket.on('joinRoom', async (chatRoomInfo, callb) => {
+    // messages can be read by the person who has entered
+    console.log(`${chatRoomInfo.user} joined the ${chatRoomInfo.chatRoom} room`);
+    socket.join(chatRoomInfo.chatRoom)
+    // socket.on('disconnect', (socket) => {
+    //   //messages cannot be read by the person who leaves
+    //   console.log(`${socket} disconnected from ${socket.rooms}`);
+    // });
+    // let chatroomLength = await new Promise((resolve, reject) => {
+    //   resolve(messages.addtoChatRoom(chatRoomInfo.chatRoom, chatRoomInfo.user))
+    // })
+    // callb(chatroomLength);
+  })
+
   socket.on('disconnect', () => {
-    console.log('user disconnected');
+    //the person is offline and messages cannot be received
+    console.log('a user left the chat space');
   });
 });
 

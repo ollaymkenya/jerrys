@@ -48,12 +48,15 @@ const projectSchema = new Schema(
       type: String,
     },
     completed: {
-      type: Boolean,
+      type: Object,
+      value: {
+        type: Boolean,
+        default: null
+      },
       date: {
         type: Date,
-        default: null,
-      },
-      default: null,
+        default: null
+      }
     },
     assignmentWork: {
       type: String,
