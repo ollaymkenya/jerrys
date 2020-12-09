@@ -5,9 +5,11 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const multer = require('multer');
+const dotenv=require('dotenv')
 const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
+dotenv.config();
 const {
   accountType
 } = require("./utils/auth");
@@ -16,7 +18,7 @@ const {
   saveMsg
 } = require("./utils/messages");
 
-const MONGODB_URI = "mongodb+srv://muriithi:V88ezWCkLrypqmR@cluster0.uhrmt.mongodb.net/jtw";
+
 // const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
@@ -184,7 +186,7 @@ io.on('connection', (socket) => {
 });
 
 mongoose
-  .connect(MONGODB_URI, {
+.connect(MONGODB_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true
   })

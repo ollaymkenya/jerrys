@@ -477,6 +477,8 @@ big {
 
 .away {
     border: .5px solid #9c9c9c;
+    color: 6025aa;
+    font-weight: 900;
 }
 
 #phoneImage{
