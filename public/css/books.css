@@ -3,12 +3,7 @@
     width: 100%;
 }
 
-@font-face {
-    font-family: AirbnbCerealBold;
-    font-style: normal;
-    font-weight: normal;
-    src: url('../fonts/AirbnbCerealBold.ttf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
 .esl-container__header {
     height: 87vh;
@@ -27,14 +22,14 @@
 
 .esl-content__title {
     font-size: 1.5rem;
-    font-family: AirbnbCerealBold;
+    font-family: 'Poppins', sans-serif;
     color: #333333;
     margin: 2rem 0;
 }
 
 .esl-content__sub-title {
     font-size: 1rem;
-    font-family: AirbnbCerealBold;
+    font-family: 'Poppins', sans-serif;
     color: #747474;
     margin: 2rem 0;
 }

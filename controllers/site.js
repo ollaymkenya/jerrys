@@ -383,3 +383,10 @@ exports.getGuarantee = (req, res, next) => {
         path: '/guarantee'
     });
 }
+
+exports.getAttributions=(req,res,next)=>{
+    res.render('site/attribution',{
+        title:'Attribution',
+        path:'/attribution'
+    });
+}

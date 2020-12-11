@@ -1,6 +1,7 @@
 // From node
 const fs = require('fs');
 const path = require('path');
+const express = require("express");
 
 // models
 const Faq = require("../models/Faq");
@@ -112,7 +113,7 @@ exports.getAdminFaq = (req, res, next) => {
 };
 
 exports.postAdminFaq = (req, res, next) => {
-  const question = req.body.faqQuestion; 
+  const question = req.body.faqQuestion;
   const answer = req.body.faqAnswer;
   const faqCategory = req.body.faqCategory;
   const faq = new Faq({
@@ -133,7 +134,9 @@ exports.postAdminFaq = (req, res, next) => {
 
 exports.postDeletefaq = async (req, res, next) => {
   let faq = req.body.faqId;
-  await Faq.findOneAndDelete({ _id: faq })
+  await Faq.findOneAndDelete({
+    _id: faq
+  })
   res.redirect('/content-faq')
 };
 
@@ -150,10 +153,12 @@ exports.getAdminUsers = async (req, res, next) => {
   });
 };
 
-exports.getAdminSample = (req, res, next) => {
+exports.getAdminSample = async (req, res, next) => {
   Sample.find()
     .then((sampleList) => {
+      //console.log(sampleList);
       res.render("admin/content-sample", {
+
         samples: sampleList,
         title: "sample",
         path: "/content-sample",
@@ -190,11 +195,18 @@ exports.postAdminSample = (req, res, next) => {
 }
 
 exports.postDeleteSample = async (req, res, next) => {
-  let sample = req.body.sampleID;
-  await Sample.findOneAndDelete({
-    _id: sample
-  })
-  res.redirect('/content-sample')
+  try {
+    let sample = req.body.sampleID;
+    let file = req.body.fileLink;
+    let pathOfSample = path.join(__dirname, '..', "paperDetails", file);
+    fs.unlink(pathOfSample, err => console.log(err));
+    await Sample.findOneAndDelete({
+      _id: sample
+    })
+    res.redirect('/content-sample')
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 exports.postDeleteUser = (req, res, next) => {
@@ -485,20 +497,17 @@ exports.postCreatePaper = (req, res) => {
             const pdfDoc = printer.createPdfKitDocument(documentDefination);
             pdfDoc.pipe(fs.createWriteStream('document.pdf'));
             pdfDoc.end();
-            let attachments = [
-              {
-                filename: 'document.pdf',
-                path: path.join(__dirname, '..', 'document.pdf')
-              }
-            ]
+            let attachments = [{
+              filename: 'document.pdf',
+              path: path.join(__dirname, '..', 'document.pdf')
+            }]
             for (let i = 0; i < files.length; i++) {
               const file = files[i];
-              attachments.push(
-                {
-                  filename: `${file.filename}`,
-                  path: `${file.path}`
-                })
-            } 
+              attachments.push({
+                filename: `${file.filename}`,
+                path: `${file.path}`
+              })
+            }
             transporter
               .sendMail({
                 to: "jerrymuthomi@gmail.com",

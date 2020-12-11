@@ -1,9 +1,4 @@
-@font-face {
-    font-family: AirbnbCerealBold;
-    font-style: normal;
-    font-weight: normal;
-    src: url('../fonts/AirbnbCerealBold.ttf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
 * {
     user-select: none;
@@ -18,7 +13,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: AirbnbCerealBold;
+    font-family: 'Poppins', sans-serif;
 }
 
 .form-container {

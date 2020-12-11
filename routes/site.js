@@ -41,4 +41,6 @@ router.get('/policy', siteControllers.getPolicy);
 
 router.get('/guarantee', siteControllers.getGuarantee);
 
+router.get('/attribution',siteControllers.getAttributions)
+
 module.exports = router;
