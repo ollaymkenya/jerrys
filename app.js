@@ -19,7 +19,6 @@ const {
 } = require("./utils/messages");
 
 
-// const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
 const http = require("http").Server(app);
