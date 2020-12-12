@@ -30,6 +30,10 @@ const userSchema = new Schema(
       type: String,
       default: null,
     },
+    userTimeDifference: {
+      type: Number,
+      default: null
+    }
   },
   { timestamps: true }
 );

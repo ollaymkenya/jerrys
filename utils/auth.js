@@ -47,7 +47,7 @@ function signUser(username, email, password, accountType, redirectPage, req, res
             .then((uzer) => {
                 // create chatroom
                 User
-                    .findOne({ accountType: '5f971a68421e6d53753718c5' })
+                    .findOne({ accountType: '5f971a68421e6d53753718c5'})
                     .then((user) => {
                         const chatroom = new Chatroom({
                             userId: user.id,

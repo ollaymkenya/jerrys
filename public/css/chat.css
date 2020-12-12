@@ -163,13 +163,17 @@
     -webkit-user-select: none;
 }
 
-.message-item span{
+.message-item span {
     font-size: .7rem;
     color: #9c9c9c;
     justify-content: baseline;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+}
+
+.message-home p {
+    align-self: flex-end;
 }
 
 .message-home span {
@@ -182,11 +186,12 @@
 
 .message-away {
     align-self: flex-start;
+    word-break: break-all;
 }
 
 .message-home {
     align-self: flex-end;
-    background-color: #e6e6e6;
+    background-color: #efefef;
     word-break: break-all;
 }
 
@@ -197,19 +202,37 @@
 }
 
 .input-message {
+    font-family: Roboto;
     border: .7px solid #9c9c9c;
     border-radius: 25px;
     min-height: fit-content;
     height: max-content;
     padding: 0.2rem;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+    flex-direction: column;
     background-color: #ffffff;
     position: absolute;
     bottom: .4rem;
     left: 2.5rem;
     right: 2.5rem;
+    transition: all .2s ease-in;
+}
+
+.has-attachment {
+    border-radius: 10px 10px 25px 25px;
+}
+
+.message-item.has-attachment {
+    padding: .5rem .2rem;
+    border-radius: 5px 5px 15px 15px;
+}
+
+.input-message__container {
+    min-height: fit-content;
+    height: max-content;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
 }
 
 .emoji-btn {
@@ -246,11 +269,18 @@
     left: -1px;
     font-size: 1rem;
     outline: none;
-    font-family: Roboto;
     padding: .4rem;
 }
 
 .editableDiv[contentEditable="true"]:empty:before {
     content: attr(placeholder);
+    color: #9c9c9c;
+}
+
+.online-status.online {
+    color: green;
+}
+
+.online-status.offline {
     color: #9c9c9c;
 }

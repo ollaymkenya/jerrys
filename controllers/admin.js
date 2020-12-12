@@ -286,7 +286,7 @@ exports.getCheckout = async (req, res, next) => {
   // stripe
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: totalPrice * 100,
+    amount: ~~(totalPrice * 100),
     currency: "usd",
     receipt_email: req.user.email,
     metadata: {

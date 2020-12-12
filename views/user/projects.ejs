@@ -62,9 +62,20 @@
                             <li class="toggleSubmit" data-project-id="<%= project._id%>">Submit work</li>
                             <% } %>
                             <% if (completed) { %>
-                            <li class="toggleEdit" data-project-id="<%= project._id%>" data-work-link="<%=project.assignmentWork%>">Edit work</li>
+                            <li class="toggleEdit" data-project-id="<%= project._id%>"
+                                data-work-link="<%=project.assignmentWork%>">Edit work</li>
                             <li><a href="<%=project.assignmentWork%>" target="_blank">See work</a></li>
                             <% } %>
+                            <form action="/project-attachment" method="post">
+                                <input type="hidden" name="link" value="<%= project._id %>">
+                                <input type="hidden" name="topic" value="<%= project.topic %>">
+                                <input type="hidden" name="type" value="Project">
+                                <input type="hidden" name="projectOwnerId" value="<%= project && project.ownerId ? project.ownerId.id : null %>">
+                                <input type="hidden" name="loggedUserId" value="<%= user.id %>">
+                                <input type="hidden" name="username" value="<%= username %>">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <li><button type="submit">Chat about</button></li>
+                            </form>
                         </ul>
                     </span>
                 </li>

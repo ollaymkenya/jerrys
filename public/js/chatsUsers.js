@@ -1,83 +1,238 @@
 let form = document.querySelector('.input-message');
 let message = document.querySelector("#message");
 let fakeMessage = document.querySelector('.editableDiv');
-const messageList = document.querySelector('.messages-list');
+let messageList = document.querySelector('.messages-list');
 let userId = document.querySelector('input[name="user"]');
 let otherUserId = document.querySelector('input[name="otherUser"]');
 let username = document.querySelector('input[name="username"]');
 let otherUserName = document.querySelector('input[name="otherUserName"]');
 let chatRoomId = document.querySelector('input[name="chatRoomId"]');
 let emojiBtn = document.querySelector('.emoji-btn');
+let messageItems = document.querySelectorAll(".message");
+let attachment;
 
-let socket = io();
-dayjs.extend(window.dayjs_plugin_localizedFormat)
-
-socket.emit('joinRoom', {
-    chatRoom: chatRoomId.value,
-    user: userId.value
-}, function(error = null, onlineStatus) {
-    console.log(error);
-    console.log(onlineStatus);
+// *****************************************************************************************************************************************************************************************************************//
+// chatting
+dayjs.extend(window.dayjs_plugin_localizedFormat);
+// scroll chats
+document.querySelectorAll('.time-chat').forEach(timeChat => {
+    timeChat.innerText = dayjs(timeChat.innerText).format('ddd DD, MMM');
 })
-
 messageList.scrollTop = messageList.scrollHeight;
 
+
+// *****************************************************************************************************************************************************************************************************************//
+// SOCKET.IO
+// emitting to the server that the user is online
+const socket = io();
+// if this is the beginning fo the conversation ask the bot to send a message indicating that
+
+socket.emit('announceOnline', { userId: userId.value, userTime: Date.now() });
+
+socket.on('addOnline', (onlines) => {
+    // getting all values that hold the online/offline value
+    let onlineStatus = document.querySelectorAll('.online-status');
+    onlineStatus.forEach(onlineStat => {
+        // if the curreny online/offline value has the same id as the id passed it should be online
+        if (onlines.chatspace.findIndex(online => JSON.stringify(online.member) === JSON.stringify(onlineStat.dataset.id)) > -1) {
+            onlineStat.classList.remove('offline');
+            onlineStat.classList.add('online');
+            onlineStat.innerHTML = 'online';
+        } else {
+            onlineStat.classList.remove('online');
+            onlineStat.classList.add('offline');
+            onlineStat.innerHTML = 'offline';
+        }
+    })
+})
+
+// joining a user to a chatroom and sending message from bot to say it's a new message
+socket.emit('joinRoom', {
+    chatRoom: chatRoomId.value,
+    user: userId.value,
+    otherUserName: otherUserName.value
+})
+
+// upon receiving a message
+socket.on("message", (messageInfo) => {
+    let isCurrent = JSON.stringify(messageInfo.fromId) === JSON.stringify(userId.value) ? true : false;
+    let isOther = JSON.stringify(messageInfo.fromId) === JSON.stringify(otherUserId.value) ? true : false;
+    let isChatBot = JSON.stringify(messageInfo.fromId) === JSON.stringify('5fd38c93e2ea8eafb0f382ea') && JSON.stringify(messageInfo.toId) === JSON.stringify(userId.value);
+    let div;
+    if (messageInfo.attachment) {
+        div = document.createElement('div');
+        div.className = 'attachment';
+        div.setAttribute('contenteditable', 'false');
+        let div1 = document.createElement('div');
+        div1.className = 'attachment-container';
+        let small = document.createElement('small');
+        small.className = 'attachment-name';
+        small.innerText = `${messageInfo.attachment.username === username.value ? 'You' : messageInfo.attachment.username}`;
+        let small1 = document.createElement('small');
+        small1.className = 'attachment-title';
+        small1.innerHTML = `<ion-icon name="reader"></ion-icon> ${messageInfo.attachment.title}`;
+        div.appendChild(div1);
+        div1.appendChild(small);
+        div1.appendChild(small1);
+    }
+    if (isChatBot) {
+        let p = document.createElement('p');
+        p.className = 'center bot-chat message';
+        p.innerHTML = messageInfo.message;
+        messageList.appendChild(p);
+    } else if (isCurrent) {
+        let li = document.createElement('li');
+        let p = document.createElement('p');
+        let span = document.createElement('span');
+        p.innerText = messageInfo.message;
+        span.innerText = dayjs(new Date(messageInfo.sentTime)).format('LT');
+        if (messageInfo.attachment) {
+            li.className = 'message-item message-home message has-attachment'
+            li.appendChild(div);
+        } else {
+            li.className = 'message-item message-home message'
+        }
+        li.appendChild(p);
+        li.appendChild(span);
+        messageList.appendChild(li);
+    } else if (isOther) {
+        let li = document.createElement('li');
+        let p = document.createElement('p');
+        let span = document.createElement('span');
+        p.innerText = messageInfo.message;
+        span.innerText = dayjs(new Date(messageInfo.receivedTime)).format('LT');
+        if (messageInfo.attachment) {
+            li.className = 'message-item message-away message has-attachment'
+            li.appendChild(div);
+        } else {
+            li.className = 'message-item message-away message'
+        }
+        li.appendChild(p);
+        li.appendChild(span);
+        messageList.appendChild(li);
+    }
+    messageList.scrollTop = messageList.scrollHeight;
+    attachment = null;
+})
+
+// sending message from form to server
 form.addEventListener('submit', (e) => {
     e.preventDefault();
+    if (message.value.trim() !== '') {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    if (document.querySelector('.new-attachment')) {
+        attachment = {
+            type: document.querySelector('.attachment').dataset.type,
+            title: document.querySelector('.attachment-title').innerText,
+            username: document.querySelector('.attachment-name').innerText === 'You' ? username.value : document.querySelector('.attachment-name').innerText,
+            attchmentLink: document.querySelector('.attachment').dataset.attachmentLink
+        }
+    }
+
     let msg = {
-        to: otherUserId.value,
-        from: userId.value,
-        message: message.value,
+        toId: otherUserId.value,
+        fromId: userId.value,
+        message: message.value.trim(),
         chatRoom: chatRoomId.value,
         messageType: "5fc7fdc98142f5b0883eba55",
-        sentTime: new Date()
+        sentTime: new Date(),
+        attachment: attachment
     }
     socket.emit('new message', msg);
+    if (document.querySelector('.close-attachment')) {
+        disableAttachment();
+    }
     message.value = '';
     fakeMessage.innerText = '';
     return false;
+}
+
+socket.on('announceOffline', (user) => {
+    // getting all values that hold the online/offline value
+    let onlineStatus = document.querySelectorAll('.online-status');
+    onlineStatus.forEach(onlineStat => {
+        // if the current online/offline value has the same id as the id passed it should be offline
+        if (user.member === onlineStat.dataset.id) {
+            onlineStat.classList.remove('online');
+            onlineStat.classList.add('offline');
+            onlineStat.innerHTML = 'offline';
+        }
+    })
+})
+
+// send message on pressing enter key
+fakeMessage.addEventListener('keypress', (e) => {
+    if (e.code === 'Enter' && message.value.trim() !== '') {
+        e.preventDefault();
+        sendMessage();
+    } else if (e.code === 'Enter' && message.value.trim() === '') {
+        e.preventDefault();
+    }
 });
 
-// adding a message to DOM
-socket.on("message back", (msg) => {
-    let isCurrent = isCurrentUser(msg.from);
-    let li = document.createElement('li');
-    let p = document.createElement('p');
-    let span = document.createElement('span');
-    p.innerText = msg.message;
-    if (isCurrent) {
-        li.className = 'message-item message-home';
-        span.innerText = dayjs(new Date(msg.sentTime)).format('LT');
-    } else {
-        li.className = 'message-item message-away';
-        span.innerText = dayjs(new Date(msg.receivedTime)).format('LT');
+// sending an event to notify the current user when the other user is typing
+fakeMessage.addEventListener('keydown', (e) => {
+    socket.emit('typing', userId.value, chatRoomId.value);
+})
+
+// sending an event to notify the current user that the other user is no longer typing
+fakeMessage.addEventListener('keyup', (e) => {
+    socket.emit('stop typing', userId.value, chatRoomId.value);
+})
+
+// event listener to start the typing
+socket.on('typing', (userId) => {
+    if (!document.querySelector('.typing')) {
+        if (JSON.stringify(userId) === JSON.stringify(otherUserId.value)) {
+            isTyping();
+        }
     }
-    li.appendChild(p);
-    li.appendChild(span);
+})
+
+// event listener to stop the typing
+let timeout;
+socket.on('stop typing', (userId) => {
+    if (document.querySelector('.typing')) {
+        if (userId === otherUserId.value) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => stopTyping(), 500);
+        }
+    }
+})
+
+// function to create is typing div
+function isTyping() {
+    let li = document.createElement('li');
+    li.className = 'typing';
+    for (let i = 1; i < 4; i++) {
+        let span = document.createElement('span');
+        span.className = `typing${i}`;
+        li.appendChild(span);
+    }
     messageList.appendChild(li);
     messageList.scrollTop = messageList.scrollHeight;
-    console.log(msg);
-})
+}
 
-//get users who are online
-socket.on("getOnline", (status) => {
-    let span = document.createElement('span');
-    span.className = `online-status ${status}`;
-    span.innerHTML = status;
-    document.querySelector('.user-messages__text').appendChild(span);
-})
+// function to remove a typing div from the DOM
+function stopTyping() {
+    let typing = document.querySelector('.typing');
+    typing.remove();
+}
 
-// making a user online
-socket.on("online status", (status) => {
-    let span = document.createElement('span');
-    span.className = `online-status ${status}`;
-    span.innerHTML = status;
-    document.querySelector('.user-messages__text').appendChild(span);
-})
+//Closing a project
+if (document.querySelector('.close-attachment')) {
+    document.querySelector('.close-attachment').addEventListener('click', () => {
+        disableAttachment();
+    })
+}
 
-function isCurrentUser(fromId) {
-    console.log(fromId, userId);
-    return JSON.stringify(fromId) === JSON.stringify(userId.value);
+function disableAttachment() {
+    form.classList.remove("has-attachment");
+    document.querySelector(".new-attachment").remove();
 }
 
 // ****************************************************************************************************************************************************************************************************************//
@@ -116,7 +271,7 @@ emojiSearch.addEventListener('input', (e) => {
     fetch(`https://emoji-api.com/emojis?search=${e.target.value}&access_key=5e91924e9b59cf60571da4bb776bb17529053df5`)
         .then(response => response.json())
         .then(emojis => {
-            if(!emojis) {
+            if (!emojis) {
                 return noEmojis();
             }
             displayEmojis(emojis);
@@ -124,13 +279,13 @@ emojiSearch.addEventListener('input', (e) => {
 })
 
 // onInput in the div.editableDiv
-document.getElementById('editableDiv').addEventListener('input', () => {
+fakeMessage.addEventListener('input', () => {
     trueMessage();
 });
 
 // Function to put the message in the input hidden
 function trueMessage() {
-    document.getElementById('message').value = document.getElementById('editableDiv').innerText;
+    document.getElementById('message').value = fakeMessage.innerText;
 }
 
 // upon clicking a btn display the necessary emojis
@@ -150,7 +305,7 @@ for (let i = 0; i < categoryButtons.length; i++) {
                 for (let i = 0; i < document.querySelectorAll('.emoji').length; i++) {
                     let emoji = document.querySelectorAll('.emoji')[i];
                     emoji.addEventListener('click', (e) => {
-                        document.getElementById('editableDiv').innerText += e.target.innerText;
+                        fakeMessage.innerText += e.target.innerText;
                         trueMessage();
                     })
                 }
@@ -206,7 +361,6 @@ function noEmojis() {
 
 function makeActive(category) {
     active = category;
-    console.log(`.${category}`);
     for (let i = 0; i < categoryButtons.length; i++) {
         categoryButtons[i].style.color = '#9c9c9c';
     }

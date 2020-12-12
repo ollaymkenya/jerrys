@@ -1,71 +1,61 @@
 const Message = require('../models/Messages');
 const ChatRoom = require('../models/Chatroom');
 const Online = require("../models/Online");
+const User = require("../models/User");
 
 // save message
-exports.saveMessage = (message) => {
+exports.saveMessage = async (message) => {
+    let receivedTime = await getReceivedTime(message.toId);
     let msg = new Message({
-        toId: message.to,
-        fromId: message.from,
+        toId: message.toId,
+        fromId: message.fromId,
         message: message.message,
         chatRoom: message.chatRoom,
         messageType: message.messageType,
         sentTime: message.sentTime,
-        receivedTime: message.receivedTime
+        receivedTime: receivedTime,
+        attachment: message.attachment
     })
-    msg.save();
+    return await msg.save();
 }
 
-exports.timeDifference = (dt1, dt2) => {
-    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
-    diff /= 60;
-    return Math.abs(Math.round(diff));
+async function getReceivedTime (receiverUserId) {
+    console.log('receiving user: ', receiverUserId);
+    let user = await User.findById(receiverUserId);
+    let timeDifference = user.userTimeDifference;
+    let currentDate = new Date().getTime();
+    return new Date(currentDate - timeDifference);
 }
 
-exports.getReceivedTime = async (message) => {
-    let toId = message.to;
-    let chatRoom = await ChatRoom.findById(message.chatRoom);
-    let recever = JSON.stringify(toId) === JSON.stringify(chatRoom.userId) ? 'userId' : JSON.stringify(toId) === JSON.stringify(chatRoom.user2Id) ? 'user2Id' : 'null';
-    let receivertd;
-    switch (recever) {
-        case 'userId':
-            receivertd = chatRoom.userTimeDifference;
-            break;
-        case 'user2Id':
-            receivertd = chatRoom.user2TimeDifference;
-            break;
-        default:
-            receivertd = 'error'
-            break;
-    }
-    if (receivertd === 'error') {
-        throw (new Error('no such time difference'));
-    }
-    let currentDate = new Date();
-    return new Date(currentDate - receivertd || 0);
-}
-
-exports.addtoChatRoom = async (chatRoom, id) => {
-    let chatroom = await chatRoom.findById(chatRoom);
-    if (!chatroom.online.contains(id)) {
-        chatroom.online.push(id);
-        chatroom.save();
-    }
-    return chatroom.length;
-}
-
-exports.addToChatSpace = async (id) => {
-    console.log(id);
-    let memberIsPresent = await Online.findOne({member: id.trim()});
+// adding a user to online database from app.js
+exports.addToChatSpace = async (id, socketId) => {
+    let memberIsPresent = await Online.findOne({ member: id.trim() });
     if (!memberIsPresent) {
         let member = new Online({
-            member: id.trim()
+            member: id.trim(),
+            socketId: socketId
         })
-        return await member.save();
+        await member.save();
+    } else {
+        memberIsPresent.socketId = socketId;
+        await memberIsPresent.save();
     }
-    return false;
+    let members = await Online.find();
+    return members;
 }
 
+// removing a user from online
+exports.RemoveFromChatSpace = async (socId) => {
+    let offlineMember = await Online.findOne({ socketId: socId });
+    console.log('offline member: ' + offlineMember);
+    await Online.findOneAndDelete({socketId: socId});
+    if (offlineMember) {
+        console.log(offlineMember);
+        return offlineMember;
+    }
+}
+
+//get unread messages
 exports.getUnredMessages = async (id) => {
     let unreadMessages = await Message.find({ toId: id.trim(), receipt: 'unread' }) || false;
     for (let i = 0; i < unreadMessages.length; i++) {
@@ -73,4 +63,15 @@ exports.getUnredMessages = async (id) => {
         await unreadMessages[i].save()
     }
     return unreadMessages;
+}
+
+// get time difference
+exports.upDateTimeDifference = async (serverTime, clientTime, userId) => {
+    var diff = (clientTime.getTime() - serverTime.getTime()) / 1000;
+    diff /= 60;
+    console.log(diff);
+    let timeDifferece = Math.abs(Math.round(diff));
+    let user = await User.findById(userId);
+    user.userTimeDifference = timeDifferece;
+    return user.save();
 }

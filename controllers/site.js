@@ -26,8 +26,6 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.getIndex = async (req, res, next) => {
-    let users = await Users.find()
-    console.log(users);
     res.render('site/index', {
         title: 'JTT',
         path: '/'

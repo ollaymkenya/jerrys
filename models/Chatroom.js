@@ -13,18 +13,6 @@ const chatroomSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
-    },
-    online: {
-      type: Array,
-      default : []
-    },
-    userTimeDifference: {
-      type: Number,
-      default: null
-    },
-    user2TimeDifference: {
-      type: Number,
-      default: null
     }
   },
   { timestamps: true }

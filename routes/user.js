@@ -25,4 +25,6 @@ router.post('/publish-testimonial', Auth.isAuth, userControllers.postPublishTest
 
 router.post('/delete-testimonial', Auth.isAuth, userControllers.postDeleteTestimonial);
 
+router.post('/project-attachment', Auth.isAuth, userControllers.postProjectAttachment);
+
 module.exports = router;

@@ -7,6 +7,10 @@ const onlineSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    socketId: {
+        type: String,
+        required: true
     }
 });
 

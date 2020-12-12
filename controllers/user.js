@@ -3,6 +3,7 @@ const Messages = require("../models/Messages");
 const Testimonial = require("../models/Testimonial");
 const Chatroom = require("../models/Chatroom");
 const User = require("../models/User");
+const Online = require("../models/Online");
 
 const dayjs = require('dayjs');
 const LocalizedFormat = require("../node_modules/dayjs/plugin/localizedFormat");
@@ -11,7 +12,7 @@ dayjs.extend(LocalizedFormat);
 exports.getDashboard = (req, res, next) => {
     const user = req.user;
     let projects;
-    let messages;
+    console.log(user);
     Project
         .find({
             ownerId: user.id
@@ -67,21 +68,24 @@ exports.getDashboardChat = (req, res, next) => {
 };
 
 exports.getDashboardChatRoom = async (req, res, next) => {
+    let attachment = req.session.ProjectAttachment || null;
+    req.session.ProjectAttachment = null;
+    let online = await Online.find();
     const user = req.user;
     let chatRoomId = req.params.chatRoom;
     let contacts = [];
     let contactsid;
     const userRoomId = req.params.chatRoom;
     const userRoom = await Chatroom.findById(userRoomId);
-    let messages = await Messages.find({chatRoom: chatRoomId});
+    let messages = await Messages.find({ chatRoom: chatRoomId });
     messages = await Promise.all(messages.map(async (message) => {
         message = await message.toObject();
+        message.sentTimeDate = message.sentTime;
+        message.receivedTimeDate = message.receivedTime;
         message.sentTime = dayjs(message.sentTime).format('LT');
         message.receivedTime = dayjs(message.receivedTime).format('LT');
         return message;
     }))
-
-    console.log(messages);
     let otherUser;
     Chatroom
         .find()
@@ -100,6 +104,7 @@ exports.getDashboardChatRoom = async (req, res, next) => {
             } else {
                 otherUser = await User.findById(userRoom.userId);
             }
+
             res.render("user/chatuser", {
                 title: "Chat",
                 path: "/dash/chatRoom",
@@ -110,7 +115,9 @@ exports.getDashboardChatRoom = async (req, res, next) => {
                 otherUser,
                 userRoomId,
                 chatRoomId,
-                messages
+                messages,
+                online,
+                attachment
             });
         })
 };
@@ -204,3 +211,24 @@ exports.postDeleteTestimonial = (req, res, next) => {
             res.redirect('/content-testimonials')
         })
 };
+
+exports.postProjectAttachment = async (req, res, next) => {
+    try {
+        req.session.ProjectAttachment = req.body;
+        let user = await User.findById(req.body.loggedUserId).populate('accountType');
+        let chatroom;
+        if (user.accountType.name === "Editor" || user.accountType.name === "Client") {
+            chatroom = await Chatroom.findOne({ $or: [{ userId: user.id }, { user2Id: user.id }] })
+        } else {
+            chatroom = await Chatroom.findOne({
+                $and: [
+                    { $or: [{ userId: user.id }, { user2Id: user.id }] },
+                    { $or: [{ userId: req.body.loggedUserId }, { user2Id: req.body.loggedUserId }] }
+                ]
+            })
+        }
+        res.redirect(`/chat/${chatroom.id}`);
+    } catch (error) {
+        console.log(error);
+    }
+}

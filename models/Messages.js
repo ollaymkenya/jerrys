@@ -38,7 +38,11 @@ const messagesSchema = new Schema(
     },
     receipt: {
       type: String,
-      default: 'unread'
+      default: 'sent'
+    },
+    attachment: {
+      type: Object,
+      default: null
     }
   }
 );

@@ -123,7 +123,7 @@ exports.postSignUp = (req, res, next) => {
                     })
                     .then((uzer) => {
                         User
-                            .findOne({ accountType: '5f971a68421e6d53753718c5' })
+                            .findOne({ accountType: '5f971a68421e6d53753718c5'})
                             .then((user) => {
                                 const chatroom = new Chatroom({
                                     userId: user.id,
@@ -131,6 +131,7 @@ exports.postSignUp = (req, res, next) => {
                                 })
                                 console.log(chatroom);
                                 chatroom.save();
+                                return;
                             })
                             .catch((err) => {
                                 console.log(err);

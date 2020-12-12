@@ -50,6 +50,8 @@ const errorRoutes = require("./routes/error");
 const messages = require("./messages/messages");
 const User = require("./models/User");
 const { table } = require("console");
+const Chatroom = require("./models/Chatroom");
+const Messages = require("./models/Messages");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(multer({ storage: storage, fileFilter: fileFilter }).array('selectfile', 12));
@@ -118,7 +120,6 @@ app.use((req, res, next) => {
 
 app.use((req, res, next) => {
   if (csrfExclusion.indexOf(req.path) !== -1) {
-    console.log();
     next();
   } else {
     res.locals.isAuthenticated = req.session.isLoggedIn;
@@ -152,45 +153,69 @@ app.post("/create-payment-intent", async (req, res) => {
 app.use(errorRoutes);
 
 io.on('connection', (socket) => {
-  // adding a user to the chat space
-  socket.on('joinChatSpace', async (id, callb) => {
-    let promise = await new Promise(async (resolve, reject) => {
-      resolve({
-        peopleOnline: await messages.addToChatSpace(id),
-        unreadMessages: await messages.getUnredMessages(id)
+  console.log('new user into room');
+  socket.on('announceOnline', async (userDetails) => {
+    //adding user to online model in database
+    let chatspace = await messages.addToChatSpace(userDetails.userId, socket.id);
+    // updating a user's location
+    let newDate = new Date();
+    // update the time difference of the user online with the server
+    await messages.upDateTimeDifference(newDate, new Date(userDetails.userTime), userDetails.userId);
+    // emitting to everyone that a user has joined
+    socket.broadcast.emit('addOnline', { chatspace });
+  })
+
+  socket.on('joinRoom', async (chatRoomInfo) => {
+    console.log(chatRoomInfo);
+    // join the user to the chatroom
+    socket.join(chatRoomInfo.chatRoom);
+    let oldChat = await Messages.findOne({chatRoom: chatRoomInfo.chatRoom});
+    // if it's a new chatroom send them a message from bot
+    if (!oldChat) {
+      let chatBotMessage = `This is the begining of your conversation with ${chatRoomInfo.otherUserName}. Chats are currently not end to end encrypted.`;
+      //creating the message
+      let message = {
+        toId: chatRoomInfo.user,
+        fromId: '5fd38c93e2ea8eafb0f382ea',
+        message: chatBotMessage,
+        chatRoom: chatRoomInfo.chatRoom,
+        messageType: '5fd1ba13e2ea8eafb0f382e8',
+        sentTime: new Date(),
+      }
+      // save message to the database
+      let savedMessage = await new Promise((resolve, reject) => {
+        resolve(messages.saveMessage(message));
       })
+      // send message to the client side
+      io.to(chatRoomInfo.chatRoom).emit("message", savedMessage);
+    }
+  })
+
+  // typing functionality
+  socket.on('typing', (userId, chatRoom) => {
+    socket.to(chatRoom).emit('typing', userId);
+  })
+
+  socket.on('stop typing', (userId, chatRoom) => {
+    socket.to(chatRoom).emit('stop typing', userId);
+  })
+
+  socket.on('new message', async (message) => {
+    let savedMessage = await new Promise((resolve, reject) => {
+      resolve(messages.saveMessage(message));
     })
-    callb(promise);
+    io.to(message.chatRoom).emit("message", savedMessage);
   })
 
-  //make online functionality and messages can be received
-  console.log('a user joined the chat space');
-
-  socket.on('new message', async (messg) => {
-    let receivedTime = await messages.getReceivedTime(messg);
-    let msg = { ...messg, receivedTime };
-    messages.saveMessage(msg);
-    io.to(messg.chatRoom).emit('message back', msg);
-  });
-
-  socket.on('joinRoom', async (chatRoomInfo, callb) => {
-    // messages can be read by the person who has entered
-    console.log(`${chatRoomInfo.user} joined the ${chatRoomInfo.chatRoom} room`);
-    socket.join(chatRoomInfo.chatRoom)
-    // socket.on('disconnect', (socket) => {
-    //   //messages cannot be read by the person who leaves
-    //   console.log(`${socket} disconnected from ${socket.rooms}`);
-    // });
-    // let chatroomLength = await new Promise((resolve, reject) => {
-    //   resolve(messages.addtoChatRoom(chatRoomInfo.chatRoom, chatRoomInfo.user))
-    // })
-    // callb(chatroomLength);
+  socket.on('disconnect', async () => {
+    console.log(socket.id);
+    // remove the person from online model database
+    let promise = await new Promise((resolve, reject) => {
+      resolve(messages.RemoveFromChatSpace(socket.id));
+    })
+    // emit to everyone that a user has left
+    io.emit('announceOffline', promise)
   })
-
-  socket.on('disconnect', () => {
-    //the person is offline and messages cannot be received
-    console.log('a user left the chat space');
-  });
 });
 
 mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -200,3 +225,11 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
   .catch((err) => {
     console.log(err);
   });
+
+  // ****************************************************************************************************************
+  // socket.on('new message', async (messg) => {
+  //   let receivedTime = await messages.getReceivedTime(messg);
+  //   let msg = { ...messg, receivedTime };
+  //   messages.saveMessage(msg);
+  //   io.to(messg.chatRoom).emit('message back', msg);
+  // });
