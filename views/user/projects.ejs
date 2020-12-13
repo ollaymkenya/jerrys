@@ -10,11 +10,11 @@
                 <li class="<%= path === '/projects' ? 'active' : '' %>">
                     <a href="/projects"><span>projects</span></a>
                 </li>
-                <% if (accountType === "Admin") { %> 
+                <% if (accountType === "Admin") { %>
                 <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
                     <a href="/projects-newParameter"><span>parameters</span></a>
                 </li>
-            <% } %> 
+                <% } %>
             </ul>
         </div>
         <div class="projects">
@@ -30,88 +30,118 @@
             </div>
             <ul class="projects-list">
                 <% if (accountType === "Client") { %>
-                    <% for(let i = 0; i < projects.length; i++) { %>
-                        <% var project = projects[i] %>
-                        <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
-                        <% var projectOwnerId = projects[i] && projects[i].ownerId ? projects[i].ownerId._id : null %>
-                        <% if(JSON.stringify(user._id) === JSON.stringify(projectOwnerId)) {%> 
-                            <li>
-                                <div class="projects-list__item">
-                                    <div class="projects-information">
-                                        <div class="projects-information__header">
-                                            <h4><%= project.topic %></h4>
-                                            <span><%= username %></span>
-                                        </div>
-                                        <div class="projects-information__body">
-                                            <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
-                                                <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
-                                            </span>
-                                            <span style ='<%= project.completed ? "color: green;": "color:red;"%>'><%= project.completed ? 'completed': 'incomplete'%></span>
-                                        </div>
-                                    </div>
-                                    <div class="projects-toggle">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                            <path fill="none" d="M0 0h24v24H0z" />
-                                            <path
-                                                d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                                        </svg>
-                                    </div>
-                                </div>
-                                <span class="tooltip projects-menu projects-menu" role="tooltip">
-                                    <ul class="projects-menu__list">
-                                        <% if (!completed) { %>
-                                        <li class="toggleSubmit" data-project-id="<%= project._id%>">Submit work</li>
-                                        <% } %>
-                                        <% if (completed) { %>
-                                        <li class="toggleEdit" data-project-id="<%= project._id%>"
-                                            data-work-link="<%=project.assignmentWork%>">Edit work</li>
-                                        <li><a href="<%=project.assignmentWork%>" target="_blank">See work</a></li>
-                                        <% } %>
-                                        <form action="/project-attachment" method="post">
-                                            <input type="hidden" name="link" value="<%= project._id %>">
-                                            <input type="hidden" name="topic" value="<%= project.topic %>">
-                                            <input type="hidden" name="type" value="Project">
-                                            <input type="hidden" name="projectOwnerId" value="<%= project && project.ownerId ? project.ownerId.id : null %>">
-                                            <input type="hidden" name="loggedUserId" value="<%= user.id %>">
-                                            <input type="hidden" name="username" value="<%= username %>">
-                                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                            <li><button type="submit">Chat about</button></li>
-                                        </form>
-                                    </ul>
-                                </span>
-                            </li>
-                        <% } %>
-                    <% } %>
-                <% } else if(accountType === "Admin" || accountType === "Editor") {%>
-                    <% for(let i = 0; i < projects.length; i++) { %>
-                        <% var project = projects[i] %>
-                        <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
-                        <% var email = projects[i] && projects[i].ownerId ? projects[i].ownerId.email : null %>
-                        <% var projectOwnerId = projects[i] && projects[i].ownerId ? projects[i].ownerId._id : null %>
-                        <li>
-                            <div class="projects-list__item">
-                                <div class="projects-information">
-                                    <div class="projects-information__header">
-                                        <h4><%= project.topic %></h4>
-                                        <span><%= accountType === "Admin" ? email : username %></span>
-                                    </div>
-                                    <div class="projects-information__body">
-                                        <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
-                                            <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
-                                        </span>
-                                        <span style ='<%= project.completed ? "color: green;": "color:red;"%>'><%= project.completed ? 'completed': 'incomplete'%></span>
-                                    </div>
-                                </div>
-                                <div class="projects-menu">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                                        <path fill="none" d="M0 0h24v24H0z" />
-                                        <path
-                                            d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
-                                    </svg>
-                                </div>
+                <% for(let i = 0; i < projects.length; i++) { %>
+                <% var project = projects[i] %>
+                <% var completed = project && project.completed ? project.completed.value : null %>
+                <% var completedDate = project && project.completed ? project.completed.date : null %>
+                <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
+                <% var projectOwnerId = projects[i] && projects[i].ownerId ? projects[i].ownerId._id : null %>
+                <% if(JSON.stringify(user._id) === JSON.stringify(projectOwnerId)) {%>
+                <li>
+                    <div class="projects-list__item">
+                        <div class="projects-information">
+                            <div class="projects-information__header">
+                                <h4><%= project.topic %></h4>
+                                <span><%= username %></span>
                             </div>
-                        </li>
-                    <% } %>
+                            <div class="projects-information__body">
+                                <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
+                                    <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
+                                </span>
+                                <span style='<%= completed ? "color: green;": "color:red;"%>'>
+                                    <%= completed ? 'completed': 'incomplete'%>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="projects-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <span class="tooltip projects-menu projects-menu" role="tooltip">
+                        <ul class="projects-menu__list">
+                            <% if (!completed) { %>
+                            <li class="toggleSubmit" data-project-id="<%= project._id%>">Submit work</li>
+                            <% } %>
+                            <% if (completed) { %>
+                            <li class="toggleEdit" data-project-id="<%= project._id%>"
+                                data-work-link="<%=project.assignmentWork%>">Edit work</li>
+                            <li><a href="<%=project.assignmentWork%>" target="_blank">See work</a></li>
+                            <% } %>
+                            <form action="/project-attachment" method="post">
+                                <input type="hidden" name="link" value="<%= project._id %>">
+                                <input type="hidden" name="topic" value="<%= project.topic %>">
+                                <input type="hidden" name="type" value="Project">
+                                <input type="hidden" name="projectOwnerId"
+                                    value="<%= project && project.ownerId ? project.ownerId.id : null %>">
+                                <input type="hidden" name="loggedUserId" value="<%= user.id %>">
+                                <input type="hidden" name="username" value="<%= username %>">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <li><button type="submit">Chat about</button></li>
+                            </form>
+                        </ul>
+                    </span>
+                </li>
+                <% } %>
+                <% } %>
+                <% } else if(accountType === "Admin" || accountType === "Editor") {%>
+                <% for(let i = 0; i < projects.length; i++) { %>
+                <% var project = projects[i] %>
+                <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
+                <% var email = projects[i] && projects[i].ownerId ? projects[i].ownerId.email : null %>
+                <% var projectOwnerId = projects[i] && projects[i].ownerId ? projects[i].ownerId._id : null %>
+                <li>
+                    <div class="projects-list__item">
+                        <div class="projects-information">
+                            <div class="projects-information__header">
+                                <h4><%= project.topic %></h4>
+                                <span><%= username %></span>
+                            </div>
+                            <div class="projects-information__body">
+                                <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
+                                    <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
+                                </span>
+                                <span style='<%= completed ? "color: green;": "color:red;"%>'>
+                                    <%= completed ? 'completed': 'incomplete'%>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="projects-toggle">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                                <path fill="none" d="M0 0h24v24H0z" />
+                                <path
+                                    d="M12 3c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 14c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <span class="tooltip projects-menu projects-menu" role="tooltip">
+                        <ul class="projects-menu__list">
+                            <% if (!completed) { %>
+                            <li class="toggleSubmit" data-project-id="<%= project._id%>">Submit work</li>
+                            <% } %>
+                            <% if (completed) { %>
+                            <li class="toggleEdit" data-project-id="<%= project._id%>"
+                                data-work-link="<%=project.assignmentWork%>">Edit work</li>
+                            <li><a href="<%=project.assignmentWork%>" target="_blank">See work</a></li>
+                            <% } %>
+                            <form action="/project-attachment" method="post">
+                                <input type="hidden" name="link" value="<%= project._id %>">
+                                <input type="hidden" name="topic" value="<%= project.topic %>">
+                                <input type="hidden" name="type" value="Project">
+                                <input type="hidden" name="projectOwnerId"
+                                    value="<%= project && project.ownerId ? project.ownerId.id : null %>">
+                                <input type="hidden" name="loggedUserId" value="<%= user.id %>">
+                                <input type="hidden" name="username" value="<%= username %>">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                <li><button type="submit">Chat about</button></li>
+                            </form>
+                        </ul>
+                    </span>
+                </li>
+                <% } %>
                 <% } %>
             </ul>
         </div>
@@ -155,7 +185,7 @@
     for (let i = 0; i < document.getElementsByClassName('projects-list__item').length; i++) {
         const projectsToggle = document.getElementsByClassName('projects-list__item')[i].lastElementChild;
         const projectsMenu = document.getElementsByClassName('projects-list__item')[i].parentElement.lastElementChild;
-
+        
         showEvents.forEach(event => {
             projectsToggle.addEventListener(event, () => {
                 projectsMenu.setAttribute('data-show', '');
