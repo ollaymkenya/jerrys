@@ -18,7 +18,8 @@ const {
   saveMsg
 } = require("./utils/messages");
 
-
+const MONGODB_URI="mongodb+srv://muriithi:V88ezWCkLrypqmR@cluster0.uhrmt.mongodb.net/jtw"
+// const MONGODB_URI = process.env.MONGODB_URI;
 
 const app = express();
 const http = require("http").Server(app);

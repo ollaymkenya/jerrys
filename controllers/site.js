@@ -164,7 +164,8 @@ exports.getPaper = (req, res, next) => {
                     confirmPassword: "",
                     checkedSwitcher: "",
                     resources: "",
-                    errorField: ""
+                    errorField: "",
+                    agree:""
                 },
                   validationErrors: []
 
@@ -174,13 +175,14 @@ exports.getPaper = (req, res, next) => {
 
 exports.postNewPaper = async (req, res, next) => {
     //console.log(req.files);
+    console.log(req.body);
     let resources = req.files;
     let user;
     const checkedSwitcher = req.body.checkedSwitcher;
     const errors = validationResult(req);
     const email = req.body.email === '@' ? '' : req.body.email;
     const password = req.body.password;
-    const username = req.body.username.trim();
+    const username = req.body.username;
     const typeOfPaper = req.body.typeOfPaper;
     const subject = req.body.subject;
     const topic = req.body.topic;
@@ -191,6 +193,7 @@ exports.postNewPaper = async (req, res, next) => {
     const discountCode = req.body.discountCode;
     const confirmPassword = req.body.confirmPassword;
     const service = req.body.service;
+    const agree = req.body.agree
 
     let parameters = await Parameter.find().populate('category');
     let mode;
@@ -220,6 +223,7 @@ exports.postNewPaper = async (req, res, next) => {
                     checkedSwitcher: 'on',
                     resources: resources,
                     service: service,
+                    agree:agree,
                     errorField: ""
                 },
                 validationErrors: errors.array(),
@@ -228,6 +232,7 @@ exports.postNewPaper = async (req, res, next) => {
             })
         }
         let result = await validateUser(mode, email, password)
+        resources = resources.length < 1 ? '' : 'Files already saved';
         if (!result.validated) {
             return res.status(422).render("site/paper", {
                 title: "Paper",
@@ -236,7 +241,20 @@ exports.postNewPaper = async (req, res, next) => {
                 validationErrors: [],
                 oldLoginInput: {
                     email: email,
-                    password: password
+                    password: password,
+                    subject: subject,
+                    topic: topic,
+                    orderInstructions: orderInstructions,
+                    nofSources: nofSources,
+                    noOfPages: noOfPages,
+                    urgency: urgency,
+                    discountCode: discountCode,
+                    typeOfPaper: typeOfPaper,
+                    checkedSwitcher: 'on',
+                    resources: resources,
+                    service: service,
+                    agree:agree,
+                    errorField: ""
                 },
                 parameters,
                 user
@@ -275,13 +293,17 @@ exports.postNewPaper = async (req, res, next) => {
                     checkedSwitcher: '',
                     resources: resources,
                     service: service,
-                    errorField: 'password'
+                    errorField: 'password',
+                    agree:agree
                 },
                 validationErrors: errors.array(),
                 parameters,
                 user
             })
         }
+        // If agreement is not checked
+        
+       
         // If any errors redirect back to paper page
         if (!errors.isEmpty()) {
             resources = resources.length < 1 ? '' : 'Files already saved';
@@ -306,6 +328,7 @@ exports.postNewPaper = async (req, res, next) => {
                     checkedSwitcher: '',
                     resources: resources,
                     service: service,
+                    agree:agree,
                     errorField: ""
                 },
                 validationErrors: errors.array(),
@@ -335,6 +358,7 @@ exports.postNewPaper = async (req, res, next) => {
                     checkedSwitcher: '',
                     resources: resources,
                     service: service,
+                    agree:agree,
                     errorField: "confirm password"
                 },
                 validationErrors: [],

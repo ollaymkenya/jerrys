@@ -161,6 +161,7 @@ exports.postLogin = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const errors = validationResult(req);
+    
     if (!errors.isEmpty()) {
         console.log(errors.array());
         return res.status(422).render("auth/login", {
@@ -186,7 +187,7 @@ exports.postLogin = (req, res, next) => {
                 return res.status(422).render("auth/login", {
                     title: "Sign Up/Login",
                     path: "/login",
-                    errorMessage: 'Invalid email or password',
+                    errorMessage:result.message,
                     validationErrors: [],
                     oldSignupInput: {
                         username: '',

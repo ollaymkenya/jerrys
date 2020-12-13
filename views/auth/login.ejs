@@ -17,9 +17,11 @@
                 <p>Please log in before continuing</p>
                 <div class="form-body">
                     <label for="email">Email</label>
-                    <input type="email" placeholder="Email" name="email" value= "<%= oldLoginInput.email %>" />
+                    <input class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
+                    type="email" placeholder="Email" name="email" value= "<%= oldLoginInput.email %>" />
                     <label for="password">Password</label>
-                    <input type="password" placeholder="Password" name="password" value= "<%= oldLoginInput.password %>"/>
+                    <input class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
+                    type="password" placeholder="Password" name="password" value= "<%= oldLoginInput.password %>"/>
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <button type="submit">Sign In</button>
                 </div>
