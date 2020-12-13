@@ -147,13 +147,11 @@
 
 .message-item {
     border: .5px solid #dbdbdb;
-    padding: .5rem;
+    padding: .2rem;
     width: fit-content;
     max-width: 70%;
-    border-radius: 25px;
+    border-radius: 7px;
     margin: .2rem 0;
-    display: flex;
-    flex-direction: column;
 }
 
 .message-item p {
@@ -163,24 +161,25 @@
     -webkit-user-select: none;
 }
 
-.message-item span {
+.message-home p {
+    align-self: flex-end;
+}
+
+small.read-receipt {
     font-size: .7rem;
     color: #9c9c9c;
     justify-content: baseline;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+    background-color: inherit;
 }
 
-.message-home p {
+.read-receipt.message-home {
     align-self: flex-end;
 }
 
-.message-home span {
-    align-self: flex-end;
-}
-
-.message-away span {
+.read-receipt.message-away {
     align-self: flex-start;
 }
 
@@ -219,12 +218,12 @@
 }
 
 .has-attachment {
-    border-radius: 10px 10px 25px 25px;
+    border-radius: 3px 3px 7px 7px;
 }
 
 .message-item.has-attachment {
-    padding: .5rem .2rem;
-    border-radius: 5px 5px 15px 15px;
+    padding: .2rem;
+    border-radius: 3px 3px 7px 7px;
 }
 
 .input-message__container {

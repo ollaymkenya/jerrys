@@ -14,7 +14,8 @@ exports.saveMessage = async (message) => {
         messageType: message.messageType,
         sentTime: message.sentTime,
         receivedTime: receivedTime,
-        attachment: message.attachment
+        attachment: message.attachment,
+        receipt: message.receipt
     })
     return await msg.save();
 }
@@ -47,7 +48,6 @@ exports.addToChatSpace = async (id, socketId) => {
 // removing a user from online
 exports.RemoveFromChatSpace = async (socId) => {
     let offlineMember = await Online.findOne({ socketId: socId });
-    console.log('offline member: ' + offlineMember);
     await Online.findOneAndDelete({socketId: socId});
     if (offlineMember) {
         console.log(offlineMember);
@@ -74,4 +74,13 @@ exports.upDateTimeDifference = async (serverTime, clientTime, userId) => {
     let user = await User.findById(userId);
     user.userTimeDifference = timeDifferece;
     return user.save();
+}
+
+exports.editMessage = async(messageIdArrays, mode) =>  {
+    for(let i = 0; i < messageIdArrays.length; i++) {
+        let message = messageIdArrays[i];
+        let toEditMessage = await Message.findById(message._id);
+        toEditMessage.receipt = mode;
+        toEditMessage.save();
+    }
 }

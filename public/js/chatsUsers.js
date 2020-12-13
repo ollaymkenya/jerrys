@@ -9,7 +9,15 @@ let otherUserName = document.querySelector('input[name="otherUserName"]');
 let chatRoomId = document.querySelector('input[name="chatRoomId"]');
 let emojiBtn = document.querySelector('.emoji-btn');
 let messageItems = document.querySelectorAll(".message");
+let readRecipts = document.querySelectorAll('.read-receipt');
+let chatMessageHeader = document.querySelector('.chat-messages__header');
+let otherIsOnline = chatMessageHeader.querySelector('.online-status');
 let attachment;
+const readReceipts = {
+    sent: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; margin-bottom: -2px;" name="checkmark-outline" role="img" class="md hydrated" aria-label="checkmark outline"></ion-icon>',
+    received: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; margin-bottom: -2px;" name="checkmark-done-outline" role="img" class="md hydrated" aria-label="checkmark done outline"></ion-icon>',
+    read: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; color: #0095F6; margin-bottom: -2px;" name="checkmark-done-outline" role="img" class="md hydrated" aria-label="checkmark done outline"></ion-icon>'
+}
 
 // *****************************************************************************************************************************************************************************************************************//
 // chatting
@@ -18,8 +26,15 @@ dayjs.extend(window.dayjs_plugin_localizedFormat);
 document.querySelectorAll('.time-chat').forEach(timeChat => {
     timeChat.innerText = dayjs(timeChat.innerText).format('ddd DD, MMM');
 })
-messageList.scrollTop = messageList.scrollHeight;
 
+// concerting read receipts to actual HTML
+if (readRecipts) {
+    readRecipts.forEach(readRecipt => {
+        readRecipt.innerHTML = readRecipt.innerText;
+    })
+}
+
+messageList.scrollTop = messageList.scrollHeight;
 
 // *****************************************************************************************************************************************************************************************************************//
 // SOCKET.IO
@@ -33,7 +48,7 @@ socket.on('addOnline', (onlines) => {
     // getting all values that hold the online/offline value
     let onlineStatus = document.querySelectorAll('.online-status');
     onlineStatus.forEach(onlineStat => {
-        // if the curreny online/offline value has the same id as the id passed it should be online
+        // if the current online/offline value has the same id as the id passed it should be online
         if (onlines.chatspace.findIndex(online => JSON.stringify(online.member) === JSON.stringify(onlineStat.dataset.id)) > -1) {
             onlineStat.classList.remove('offline');
             onlineStat.classList.add('online');
@@ -44,6 +59,28 @@ socket.on('addOnline', (onlines) => {
             onlineStat.innerHTML = 'offline';
         }
     })
+
+    // changing message to received in message receipt
+    if (onlines.chatspace.findIndex(online => JSON.stringify(online.member) === JSON.stringify(otherUserId.value)) > -1) {
+        readRecipts.forEach(readReceipt => {
+            if (readReceipt.classList.contains('message-home')) {
+                let span = readReceipt.getElementsByTagName('span')[0];
+                span.innerHTML = (span.innerHTML.trim() === readReceipts.sent.trim()) ? readReceipts.received : span.innerHTML;
+            }
+        })
+    }
+})
+
+// changing message to read in message receipt
+socket.on('read-receipt', (userId) => {
+    if (JSON.stringify(userId) === JSON.stringify(otherUserId.value)) {
+        readRecipts.forEach(readReceipt => {
+            if (readReceipt.classList.contains('message-home')) {
+                let span = readReceipt.getElementsByTagName('span')[0];
+                span.innerHTML = (span.innerHTML !== readReceipts.read) ? readReceipts.read : span.innerHTML;
+            }
+        })
+    }
 })
 
 // joining a user to a chatroom and sending message from bot to say it's a new message
@@ -52,6 +89,48 @@ socket.emit('joinRoom', {
     user: userId.value,
     otherUserName: otherUserName.value
 })
+
+// sending message from form to server
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (message.value.trim() !== '') {
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    if (document.querySelector('.new-attachment')) {
+        attachment = {
+            type: document.querySelector('.attachment').dataset.type,
+            title: document.querySelector('.attachment-title').innerText,
+            username: document.querySelector('.attachment-name').innerText === 'You' ? username.value : document.querySelector('.attachment-name').innerText,
+            attchmentLink: document.querySelector('.attachment').dataset.attachmentLink
+        }
+    }
+
+    let receipt = 'sent';
+    if (otherIsOnline.innerText.trim() === 'online') {
+        receipt = 'received';
+    }
+
+    let msg = {
+        toId: otherUserId.value,
+        fromId: userId.value,
+        message: message.value.trim(),
+        chatRoom: chatRoomId.value,
+        messageType: "5fc7fdc98142f5b0883eba55",
+        sentTime: new Date(),
+        attachment: attachment,
+        receipt: receipt
+    }
+    socket.emit('new message', msg);
+    if (document.querySelector('.close-attachment')) {
+        disableAttachment();
+    }
+    message.value = '';
+    fakeMessage.innerText = '';
+    return false;
+}
 
 // upon receiving a message
 socket.on("message", (messageInfo) => {
@@ -74,6 +153,7 @@ socket.on("message", (messageInfo) => {
         div.appendChild(div1);
         div1.appendChild(small);
         div1.appendChild(small1);
+        messageList.append(small);
     }
     if (isChatBot) {
         let p = document.createElement('p');
@@ -83,9 +163,10 @@ socket.on("message", (messageInfo) => {
     } else if (isCurrent) {
         let li = document.createElement('li');
         let p = document.createElement('p');
-        let span = document.createElement('span');
+        let small = document.createElement('small');
         p.innerText = messageInfo.message;
-        span.innerText = dayjs(new Date(messageInfo.sentTime)).format('LT');
+        small.innerHTML = `${dayjs(new Date(messageInfo.sentTime)).format('LT')} ${readReceipts[messageInfo.receipt]}`;
+        small.className = 'read-receipt message-home'
         if (messageInfo.attachment) {
             li.className = 'message-item message-home message has-attachment'
             li.appendChild(div);
@@ -93,14 +174,21 @@ socket.on("message", (messageInfo) => {
             li.className = 'message-item message-home message'
         }
         li.appendChild(p);
-        li.appendChild(span);
         messageList.appendChild(li);
+        messageList.append(small);
+        small.setAttribute('data-messageid', `${messageInfo._id}`);
     } else if (isOther) {
+        socket.emit('read-receipt', {
+            chatRoom: chatRoomId.value,
+            messageId: messageInfo._id,
+            userId: otherUserId.value
+        })
         let li = document.createElement('li');
         let p = document.createElement('p');
-        let span = document.createElement('span');
+        let small = document.createElement('small');
         p.innerText = messageInfo.message;
-        span.innerText = dayjs(new Date(messageInfo.receivedTime)).format('LT');
+        small.innerText = dayjs(new Date(messageInfo.receivedTime)).format('LT');
+        small.className = 'read-receipt message-away';
         if (messageInfo.attachment) {
             li.className = 'message-item message-away message has-attachment'
             li.appendChild(div);
@@ -108,55 +196,27 @@ socket.on("message", (messageInfo) => {
             li.className = 'message-item message-away message'
         }
         li.appendChild(p);
-        li.appendChild(span);
         messageList.appendChild(li);
+        messageList.append(small);
+        small.setAttribute('data-messageid', `${messageInfo._id}`);
     }
     messageList.scrollTop = messageList.scrollHeight;
     attachment = null;
 })
 
-// sending message from form to server
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (message.value.trim() !== '') {
-        sendMessage();
+socket.on('make-read', (messageId, user) => {
+    if (JSON.stringify(user) === JSON.stringify(userId.value)) {
+        let smallReceipt = document.querySelector(`small[data-messageid="${messageId}"]`);
+        smallReceipt.innerHTML = readReceipts.read;
     }
-});
-
-function sendMessage() {
-    if (document.querySelector('.new-attachment')) {
-        attachment = {
-            type: document.querySelector('.attachment').dataset.type,
-            title: document.querySelector('.attachment-title').innerText,
-            username: document.querySelector('.attachment-name').innerText === 'You' ? username.value : document.querySelector('.attachment-name').innerText,
-            attchmentLink: document.querySelector('.attachment').dataset.attachmentLink
-        }
-    }
-
-    let msg = {
-        toId: otherUserId.value,
-        fromId: userId.value,
-        message: message.value.trim(),
-        chatRoom: chatRoomId.value,
-        messageType: "5fc7fdc98142f5b0883eba55",
-        sentTime: new Date(),
-        attachment: attachment
-    }
-    socket.emit('new message', msg);
-    if (document.querySelector('.close-attachment')) {
-        disableAttachment();
-    }
-    message.value = '';
-    fakeMessage.innerText = '';
-    return false;
-}
+})
 
 socket.on('announceOffline', (user) => {
     // getting all values that hold the online/offline value
     let onlineStatus = document.querySelectorAll('.online-status');
     onlineStatus.forEach(onlineStat => {
         // if the current online/offline value has the same id as the id passed it should be offline
-        if (user.member === onlineStat.dataset.id) {
+        if (user && user.member === onlineStat.dataset.id) {
             onlineStat.classList.remove('online');
             onlineStat.classList.add('offline');
             onlineStat.innerHTML = 'offline';

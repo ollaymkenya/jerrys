@@ -161,6 +161,9 @@ io.on('connection', (socket) => {
     let newDate = new Date();
     // update the time difference of the user online with the server
     await messages.upDateTimeDifference(newDate, new Date(userDetails.userTime), userDetails.userId);
+    // making messages read
+    let newMessages = await Messages.find({ $and: [{ toId: userDetails.userId }, { receipt: 'sent' }] });
+    messages.editMessage(newMessages, 'received');
     // emitting to everyone that a user has joined
     socket.broadcast.emit('addOnline', { chatspace });
   })
@@ -169,7 +172,9 @@ io.on('connection', (socket) => {
     console.log(chatRoomInfo);
     // join the user to the chatroom
     socket.join(chatRoomInfo.chatRoom);
-    let oldChat = await Messages.findOne({chatRoom: chatRoomInfo.chatRoom});
+    let oldChat = await Messages.findOne({ $and: [{ chatRoom: chatRoomInfo.chatRoom }, { toId: chatRoomInfo.user }] });
+    console.log(chatRoomInfo);
+    console.log(oldChat);
     // if it's a new chatroom send them a message from bot
     if (!oldChat) {
       let chatBotMessage = `This is the begining of your conversation with ${chatRoomInfo.otherUserName}. Chats are currently not end to end encrypted.`;
@@ -189,6 +194,12 @@ io.on('connection', (socket) => {
       // send message to the client side
       io.to(chatRoomInfo.chatRoom).emit("message", savedMessage);
     }
+    let newMessages = await new Promise(async (resolve, reject) => {
+      resolve(await Messages.find({ $and: [{ chatRoom: chatRoomInfo.chatRoom }, { fromId: chatRoomInfo.user }, { "receipt": { $in: ['sent', 'received'] } }] }));
+    })
+    console.log("newones", newMessages);
+    messages.editMessage(newMessages, 'read');
+    io.to(chatRoomInfo.chatRoom).emit('read-receipt', chatRoomInfo.user);
   })
 
   // typing functionality
@@ -205,6 +216,12 @@ io.on('connection', (socket) => {
       resolve(messages.saveMessage(message));
     })
     io.to(message.chatRoom).emit("message", savedMessage);
+  })
+
+  socket.on('read-receipt', async (readMessage) => {
+    let message = await Messages.find({ _id: readMessage.messageId })
+    messages.editMessage(message, 'read');
+    io.to(readMessage.chatRoom).emit('make-read', readMessage.messageId, readMessage.userId);
   })
 
   socket.on('disconnect', async () => {
@@ -225,11 +242,3 @@ mongoose.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true 
   .catch((err) => {
     console.log(err);
   });
-
-  // ****************************************************************************************************************
-  // socket.on('new message', async (messg) => {
-  //   let receivedTime = await messages.getReceivedTime(messg);
-  //   let msg = { ...messg, receivedTime };
-  //   messages.saveMessage(msg);
-  //   io.to(messg.chatRoom).emit('message back', msg);
-  // });

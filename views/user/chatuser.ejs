@@ -58,8 +58,8 @@
                 </div>
             </div>
             <div class="chat-messages__body">
-                <% if(messages.length > 0) { %>
                 <ul class="messages-list">
+                    <% if(messages.length > 0) { %>
                     <% for(let j = ~~(messages[0].receivedTimeDate.getTime()/1000/60/60/24); j <= ~~(new Date().getTime()/1000/60/60/24); j++) { %>
                     <% var count = 1%>
                     <% for(let i = 0; i < messages.length; i++) { %>
@@ -73,7 +73,8 @@
                     <p class="center bot-chat message"> <%= messages[i].message %> </p>
                     <% } %>
                     <% if (JSON.stringify(messages[i].fromId) !== JSON.stringify('5fd38c93e2ea8eafb0f382ea')) { %>
-                    <li class="message-item message <%= isCurrent ? 'message-home' : 'message-away' %> <%= messages[i].attachment ? "has-attachment" : "" %> ">
+                    <li
+                        class="message-item message <%= isCurrent ? 'message-home' : 'message-away' %> <%= messages[i].attachment ? "has-attachment" : "" %> ">
                         <% if(messages[i].attachment) { %>
                         <div class="attachment" contenteditable="false">
                             <div class="attachment-container">
@@ -86,14 +87,18 @@
                         </div>
                         <% } %>
                         <p><%= messages[i].message %></p>
-                        <span> <%= isCurrent ? messages[i].sentTime : messages[i].receivedTime %> </span>
+                        <% const readReceipts = { sent: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; margin-bottom: -2px;" name="checkmark-outline" role="img" class="md hydrated" aria-label="checkmark outline"></ion-icon>', received: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; margin-bottom: -2px;" name="checkmark-done-outline" role="img" class="md hydrated" aria-label="checkmark done outline"></ion-icon>', read: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; color: #0095F6; margin-bottom: -2px;" name="checkmark-done-outline" role="img" class="md hydrated" aria-label="checkmark done outline"></ion-icon>' } %>
                     </li>
+                    <small class="read-receipt <%= isCurrent ? 'message-home' : 'message-away' %>"
+                        data-messageid="<%= messages[i]._id %>">
+                        <%= isCurrent ? messages[i].sentTime : messages[i].receivedTime %>
+                        <%= isCurrent ? `<span>${readReceipts[messages[i].receipt]} </span>` : '' %></small>
+                    <% } %>
                     <% } %>
                     <% } %>
                     <% } %>
                     <% } %>
                 </ul>
-                <% } %>
             </div>
             <div class="chat-messages__footer">
                 <form action="" class="input-message <%= attachment ? 'has-attachment' : '' %>">
