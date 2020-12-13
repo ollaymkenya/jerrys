@@ -9,26 +9,35 @@
     <%- include('../includes/dashnav.ejs')%>
     <div class="sample-container main">
         <div class="projects-nav">
+           
             <ul class="projects-nav__list">
+                <% if (accountType === "Admin") { %>
                 <a href="/content-faq">
                 <li class="<%= path === '/content-faq' ? 'active' : '' %>">
                    <span>faq</span>
                 </li>
             </a>
+            <% } %>
+            <% if (accountType === "Admin") { %>
                 <a href="/content-testimonials">
                 <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
                     <span>testimonials</span>
                 </li>
             </a>
+            <% } %> 
+            <% if (accountType === "Admin") { %>
                 <a href="/content-users">
                 <li class="<%= path === '/content-users' ? 'active' : '' %>">
                    <span>users</span>
                 </li>
             </a>
+            <% } %> 
+            <% if (accountType === "Admin") { %>
                 <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
                 <span>samples</span>
                 </li>
             </a>
+            <% } %> 
             </ul>
         </div>
         <div class="contentfaqs">
@@ -102,14 +111,15 @@
                                         <small>Date: <span class="highlight"><%= `${new Date(samples[i].updatedAt ).getDate() }/${new Date(samples[i].updatedAt ).getMonth()}/${new Date(samples[i].updatedAt ).getFullYear()}` %></span></small>
                                         <small>Pages: <span class="highlight"><%= samples[i].numberofPages %></span></small>                              
                                             <form action="/delete-sample" method="post">
-                                            <button type="submit">
-                                                <input type="hidden" name="sampleID" value="<%= samples[i].id %>">
-                                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                                <div class="trash-button" >
-                                                   <small class="danger"><ion-icon name="trash-outline"></ion-icon></small> 
-                                                </div>
-                                            </button>
-                                    </form>
+                                                <button type="submit">
+                                                    <input type="hidden"name="fileLink" value="<%= samples[i].fileLink%>">
+                                                    <input type="hidden" name="sampleID" value="<%= samples[i].id %>">
+                                                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                                    <div class="trash-button" >
+                                                    <small class="danger"><ion-icon name="trash-outline"></ion-icon></small> 
+                                                    </div>
+                                                </button>
+                                            </form>
                                     </div>
                                 </button>
                                 </div>

@@ -5,32 +5,37 @@ router.use(express.json())
 const adminControllers = require('../controllers/admin');
 
 const Auth = require('../middleware/auth');
+const {
+    isAdmin,
+    isClient,
+    isEditor
+} = require("../middleware/auth")
 
-router.get('/projects-newParameter', Auth.isAuth, adminControllers.getAdminNewParameter);
+router.get('/projects-newParameter', Auth.isAuth, isAdmin, adminControllers.getAdminNewParameter);
 
-router.post('/projects-newParameter', Auth.isAuth, adminControllers.postAdminNewParameter);
+router.post('/projects-newParameter', Auth.isAuth, isAdmin, adminControllers.postAdminNewParameter);
 
-router.post('/edit-param', Auth.isAuth, adminControllers.postEditParam);
+router.post('/edit-param', Auth.isAuth, isAdmin, adminControllers.postEditParam);
 
-router.post('/delete-param', Auth.isAuth, adminControllers.postDeleteParam);
+router.post('/delete-param', Auth.isAuth, isAdmin, adminControllers.postDeleteParam);
 
-router.get('/content-faq', Auth.isAuth, adminControllers.getAdminFaq);
+router.get('/content-faq', Auth.isAuth,Auth.isClientAdmin, adminControllers.getAdminFaq);
 
-router.post('/content-faq', Auth.isAuth, adminControllers.postAdminFaq);
+router.post('/content-faq', Auth.isAuth, Auth.isClientAdmin, adminControllers.postAdminFaq);
 
-router.post('/delete_faq' , Auth.isAuth, adminControllers.postDeletefaq)
+router.post('/delete_faq', Auth.isAuth, isAdmin, adminControllers.postDeletefaq)
 
-router.get('/content-sample',Auth.isAuth, adminControllers.getAdminSample )
+router.get('/content-sample', Auth.isAuth, isAdmin, adminControllers.getAdminSample)
 
-router.post('/content-sample', Auth.isAuth, adminControllers.postAdminSample )
+router.post('/content-sample', Auth.isAuth, isAdmin, adminControllers.postAdminSample)
 
-router.post('/delete-sample',Auth.isAuth, adminControllers.postDeleteSample )
+router.post('/delete-sample', Auth.isAuth, isAdmin, adminControllers.postDeleteSample)
 
-router.get('/content-users', Auth.isAuth, adminControllers.getAdminUsers);
+router.get('/content-users', Auth.isAuth, isAdmin, adminControllers.getAdminUsers);
 
-router.post('/delete-user', Auth.isAuth, adminControllers.postDeleteUser);
+router.post('/delete-user', Auth.isAuth, isAdmin, adminControllers.postDeleteUser);
 
-router.post('/add-editor', Auth.isAuth, adminControllers.postAddEditor);
+router.post('/add-editor', Auth.isAuth, isAdmin, adminControllers.postAddEditor);
 
 router.get('/checkout', Auth.isAuth, adminControllers.getCheckout);
 

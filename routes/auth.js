@@ -31,6 +31,7 @@ router.post('/signup', [
     check('email')
         .isEmail()
         .withMessage("Please enter a valid email.")
+        .normalizeEmail()
         .custom((value, { req }) => {
             return User.findOne({ email: value })
                 .then((userDoc) => {
@@ -39,6 +40,7 @@ router.post('/signup', [
                     }
                 })
         }),
+        
     body('password', 'Your password should not be less than 3 characters')
         .isLength({ min: 5 })
         .isAlphanumeric()

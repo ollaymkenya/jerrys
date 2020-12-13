@@ -10,9 +10,11 @@
                 <li class="<%= path === '/projects' ? 'active' : '' %>">
                     <a href="/projects"><span>projects</span></a>
                 </li>
+                <% if (accountType === "Admin") { %> 
                 <li class="<%= path === '/projects-newParameter' ? 'active' : '' %>">
                     <a href="/projects-newParameter"><span>parameters</span></a>
                 </li>
+                <% } %> 
             </ul>
         </div>
         <div class="parameters">

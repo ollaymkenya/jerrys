@@ -122,6 +122,11 @@ exports.getDashboardChatRoom = async (req, res, next) => {
         })
 };
 
+exports.postMessage = (req, res, next) => {
+    let chatRoom = req.params.chatRoom;
+    res.redirect(`/chat/${chatRoom}`);
+}
+
 exports.getDashboardNewProjects = (req, res, next) => {
     const user = req.user;
     res.render("user/new-project", {
@@ -145,6 +150,7 @@ exports.getProjects = async (req, res, next) => {
         user: user,
         projects: projects
     });
+    //console.log(user.username);
 };
 
 exports.getProject = (req, res, next) => {

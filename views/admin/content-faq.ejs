@@ -7,26 +7,35 @@
     <%- include('../includes/dashnav.ejs')%>
     <div class="faq-container main">
         <div class="projects-nav">
+           
             <ul class="projects-nav__list">
+                <% if (accountType === "Admin") { %>
                 <a href="/content-faq">
                 <li class="<%= path === '/content-faq' ? 'active' : '' %>">
                    <span>faq</span>
                 </li>
             </a>
+            <% } %>
+            <% if (accountType === "Admin") { %>
                 <a href="/content-testimonials">
                 <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
                     <span>testimonials</span>
                 </li>
             </a>
+            <% } %> 
+            <% if (accountType === "Admin") { %>
                 <a href="/content-users">
                 <li class="<%= path === '/content-users' ? 'active' : '' %>">
                    <span>users</span>
                 </li>
             </a>
+            <% } %> 
+            <% if (accountType === "Admin") { %>
                 <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
                 <span>samples</span>
                 </li>
             </a>
+            <% } %> 
             </ul>
         </div>
         <div class="contentfaqs">
