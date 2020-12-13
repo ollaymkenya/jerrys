@@ -30,7 +30,6 @@ exports.getDashboard = (req, res, next) => {
             if (isNaN(review)) {
                 review = 0
             }
-            // console.log(review);
             res.render("user/dashboard", {
                 title: "My dashboard",
                 path: "/dashboard",
