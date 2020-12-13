@@ -91,6 +91,8 @@
                 <% for(let i = 0; i < projects.length; i++) { %>
                 <% var project = projects[i] %>
                 <% var username = projects[i] && projects[i].ownerId ? projects[i].ownerId.username : null %>
+                <% var completed = project && project.completed ? project.completed.value : null %>
+                <% var completedDate = project && project.completed ? project.completed.date : null %>
                 <% var email = projects[i] && projects[i].ownerId ? projects[i].ownerId.email : null %>
                 <% var projectOwnerId = projects[i] && projects[i].ownerId ? projects[i].ownerId._id : null %>
                 <li>
