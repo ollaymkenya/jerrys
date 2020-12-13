@@ -7,6 +7,10 @@
     <main>
         <div class="paper-container">
             <div class="paper-form__container">
+                <% if(errorMessage){ %>
+                <div class="flash-message flash-message-danger"><span class="bold">Oh
+                        snap!</span><%= errorMessage %></div>
+                <% } %>
                 <form class="paper-form" action="/new-paper" enctype="multipart/form-data" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="paper-form__details">
@@ -41,26 +45,33 @@
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="topic">Topic</label>
-                                <input type="text" id="topic" name="topic">
+                                <input type="text" id="topic" name="topic" value="<%= oldLoginInput.topic %>">
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="orderInstructions">Order Instructions</label>
-                                <textarea name="orderInstructions" id="orderInstructions" cols="30" rows="4"></textarea>
+                                <textarea name="orderInstructions" id="orderInstructions" cols="30"
+                                    rows="4"><%=oldLoginInput.orderInstructions%></textarea>
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="service">Style</label>
                                 <div class="service-container">
-                                    <input class="radio-service" checked type="radio" name="service" id="service1"
-                                        value="MLA">
+                                    <input class="radio-service" type="radio"
+                                        <%= oldLoginInput.service ? (oldLoginInput.service === "MLA" ? 'checked' : '') : 'checked' %>
+                                        name="service" id="service1" value="MLA">
                                     <label for="service1">MLA</label>
-                                    <input class="radio-service" type="radio" name="service" id="service2" value="APA">
+                                    <input class="radio-service"
+                                        <%= oldLoginInput.service ? (oldLoginInput.service === "APA" ? 'checked' : '') : '' %>
+                                        type="radio" name="service" id="service2" value="APA">
                                     <label for="service2">APA</label>
                                     <input class="radio-service" type="radio" name="service" id="service3"
-                                        value="Chicago">
+                                        value="Chicago"
+                                        <%= oldLoginInput.service ? (oldLoginInput.service === "Chicago" ? 'checked' : '') : '' %>>
                                     <label for="service3">Chicago</label>
                                     <input class="radio-service" type="radio" name="service" id="service4"
-                                        value="Harvard">
-                                    <label for="service4">Harvard</label></div>
+                                        value="Harvard"
+                                        <%= oldLoginInput.service ? (oldLoginInput.service === "Harvard" ? 'checked' : '') : '' %>>
+                                    <label for="service4">Harvard</label>
+                                </div>
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="nofSources">Number of Sources</label>
@@ -72,7 +83,9 @@
                                         <span class="number-of__sources-value">
                                             <% for(let i = 0; i < parameters.length; i++) { %>
                                             <% if(parameters[i].category.name === 'static' && parameters[i].name === 'Number of sources'){ %>
-                                            <input type="number" name="nofSources" id="nofSources" value="1" min="1"
+                                            <input type="number" name="nofSources" id="nofSources"
+                                                <% if (oldLoginInput.nofSources > 1 ){ %>
+                                                value="<%= oldLoginInput.nofSources %>" <%} else {%> value="1" min="1" <%}%> 
                                                 data-price="<%= parameters[i].price%>">
                                             <% } %>
                                             <% } %>
@@ -82,7 +95,8 @@
                                         </span>
                                     </div>
                                     <div class="number-of__sources-toggle">
-                                        <input type="checkbox" name="requiredSources" id="requiredSources">
+                                        <input type="checkbox" name="requiredSources" id="requiredSources"
+                                            <%= oldLoginInput.requiredSources === 'on' ? 'checked':'' %> />
                                         <label for="requiredSources">Not needed</label>
                                     </div>
                                 </div>
@@ -92,6 +106,9 @@
                                 <div class="file-wrapper">
                                     <div class="upload-btn-wrapper">
                                         <button class="upload-file">
+                                            <% if( oldLoginInput.resources !== '') { %>
+                                            <%= oldLoginInput.resources %>
+                                            <% } else { %>
                                             <span class="upload-btn d-block" id="info">
                                                 <ion-icon name="document-attach-outline"></ion-icon>
                                                 Drop your file here or <span class="highlight-green">Browse disk</span>
@@ -101,7 +118,8 @@
                                             </div>
                                             <span class="success">
                                                 <ion-icon name="checkmark-circle-outline"></ion-icon>
-                                             </span>
+                                            </span>
+                                            <% }  %>
                                         </button>
                                         <input type="file" name="selectfile" id="selectfile" multiple>
                                     </div>
@@ -149,7 +167,9 @@
                                         <span class="number-of__pages-value">
                                             <% for(let i = 0; i < parameters.length; i++) { %>
                                             <% if(parameters[i].category.name === 'static' && parameters[i].name === 'Number of pages'){ %>
-                                            <input type="number" name="noOfPages" id="noOfPages" value="1" min="1"
+                                            <input type="number" name="noOfPages" id="noOfPages"
+                                                <% if (oldLoginInput.noOfPages > 1 ){ %>
+                                                value="<%= oldLoginInput.noOfPages %>" <%} else {%> value="1" min="1" <%}%>
                                                 data-price="<%= parameters[i].price%>">
                                             <% } %>
                                             <% } %>
@@ -188,7 +208,8 @@
                             </div>
                             <% if (!user) { %>
                             <div class="account-toggle">
-                                <input id="checkedSwitcher" name="checkedSwitcher" type="checkbox" />
+                                <input id="checkedSwitcher" name="checkedSwitcher" type="checkbox"
+                                    <%= oldLoginInput.checkedSwitcher === 'on' ? 'checked' : ''%> />
                                 <label for="checkedSwitcher">
                                     <div class="switcher">
                                         <span class="unselect">New customer</span>
@@ -201,65 +222,35 @@
                             <% } %>
                         </div>
                         <% if (!user) { %>
-                        <% if(errorMessage){ %>
-                        <div class="flash-message flash-message-danger"><span class="bold">Oh
-                                snap!</span><%= errorMessage %></div>
-                        <% } %>
-                        <div class="paper-form__details-body new-user">
-                            <div class="paper-form__form-item">
-                                <label for="username">Username</label>
-                                <input type="text" id="username" name="username" placeholder="User Name"
-                                    value="someone">
-                            </div>
-                            <div class="paper-form__form-item">
-                                <label for="signemail">Email</label>
-                                <input type="email" id="signemail" name="signemail" placeholder="Your e-mail"
-                                    value="someone@email.com">
-                            </div>
-                            <div class="paper-form__form-item">
-                                <label for="signpassword">Create password:</label>
-                                <input type="password" id="signpassword" name="signpassword"
-                                    placeholder="Create your password" value="pass">
-                            </div>
-                            <div class="paper-form__form-item">
-                                <label for="confirmPassword">Confirm password</label>
-                                <input type="password" id="confirmPassword" name="confirmPassword"
-                                    placeholder="Confirm your password" value="pass">
-                            </div>
-                        </div>
-                        <div class="paper-form__details-body existing-user d-none">
-                            <div class="paper-form__form-item">
-                                <label for="email">Email</label>
-                                <input type="email" id="loginemail" name="email" placeholder="Your e-mail"
-                                    value="someone@gmail.com">
-                            </div>
-                            <div class="paper-form__form-item">
-                                <label for="password">Password</label>
-                                <input type="password" id="loginpassword" name="password" placeholder="Your password"
-                                    value="password">
-                            </div>
-                        </div>
+                        <div id="signInDiv" class="paper-form__details-body new-user"></div>
+
                         <div class="center">
-                            <button class="submit-button" type="submit">Proceed to safe payment</button>
+                            <button class="submit-button  btn-opac" type="submit" id="submitBtn"disabled >Proceed to safe
+                                payment</button>
                         </div>
                         <% } else {%>
-                        <% if(errorMessage){ %>
-                        <div class="flash-message flash-message-danger"><span class="bold">Oh
-                                snap!</span><%= errorMessage %></div>
-                        <% } %>
                         <div class="center" style="margin: 1rem auto;">
-                            <button class="submit-button" type="submit">Proceed to safe payment</button>
+                            <button class="submit-button btn-opac" type="submit" id="submitBtn" disabled>Proceed to safe
+                                payment</button>
                         </div>
                         <% } %>
-                        <div class="agreement">
-                            <input type="checkbox" name="agree" id="agree">
-                            <label for="agree"><small>I agree with <a href="/terms" class="highlight-green">Terms of
-                                        Use</a> ,
-                                    <a href="/guarantee" class="highlight-green">Money Back Guarantee</a> and <a
-                                        href="/policy" class="highlight-green">Privacy Policy</a>
+                        <input type="hidden" name="checkedSwitcherReq" value="<%= oldLoginInput.checkedSwitcher %>">
+                        <div class="agreement ">
+                            <input type="checkbox" style="cursor: pointer;" name="agree" id="agree"
+                                >
+                            <label for="agree">
+                                <small>I agree with
+                                    <a href="/terms" class="highlight-green">Terms of Use
+                                    </a> ,
+                                    <a href="/guarantee" class="highlight-green">Money Back Guarantee
+                                    </a>
+                                    and
+                                    <a href="/policy" class="highlight-green">Privacy Policy
+                                    </a>
                                     Hereby, I understand my personal information or vulnerable data not to be
                                     transferred
-                                    outside the company or shared with any third parties.</small>
+                                    outside the company or shared with any third parties.
+                                </small>
                             </label>
                         </div>
                     </div>
@@ -287,7 +278,7 @@
                         <div class="summary-order__foter-text"><span><strong>Order total</strong></span>
                             <span><strong class="ordertotal">$17.00</strong></span>
                         </div>
-                        <button class="submit-button">Proceed to safe payment</button>
+                        <!-- <button class="submit-button">Proceed to safe payment</button> -->
                     </div>
                 </div>
                 <div class="paper-methods">
@@ -331,7 +322,120 @@
     </main>
     <%- include('../includes/footer.ejs')%>
     <script>
-        // cahnging total price
+        //creation of signin page on window load
+        let createSignIn = `
+        <div class="paper-form__form-item">
+        <label for="username">Username</label>
+            <input 
+            class="<%= oldLoginInput.errorField === 'password' ? 'invalid' : '' %>"
+            type="text" 
+            id="username" 
+            name="username" 
+            placeholder="Username"
+            value="<%= oldLoginInput.username%>"
+            > 
+        </div>
+        <div class="paper-form__form-item">
+            <label for="signemail">Email</label>
+            <input 
+            class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>"
+            type="email" 
+            id="signemail" 
+            name="email" 
+            placeholder="Your e-mail"
+            value="<%= oldLoginInput.email%>"
+            >
+        </div>
+        <div class="paper-form__form-item">
+            <label for="signpassword">Create password:</label>
+            <input
+            class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>" 
+            type="password" 
+            id="signpassword" 
+            name="password"
+            placeholder="Create your password" 
+            value="<%= oldLoginInput.password%>"
+            >
+        </div>
+        <div class="paper-form__form-item">
+            <label for="confirmPassword">Confirm password</label>
+            <input 
+            class="<%= oldLoginInput.errorField === 'confirm password' ? 'invalid' : '' %>"
+            type="password" 
+            id="confirmPassword" 
+            name="confirmPassword"
+            placeholder="Confirm your password" value="<%= oldLoginInput.confirmPassword %>"
+            >
+        </div>
+        `
+
+        //creation  of a login page on checked
+        let createlogInDiv = `
+          <div class="paper-form__form-item">
+            <label for="email">Email</label>
+            <input
+            class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : '' %>" 
+            type="email" 
+            id="loginemail" 
+            name="email" 
+            placeholder="Your e-mail"
+            value="<%= oldLoginInput.email%>"
+            >
+        </div>
+        <div class="paper-form__form-item">
+            <label for="password">Password</label>
+            <input 
+            class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : '' %>"
+            type="password" 
+            id="loginpassword" 
+            name="password" 
+            placeholder="Your password"
+            value="<%= oldLoginInput.password%>"
+            >
+        </div>
+        `
+
+        let signindiv = document.getElementById('signInDiv');
+        window.onload = () => {
+            signindiv.innerHTML = document.querySelector('input[name="checkedSwitcherReq"]').value === 'on' ?
+                createlogInDiv : createSignIn;
+            if (document.querySelector('input[name="checkedSwitcherReq"]').value === 'on') {
+                document.querySelector('.unselect').classList.add('opac-0');
+                document.querySelector('.select').classList.remove('opac-0');
+            }
+        }
+
+        document.querySelector('#checkedSwitcher').addEventListener('click', (e) => {
+            if (e.target.checked) {
+                signindiv.innerHTML = createlogInDiv
+                document.querySelector('.unselect').classList.add('opac-0');
+                document.querySelector('.select').classList.remove('opac-0');
+            } else {
+                signindiv.innerHTML = createSignIn
+                document.querySelector('.unselect').classList.remove('opac-0');
+                document.querySelector('.select').classList.add('opac-0');
+            }
+        })
+        //Enable button after accepting an agreement
+
+        document.querySelector('#agree').addEventListener('click', (e) => {
+            if (e.target.checked) {
+                document.getElementById('submitBtn').disabled = false;
+                document.querySelector("#submitBtn").classList.remove('btn-opac')
+            } else {
+                document.getElementById('submitBtn').disabled = true;
+                document.querySelector("#submitBtn").classList.add('btn-opac')
+            }
+            console.log(e.checked)
+        });
+
+    //     function myfunction (){
+    //     if (oldLoginInput.agree === 'on') {
+    //         document.getElementById('submitBtn').disabled = false;
+    //         document.querySelector("#submitBtn").classList.remove('btn-opac')
+    //     }
+    // }
+
         const typeOfPaper = document.getElementById("typeOfPaper")
         const subject = document.getElementById("subject")
         const urgency = document.getElementById("urgency")
@@ -346,7 +450,7 @@
         }
 
         document.getElementById('selectfile').onchange = function () {
-            console.log(this.files.length)
+            console.log(this.files)
             let attachedDocList = document.createElement('ul');
             let attachedDocsListItem;
             for (let i = 0; i < this.files.length; i++) {
@@ -355,26 +459,11 @@
                     `<span class='highlight-green'><ion-icon name="document-attach-outline"></ion-icon> ${this.files[i].name}</span> <br>`;
                 attachedDocList.appendChild(attachedDocsListItem);
             }
-            console.log(attachedDocList);
             document.getElementById('blankFile').appendChild(attachedDocList);
             if (document.getElementById('info')) {
                 document.getElementById('info').remove();
             }
         };
-
-        document.querySelector('#checkedSwitcher').addEventListener('click', (e) => {
-            if (e.target.checked) {
-                document.querySelector('.new-user').classList.add('d-none');
-                document.querySelector('.existing-user').classList.remove('d-none');
-                document.querySelector('.unselect').classList.add('opac-0');
-                document.querySelector('.select').classList.remove('opac-0');
-            } else {
-                document.querySelector('.new-user').classList.remove('d-none');
-                document.querySelector('.existing-user').classList.add('d-none');
-                document.querySelector('.unselect').classList.remove('opac-0');
-                document.querySelector('.select').classList.add('opac-0');
-            }
-        })
 
         document.querySelector('.number-of__sources-minus').addEventListener('click', (e) => {
             let currentValue = parseInt(document.getElementById('nofSources').value)

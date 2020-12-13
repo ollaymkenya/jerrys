@@ -16,11 +16,19 @@
                 <ion-icon name="file-tray-full-outline"></ion-icon>
             </li>
         </a>
-        <a href="/content-faq">
-            <li class="navigation-list__item <%= path === '/content-testimonials' ? 'active' : path === '/content-users' ? 'active' : path === '/content-faq' ? 'active' : '' %>">
-                <ion-icon name="happy-outline"></ion-icon>
-            </li>
-        </a>
+        <% if (accountType === "Admin"|| accountType === "Client") { %> 
+            <% if(accountType === "Admin"){ %>
+                <a href="/content-faq">
+                    <li class="navigation-list__item <%= path === '/content-testimonials' ? 'active' : path === '/content-users' ? 'active' : path === '/content-faq' ? 'active' : '' %>">
+                        <ion-icon name="happy-outline"></ion-icon>
+                    </li></a>
+             <% } else { %> 
+                <a href="/content-testimonials">
+                    <li class="navigation-list__item <%= path === '/content-testimonials' ? 'active' : path === '/content-users' ? 'active' : path === '/content-faq' ? 'active' : '' %>">
+                        <ion-icon name="happy-outline"></ion-icon>
+                    </li></a>
+            <% } %> 
+        <% } %> 
         <form action="/logout" method="POST">
             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <button type="submit">

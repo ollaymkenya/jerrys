@@ -66,6 +66,9 @@ main {
     justify-content: space-between;
     margin: 1rem 0;
 }
+.paper-form__form-item input.invalid{
+    border-color: red;
+}
 
 @media screen and (max-width: 768px) {
     .paper-form__form-item {
@@ -634,4 +637,8 @@ input[type=number] {
 .opac-0 {
     opacity: 0;
     transition: all .2s ease-in-out;
+}
+.btn-opac{
+  opacity:0.3;
+  cursor: auto;
 }

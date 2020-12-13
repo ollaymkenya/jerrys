@@ -5,9 +5,18 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const multer = require('multer');
+const dotenv=require('dotenv')
 const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
+
+const {
+  accountType
+} = require("./utils/auth");
+const {
+  formatMessage,
+  saveMsg
+} = require("./utils/messages");
 
 const MONGODB_URI = "mongodb+srv://muriithi:V88ezWCkLrypqmR@cluster0.uhrmt.mongodb.net/jtw?retryWrites=true&w=majority";
 // const MONGODB_URI = process.env.MONGODB_URI;
@@ -53,8 +62,13 @@ const { table } = require("console");
 const Chatroom = require("./models/Chatroom");
 const Messages = require("./models/Messages");
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(multer({ storage: storage, fileFilter: fileFilter }).array('selectfile', 12));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
+app.use(multer({
+  storage: storage,
+  fileFilter: fileFilter
+}).array('selectfile', 12));
 const csrfProtection = csrf();
 
 app.use(express.static(path.join(__dirname, "views")));
@@ -66,8 +80,8 @@ const PORT = process.env.PORT || 3000;
 
 const {
   NODE_ENV = "development",
-  SESS_SECRET = "jtwisawesome",
-  SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
+    SESS_SECRET = "jtwisawesome",
+    SESS_LIFETIME = 1000 * 60 * 60 * 24 * 7,
 } = process.env;
 
 const IN_PROD = NODE_ENV === "production";
@@ -128,6 +142,16 @@ app.use((req, res, next) => {
     next();
   }
 });
+
+app.use((req, res, next) => {
+  if (!req.session.user) {
+    return next();
+  }
+  let accType = `${req.session.user.accountType}`
+  res.locals.accountType = accountType(accType) || 'Site';
+  next();
+});
+
 
 app.use(siteRoutes);
 app.use(authRoutes);

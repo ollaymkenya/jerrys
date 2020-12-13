@@ -1,9 +1,6 @@
-@font-face {
-    font-family: AirbnbCerealBold;
-    font-style: normal;
-    font-weight: normal;
-    src: url('../fonts/AirbnbCerealBold.ttf');
-}
+
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
 body{
     overflow: hidden;
@@ -17,7 +14,7 @@ main {
     grid-template-rows: 100%;
     height: 100vh;
     overflow: hidden;
-    font-family: AirbnbCerealBold;
+    font-family: 'Poppins', sans-serif;;
 }
 
 @media screen and (max-width: 768px) {
@@ -134,8 +131,9 @@ main {
 }
 
 .profile-heading {
-    font-family: AirbnbCerealBold;
+    font-family: 'Poppins',bold, sans-serif;
     color: #313131;
+    font-weight: 800;
 }
 
 .profile-heading h1 {

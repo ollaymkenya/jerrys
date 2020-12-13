@@ -7,26 +7,35 @@
     <%- include('../includes/dashnav.ejs')%>
     <div class="testimonials-container main">
         <div class="projects-nav">
+            
             <ul class="projects-nav__list">
+                <% if (accountType === "Admin") { %>
                 <a href="/content-faq">
                 <li class="<%= path === '/content-faq' ? 'active' : '' %>">
                    <span>faq</span>
                 </li>
             </a>
+            <% } %>
+            <% if (accountType === "Admin") { %>
                 <a href="/content-testimonials">
                 <li class="<%= path === '/content-testimonials' ? 'active' : '' %>">
                     <span>testimonials</span>
                 </li>
             </a>
+            <% } %> 
+            <% if (accountType === "Admin") { %>
                 <a href="/content-users">
                 <li class="<%= path === '/content-users' ? 'active' : '' %>">
                    <span>users</span>
                 </li>
             </a>
+            <% } %> 
+            <% if (accountType === "Admin") { %>
                 <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
                 <span>samples</span>
                 </li>
             </a>
+            <% } %> 
             </ul>
         </div>
         <div class="contentfaqs">
@@ -70,6 +79,7 @@
                                             <%= new Date(testimonials[i].createdAt).getUTCFullYear()%></span>
                                     </div>
                                     <div class="testimonial-footer">
+                                        <% if (accountType === "Admin") { %>
                                         <form action="/publish-testimonial" method="post">
                                             <button type="submit">
                                                 <input type="hidden" name="testimonialId"
@@ -85,6 +95,7 @@
                                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                                 <ion-icon name="trash-outline" class="trash"></ion-icon>
                                             </button>
+                                        <% } %> 
                                         </form>
                                     </div>
                                 </div>

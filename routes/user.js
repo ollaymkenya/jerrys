@@ -17,13 +17,13 @@ router.get('/projects', Auth.isAuth, userControllers.getProjects);
 
 router.get('/projects/:projectId', Auth.isAuth, userControllers.getProject);
 
-router.get('/content-testimonials', Auth.isAuth, userControllers.getDashboardTestimonials);
+router.get('/content-testimonials', Auth.isAuth, Auth.isClientAdmin, userControllers.getDashboardTestimonials);
 
-router.post('/add-testimonial', Auth.isAuth, userControllers.postAddTestimonail);
+router.post('/add-testimonial', Auth.isAuth, Auth.isClientAdmin, userControllers.postAddTestimonail);
 
-router.post('/publish-testimonial', Auth.isAuth, userControllers.postPublishTestimonial);
+router.post('/publish-testimonial', Auth.isAuth,Auth.isAdmin, userControllers.postPublishTestimonial);
 
-router.post('/delete-testimonial', Auth.isAuth, userControllers.postDeleteTestimonial);
+router.post('/delete-testimonial', Auth.isAuth,Auth.isAdmin, userControllers.postDeleteTestimonial);
 
 router.post('/project-attachment', Auth.isAuth, userControllers.postProjectAttachment);
 
