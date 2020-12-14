@@ -24,8 +24,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
     service: 'SendinBlue',
     auth: {
-        user: 'olivermuriithi11@gmail.com',
-        pass: '7qMB5hsJLbcXdYEK'
+        user: 'jerrythewriterworks@gmail.com',
+        pass: 'DzOHaZ6Ag3y7GtQn'
     }
 });
 
@@ -70,8 +70,8 @@ exports.postContacts = (req, res, next) => {
     }
     transporter
         .sendMail({
-            to: 'ireneruos@gmail.com',
-            from: "olivermuriithi11@gmail.com",
+            to: 'jerrymuthomi@gmail.com',
+            from: "jerrythewriterworks@gmail.com",
             subject: `An email from ${req.body.email}`,
             html: `
                     <h1>Question: ${req.body.question}</h1>

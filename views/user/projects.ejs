@@ -49,7 +49,7 @@
                                     <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
                                 </span>
                                 <span style='<%= completed ? "color: green;": "color:red;"%>'>
-                                    <%= completed ? 'completed': 'incomplete'%>
+                                    <%= completed ? 'Completed': 'Incomplete'%>
                                 </span>
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                                     <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
                                 </span>
                                 <span style='<%= completed ? "color: green;": "color:red;"%>'>
-                                    <%= completed ? 'completed': 'incomplete'%>
+                                    <%= completed ? 'Completed': 'Incomplete'%>
                                 </span>
                             </div>
                         </div>

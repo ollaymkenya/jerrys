@@ -33,8 +33,8 @@ var printer = new pdfPrinter(fonts);
 const transporter = nodemailer.createTransport({
   service: 'SendinBlue',
   auth: {
-    user: 'olivermuriithi11@gmail.com',
-    pass: '7qMB5hsJLbcXdYEK'
+    user: 'jerrythewriterworks@gmail.com',
+    pass: 'DzOHaZ6Ag3y7GtQn'
   }
 });
 
@@ -249,7 +249,7 @@ exports.postAddEditor = (req, res, next) => {
         return transporter
           .sendMail({
             to: req.body.email,
-            from: "olivermuriithi11@gmail.com",
+            from: "jerrythewriterworks@gmail.com",
             subject: "Create Account",
             html: `
                 <h1>Click the link to create an account</h1>
@@ -503,9 +503,8 @@ exports.postCreatePaper = async (req, res) => {
   }
   await transporter
     .sendMail({
-      // to: "jerrymuthomi@gmail.com",
-      to: "ireneruos@gmail.com",
-      from: "olivermuriithi11@gmail.com",
+      to: "jerrymuthomi@gmail.com",
+      from: "jerrythewriterworks@gmail.com",
       attachments: attachments,
       subject: "New job!!!",
       html: `
@@ -550,7 +549,7 @@ exports.postSubmitWork = async (req, res, next) => {
   transporter
     .sendMail({
       to: toEmail,
-      from: "olivermuriithi11@gmail.com",
+      from: "jerrythewriterworks@gmail.com",
       subject: "Your job is complete!!!",
       html: `
               <h1>Your project titled '${projectTopic}' is complete</h1>
@@ -602,7 +601,7 @@ exports.postEditWork = async (req, res, next) => {
     transporter
       .sendMail({
         to: toEmail,
-        from: "olivermuriithi11@gmail.com",
+        from: "jerrythewriterworks@gmail.com",
         subject: "Some changes to your job submission",
         html: `
               <h1>Your project titled '${projectTopic}' has been changed</h1>
