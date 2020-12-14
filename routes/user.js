@@ -11,8 +11,6 @@ router.get('/chat', Auth.isAuth, userControllers.getDashboardChat);
 
 router.get('/chat/:chatRoom', Auth.isAuth, userControllers.getDashboardChatRoom);
 
-router.post('/chat/:chatRoom/message', Auth.isAuth, userControllers.postMessage);
-
 router.get('/projects-newProject', Auth.isAuth, userControllers.getDashboardNewProjects);
 
 router.get('/projects', Auth.isAuth, userControllers.getProjects);
@@ -26,5 +24,7 @@ router.post('/add-testimonial', Auth.isAuth, Auth.isClientAdmin, userControllers
 router.post('/publish-testimonial', Auth.isAuth,Auth.isAdmin, userControllers.postPublishTestimonial);
 
 router.post('/delete-testimonial', Auth.isAuth,Auth.isAdmin, userControllers.postDeleteTestimonial);
+
+router.post('/project-attachment', Auth.isAuth, userControllers.postProjectAttachment);
 
 module.exports = router;

@@ -18,14 +18,29 @@
             <div class="chat-users__body">
                 <ul class="users-list">
                     <% for(let i = 0; i < contacts.length; i++) { %>
+                    <% if(JSON.stringify(user.id) === JSON.stringify(chatrooms[i].userId) || JSON.stringify(user.id) === JSON.stringify(chatrooms[i].user2Id)) { %>
+                    <% if( online.findIndex(onlineMember => JSON.stringify(onlineMember.member) === JSON.stringify(contacts[i].id)) > -1 ){ %>
                     <a href="/chat/<%= chatrooms[i].id %>">
                         <li>
                             <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
                             <div class="users_list__item">
                                 <h4><%= contacts[i].username %></h4>
+                                <span class="online-status online" data-id="<%= contacts[i].id %>">online</span>
                             </div>
                         </li>
                     </a>
+                    <% }else { %>
+                    <a href="/chat/<%= chatrooms[i].id %>">
+                        <li>
+                            <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
+                            <div class="users_list__item">
+                                <h4><%= contacts[i].username %></h4>
+                                <span class="online-status offline" data-id="<%= contacts[i].id %>">offline</span>
+                            </div>
+                        </li>
+                    </a>
+                    <% } %>
+                    <% } %>
                     <% } %>
                 </ul>
             </div>
@@ -35,41 +50,119 @@
                 <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
                 <div class="user-messages__text">
                     <h4><%= otherUser.username %></h4>
-                    <span>offline</span>
+                    <% if (online.findIndex(onlineMember => JSON.stringify(onlineMember.member) === JSON.stringify(otherUser.id)) > -1 ) { %>
+                    <span class="online-status online" data-id="<%= otherUser.id %>">online</span>
+                    <% }else{ %>
+                    <span class="online-status offline" data-id="<%= otherUser.id %>">offline</span>
+                    <% } %>
                 </div>
             </div>
             <div class="chat-messages__body">
                 <ul class="messages-list">
-                    <p class="center" style="font-size: .8rem; color: #808080; margin-bottom: .7rem;">
-                        This is the begining of your conversation with <%= otherUser.value %>. Chats are not currently
-                        secure
-                    </p>
+                    <% if(messages.length > 0) { %>
+                    <% for(let j = ~~(messages[0].receivedTimeDate.getTime()/1000/60/60/24); j <= ~~(new Date().getTime()/1000/60/60/24); j++) { %>
+                    <% var count = 1%>
+                    <% for(let i = 0; i < messages.length; i++) { %>
+                    <% if( ~~(messages[i].receivedTimeDate.getTime()/1000/60/60/24) ===  j &&  ~~(messages[i].sentTimeDate.getTime()/1000/60/60/24) === j) {%>
+                    <% if(!(count > 1)){ %>
+                    <p class="center time-chat"><%= messages[i].receivedTimeDate %> </p>
+                    <% count++ %>
+                    <% } %>
+                    <% var isCurrent = JSON.stringify(messages[i].fromId) ===  JSON.stringify(user.id)%>
+                    <% if(JSON.stringify(messages[i].fromId) === JSON.stringify('5fd38c93e2ea8eafb0f382ea') && JSON.stringify(messages[i].toId) === JSON.stringify(user.id)) {%>
+                    <p class="center bot-chat message"> <%= messages[i].message %> </p>
+                    <% } %>
+                    <% if (JSON.stringify(messages[i].fromId) !== JSON.stringify('5fd38c93e2ea8eafb0f382ea')) { %>
+                    <li
+                        class="message-item message <%= isCurrent ? 'message-home' : 'message-away' %> <%= messages[i].attachment ? "has-attachment" : "" %> ">
+                        <% if(messages[i].attachment) { %>
+                        <div class="attachment" contenteditable="false">
+                            <div class="attachment-container">
+                                <small
+                                    class="attachment-name"><%= messages[i].attachment.username === user.username ? 'You' : messages[i].attachment.username %></small>
+                                <small class="attachment-title">
+                                    <ion-icon name="reader"></ion-icon><%= messages[i].attachment.title %>
+                                </small>
+                            </div>
+                        </div>
+                        <% } %>
+                        <p><%= messages[i].message %></p>
+                        <% const readReceipts = { sent: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; margin-bottom: -2px;" name="checkmark-outline" role="img" class="md hydrated" aria-label="checkmark outline"></ion-icon>', received: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; margin-bottom: -2px;" name="checkmark-done-outline" role="img" class="md hydrated" aria-label="checkmark done outline"></ion-icon>', read: '<ion-icon style="font-size: 1rem; --ionicon-stroke-width: 40px; color: #0095F6; margin-bottom: -2px;" name="checkmark-done-outline" role="img" class="md hydrated" aria-label="checkmark done outline"></ion-icon>' } %>
+                    </li>
+                    <small class="read-receipt <%= isCurrent ? 'message-home' : 'message-away' %>"
+                        data-messageid="<%= messages[i]._id %>">
+                        <%= isCurrent ? messages[i].sentTime : messages[i].receivedTime %>
+                        <%= isCurrent ? `<span>${readReceipts[messages[i].receipt]} </span>` : '' %></small>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+                    <% } %>
+                    <% } %>
                 </ul>
             </div>
             <div class="chat-messages__footer">
-                <form action="" class="input-message">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <input type="hidden" name="user" value="<%= user.id %>">
-                    <input type="hidden" name="username" value="<%= user.username %>">
-                    <input type="hidden" name="otherUser" value="<%= otherUser.id %>">
-                    <input type="hidden" name="otherUserName" value="<%= otherUser.username %>">
-                    <input type="hidden" name="message" id="message">
-                    <span class="emoji-btn">
-                        <ion-icon name="happy-outline"></ion-icon>
-                    </span>
-                    <div class="chattingBox editableDiv" id="editableDiv" contenteditable=true
-                        placeholder="Type a message..." role="textbox">
+                <form action="" class="input-message <%= attachment ? 'has-attachment' : '' %>">
+                    <% if (attachment) { %>
+                    <div class="attachment new-attachment" contenteditable="false" data-type="<%= attachment.type %>"
+                        data-attachment-link="<%= attachment.link %>">
+                        <div class="attachment-container">
+                            <small
+                                class="attachment-name"><%= attachment.username === user.username ? 'You' : attachment.username %></small>
+                            <small class="attachment-title">
+                                <ion-icon name="reader"></ion-icon> <%= attachment.type %>: <%= attachment.topic %>
+                            </small>
+                        </div>
+                        <span class="close-attachment">
+                            <ion-icon name="close-outline"></ion-icon>
+                        </span>
                     </div>
-                    <span class="submit-btn">
-                        <button type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" class="feather feather-send">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
-                        </button>
-                    </span>
+                    <% } %>
+                    <div class="input-message__container"><input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <input type="hidden" name="user" value="<%= user.id %>">
+                        <input type="hidden" name="username" value="<%= user.username %>">
+                        <input type="hidden" name="otherUser" value="<%= otherUser.id %>">
+                        <input type="hidden" name="otherUserName" value="<%= otherUser.username %>">
+                        <input type="hidden" name="chatRoomId" value="<%= chatRoomId %>">
+                        <input type="hidden" name="message" id="message">
+                        <div class="emoji-body">
+                            <input name="emojiSearch" id="emojiSearch" placeholder="Search emoji">
+                            <div class="emoji-category">
+                                <ion-icon name="happy-outline" class="smiley-btn" data-category="smileys-emotion"
+                                    id="smileys-emotion"></ion-icon>
+                                <ion-icon name="paw-outline" class="animals-btn" data-category="animals-nature"
+                                    id="animals-nature"></ion-icon>
+                                <ion-icon name="fast-food-outline" class="foods-btn" data-category="food-drink"
+                                    id="food-drink"></ion-icon>
+                                <ion-icon name="basketball-outline" class="activities-btn" data-category="activities"
+                                    id="activities"></ion-icon>
+                                <ion-icon name="airplane-outline" class="travel-btn" data-category="travel-places"
+                                    id="travel-places"></ion-icon>
+                                <ion-icon name="bulb-outline" class="objects-btn" data-category="objects" id="objects">
+                                </ion-icon>
+                                <ion-icon name="text-outline" class="symbols-btn" data-category="symbols" id="symbols">
+                                </ion-icon>
+                                <ion-icon name="flag-outline" class="flags-btn" data-category="flags" id="flags">
+                                </ion-icon>
+                            </div>
+                            <div class="emoji-container"></div>
+                        </div>
+                        <span class="emoji-btn" data-category="smileys-emotion">
+                            <ion-icon name="happy-outline" style="pointer-events: none;"></ion-icon>
+                        </span>
+                        <div class="chattingBox editableDiv" id="editableDiv" contenteditable='true'
+                            placeholder="Type a message..." role="textbox">
+                        </div>
+                        <span class="submit-btn">
+                            <button type="submit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round" class="feather feather-send">
+                                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                                </svg>
+                            </button>
+                        </span>
+                    </div>
                 </form>
             </div>
         </div>
@@ -78,15 +171,39 @@
 </main>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
+<script src="https://unpkg.com/dayjs@1.8.21/dayjs.min.js"></script>
+<script src="https://unpkg.com/dayjs@1.8.21/plugin/localizedFormat.js"></script>
+<script src="https://unpkg.com/@popperjs/core@2"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    document.getElementById('editableDiv').addEventListener('input', () => {
-        let currentMessage = document.getElementById('editableDiv').innerText;
-        document.getElementById('message').value = currentMessage;
+    const projectsToggle = document.querySelector('.emoji-btn');
+    const projectsMenu = document.querySelector('.emoji-body');
+    Popper.createPopper(projectsToggle, projectsMenu, {
+        modifiers: [{
+            name: 'offset',
+            options: {
+                offset: [80, 35],
+            },
+        }, ],
+    });
+
+    const hideEvents = ['mouseleave', 'focusout'];
+    const showEvents = ['click'];
+
+    showEvents.forEach(event => {
+        projectsToggle.addEventListener(event, () => {
+            projectsMenu.setAttribute('data-show', '');
+        });
+    });
+
+    hideEvents.forEach(event => {
+        projectsMenu.addEventListener(event, () => {
+            projectsMenu.removeAttribute('data-show');
+        });
     });
 </script>
-<script src="/socket.io/socket.io.js"></script>
-<script src="/js/chats.js"></script>
+<script src="/js/chatsUsers.js"></script>
+<script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

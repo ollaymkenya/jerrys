@@ -41,5 +41,8 @@ router.get('/checkout', Auth.isAuth, adminControllers.getCheckout);
 
 router.post('/createPaper', Auth.isAuth, adminControllers.postCreatePaper);
 
+router.post('/submit-work', Auth.isAuth, adminControllers.postSubmitWork);
+
+router.post('/edit-work/:projectId', Auth.isAuth, adminControllers.postEditWork);
 
 module.exports = router;

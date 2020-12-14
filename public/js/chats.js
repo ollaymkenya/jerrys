@@ -1,30 +1,23 @@
-let form = document.querySelector('.input-message');
-let message = document.querySelector("#message");
-let fakeMessage = document.querySelector('.editableDiv');
-const messageList = document.querySelector('.messages-list');
-let username = document.querySelector('input[name="username"]');
-let otherUser = document.querySelector('input[name="otherUserName"]');
-
 let socket = io();
+let userId = document.querySelector('.userId');
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    socket.emit('new message', message.value);
-    message.value = '';
-    fakeMessage.innerText = '';
-    return false;
-});
+socket.emit('joinChatSpace', userId.value, function (error = null, data) {
+    let onlinePeople = data.peopleOnline;
+    console.log(onlinePeople);
+    let onlineStatus = document.querySelectorAll('.online-status');
+    onlineStatus.forEach(onlineStat => {
+        if (!onlinePeople.find(elem => elem.member === onlineStat.dataset.id)) {
+            onlineStat.classList.add('offline');
+            onlineStat.innerText = 'offline';
+        } else {
+            onlineStat.classList.add('online');
+            onlineStat.innerText = 'online';
+        }
+    })
+})
 
-socket.on("message back", (msg) => {
-    let li = document.createElement('li');
-    li.className = 'message-item message-home';
-    let p = document.createElement('p');
-    p.innerText = msg;
-    let span = document.createElement('span');
-    span.innerText = '7:00 pm';
-    li.appendChild(p);
-    li.appendChild(span);
-    messageList.appendChild(li);
-    console.log(msg);
-    chatLengthMode();
+// checkoffline
+socket.on("checkOffline", (bool) => {
+    console.log(bool);
+    socket.emit('confirmOnline', { userId: userId.value })
 })

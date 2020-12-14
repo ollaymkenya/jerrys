@@ -77,3 +77,15 @@
 .projects-information__body span:last-child{
     color: green;
 }
+
+/* the project attachment buttton */
+.projects-menu__list li button{
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-family: inherit;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    text-align: start;
+}
