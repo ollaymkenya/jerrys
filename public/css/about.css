@@ -140,3 +140,7 @@ header {
         margin: 1rem auto;
     }
 }
+
+.share-links{
+    justify-content: center;
+}

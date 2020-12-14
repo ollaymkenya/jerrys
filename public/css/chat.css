@@ -1,4 +1,4 @@
-*{
+* {
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
@@ -147,13 +147,11 @@
 
 .message-item {
     border: .5px solid #dbdbdb;
-    padding: .5rem;
+    padding: .2rem;
     width: fit-content;
     max-width: 70%;
-    border-radius: 25px;
+    border-radius: 7px;
     margin: .2rem 0;
-    display: flex;
-    flex-direction: column;
 }
 
 .message-item p {
@@ -163,23 +161,36 @@
     -webkit-user-select: none;
 }
 
-.message-item span {
+.message-home p {
+    align-self: flex-end;
+}
+
+small.read-receipt {
     font-size: .7rem;
     color: #9c9c9c;
-    align-self: flex-end;
     justify-content: baseline;
     user-select: none;
     -moz-user-select: none;
     -webkit-user-select: none;
+    background-color: inherit;
+}
+
+.read-receipt.message-home {
+    align-self: flex-end;
+}
+
+.read-receipt.message-away {
+    align-self: flex-start;
 }
 
 .message-away {
     align-self: flex-start;
+    word-break: break-all;
 }
 
 .message-home {
     align-self: flex-end;
-    background-color: #e6e6e6;
+    background-color: #efefef;
     word-break: break-all;
 }
 
@@ -189,31 +200,50 @@
     position: relative;
 }
 
-.input-message{
-    border: .7px solid #808080;
+.input-message {
+    font-family: Roboto;
+    border: .7px solid #9c9c9c;
     border-radius: 25px;
     min-height: fit-content;
     height: max-content;
     padding: 0.2rem;
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+    flex-direction: column;
     background-color: #ffffff;
     position: absolute;
     bottom: .4rem;
     left: 2.5rem;
     right: 2.5rem;
+    transition: all .2s ease-in;
 }
 
-.emoji-btn{
+.has-attachment {
+    border-radius: 3px 3px 7px 7px;
+}
+
+.message-item.has-attachment {
+    padding: .2rem;
+    border-radius: 3px 3px 7px 7px;
+}
+
+.input-message__container {
+    min-height: fit-content;
+    height: max-content;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.emoji-btn {
     margin-bottom: .25rem;
     margin-left: .5rem;
     margin-right: .5rem;
     font-size: 1.5rem;
     color: #000000;
+    cursor: pointer;
 }
 
-.submit-btn{
+.submit-btn {
     margin-bottom: .2rem;
     margin-right: .5rem;
     margin-left: .5rem;
@@ -222,27 +252,34 @@
     height: 100%;
 }
 
-.submit-btn button{
+.submit-btn button {
     border: none;
     background-color: transparent;
     outline: none;
-    color:#0095F6;
+    color: #0095F6;
     height: 100%;
     cursor: pointer;
     width: 20px;
 }
 
-.chattingBox{
+.chattingBox {
     width: calc(100% - 5rem);
     min-height: 100%;
     left: -1px;
     font-size: 1rem;
     outline: none;
-    font-family: Roboto;
     padding: .4rem;
 }
 
 .editableDiv[contentEditable="true"]:empty:before {
     content: attr(placeholder);
-    color: #808080;
-  }
+    color: #9c9c9c;
+}
+
+.online-status.online {
+    color: green;
+}
+
+.online-status.offline {
+    color: #9c9c9c;
+}

@@ -158,7 +158,6 @@ exports.getAdminSample = async (req, res, next) => {
     .then((sampleList) => {
       //console.log(sampleList);
       res.render("admin/content-sample", {
-
         samples: sampleList,
         title: "sample",
         path: "/content-sample",
@@ -212,12 +211,12 @@ exports.postDeleteSample = async (req, res, next) => {
 exports.postDeleteUser = (req, res, next) => {
   let userId = req.body.userId;
   User.findOneAndDelete({
-      _id: userId
-    })
+    _id: userId
+  })
     .then((user) => {
       Chatroom.findOneAndDelete({
-          user2Id: req.body.userId
-        })
+        user2Id: req.body.userId
+      })
         .then((result) => {
           res.redirect('/content-users');
         })
@@ -234,8 +233,8 @@ exports.postAddEditor = (req, res, next) => {
     }
     const token = buffer.toString("hex");
     User.findOne({
-        email: user.email
-      })
+      email: user.email
+    })
       .then((uzer) => {
         if (!uzer) {
           req.flash("error", "No account with that email found.")
@@ -298,7 +297,7 @@ exports.getCheckout = async (req, res, next) => {
   // stripe
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: totalPrice * 100,
+    amount: ~~(totalPrice * 100),
     currency: "usd",
     receipt_email: req.user.email,
     metadata: {
@@ -320,215 +319,301 @@ exports.getCheckout = async (req, res, next) => {
   });
 }
 
-exports.postCreatePaper = (req, res) => {
+exports.postCreatePaper = async (req, res) => {
   const paper = JSON.parse(req.body.data);
   const files = JSON.parse(req.body.files);
-  let projecti;
+  let attachments;
   let date = `${new Date().getDate()}/ ${new Date().getMonth()}/ ${new Date().getFullYear()}`
-  try {
-    // creating a new paper
-    const project = new Project({
-      typeOfPaper: paper.typeOfPaper,
-      subject: paper.subject,
-      topic: paper.topic,
-      orderInstructions: paper.orderInstructions,
-      style: paper.service,
-      urgency: paper.urgency,
-      numberOfSources: paper.nofSources,
-      academicLevel: paper.academicLevel,
-      numberOfPages: parseInt(paper.noOfPages),
-      ownerId: req.user._id
-    })
-    // saving paper to db
-    project
-      .save()
-      .then((result) => {
-        // creating the content of pdf document
-        Project.findById(result.id)
-          .populate()
-          .populate('typeOfPaper')
-          .populate('subject')
-          .populate('urgency')
-          .populate('academicLevel')
-          .populate('ownerId')
-          .exec()
-          .then((projo) => {
-            projecti = projo
-            const documentDefination = {
-              content: [{
-                  alignment: 'justify',
-                  columns: [{
-                      text: `${projo.topic}`
-                    },
-                    {
-                      text: `${date}`,
-                      style: 'noma'
-                    }
-                  ],
-                  style: 'header'
-                },
-                {
-                  style: 'tableExample',
-                  table: {
-                    alignment: 'justify',
-                    headerRows: 1,
-                    widths: [200, 200],
-                    body: [
-                      [{
-                          text: 'Paper Details',
-                          style: 'tableHeader',
-                          fillColor: '#eeffee'
-                        },
-                        {
-                          text: 'Values',
-                          style: 'tableHeader',
-                          fillColor: '#eeffee'
-                        }
-                      ],
-                      [{
-                          border: [false, false, false, true],
-                          text: 'Topic'
-                        },
-                        {
-                          border: [false, false, false, true],
-                          text: `${projo.topic}`
-                        }
-                      ],
-                      [{
-                          border: [false, false, false, true],
-                          text: 'Type Of Paper',
-                          fillColor: '#eeffee'
-                        },
-                        {
-                          border: [false, false, false, true],
-                          text: `${projo.typeOfPaper.name}`,
-                          fillColor: '#eeffee'
-                        }
-                      ],
-                      [{
-                          border: [false, false, false, true],
-                          text: 'Subject'
-                        },
-                        {
-                          border: [false, false, false, true],
-                          text: `${projo.subject.name}`
-                        }
-                      ],
-                      [{
-                          border: [false, false, false, true],
-                          text: 'Order Instructions',
-                          fillColor: '#eeffee'
-                        },
-                        {
-                          border: [false, false, false, true],
-                          text: `${projo.orderInstructions}`,
-                          fillColor: '#eeffee'
-                        }
-                      ],
-                      [{
-                          border: [false, false, false, true],
-                          text: 'Style'
-                        },
-                        {
-                          border: [false, false, false, true],
-                          text: `${projo.style}`
-                        }
-                      ],
-                      [{
-                          border: [false, false, false, true],
-                          text: 'Urgency',
-                          fillColor: '#eeffee'
-                        },
-                        {
-                          border: [false, false, false, true],
-                          text: `${projo.urgency.name}`,
-                          fillColor: '#eeffee'
-                        }
-                      ],
-                      [{
-                          border: [false, false, false, true],
-                          text: 'Number of sources'
-                        },
-                        {
-                          border: [false, false, false, true],
-                          text: `${projo.numberOfSources}`
-                        }
-                      ],
-                      [{
-                          border: [false, false, false, true],
-                          text: 'Academic Level',
-                          fillColor: '#eeffee'
-                        },
-                        {
-                          border: [false, false, false, true],
-                          text: `${projo.academicLevel.name}`,
-                          fillColor: '#eeffee'
-                        }
-                      ],
-                    ]
-                  },
-                  layout: 'lightHorizontalLines'
-                }
-              ],
-              styles: {
-                header: {
-                  fontSize: 18,
-                  bold: true,
-                  margin: [0, 0, 0, 10]
-                },
-                subheader: {
-                  fontSize: 16,
-                  bold: true,
-                  margin: [0, 10, 0, 5]
-                },
-                noma: {
-                  alignment: 'right'
-                },
-                tableExample: {
-                  margin: [0, 5, 0, 15]
-                },
-                tableHeader: {
-                  bold: true,
-                  fontSize: 13,
-                  color: 'black'
-                }
-              }
-            };
-            const pdfDoc = printer.createPdfKitDocument(documentDefination);
-            pdfDoc.pipe(fs.createWriteStream('document.pdf'));
-            pdfDoc.end();
-            let attachments = [{
-              filename: 'document.pdf',
-              path: path.join(__dirname, '..', 'document.pdf')
-            }]
-            for (let i = 0; i < files.length; i++) {
-              const file = files[i];
-              attachments.push({
-                filename: `${file.filename}`,
-                path: `${file.path}`
-              })
-            }
-            transporter
-              .sendMail({
-                to: "jerrymuthomi@gmail.com",
-                from: "olivermuriithi11@gmail.com",
-                attachments: attachments,
-                subject: "New job!!!",
-                html: `
-              <h1>A new project from ${projecti.ownerId.username}</h1>
-              <p>Attached is a file containing the details of the project attached by ${projecti.ownerId.username}</p>
+  // creating a new paper
+  const project = new Project({
+    typeOfPaper: paper.typeOfPaper,
+    subject: paper.subject,
+    topic: paper.topic,
+    orderInstructions: paper.orderInstructions,
+    style: paper.service,
+    urgency: paper.urgency,
+    numberOfSources: paper.nofSources,
+    academicLevel: paper.academicLevel,
+    numberOfPages: parseInt(paper.noOfPages),
+    ownerId: req.user._id
+  })
+  // saving paper to db
+  let projectResult = await project.save();
+  res.redirect('/projects');
+  // creating the content of pdf document
+  let projo = await Project.findById(projectResult.id).populate('typeOfPaper').populate('subject').populate('urgency').populate('academicLevel').populate('ownerId').exec();
+
+  const documentDefination = {
+    content: [{
+      alignment: 'justify',
+      columns: [{
+        text: `${projo.topic}`
+      },
+      {
+        text: `${date}`,
+        style: 'noma'
+      }
+      ],
+      style: 'header'
+    },
+    {
+      style: 'tableExample',
+      table: {
+        alignment: 'justify',
+        headerRows: 1,
+        widths: [200, 200],
+        body: [
+          [{
+            text: 'Paper Details',
+            style: 'tableHeader',
+            fillColor: '#eeffee'
+          },
+          {
+            text: 'Values',
+            style: 'tableHeader',
+            fillColor: '#eeffee'
+          }
+          ],
+          [{
+            border: [false, false, false, true],
+            text: 'Topic'
+          },
+          {
+            border: [false, false, false, true],
+            text: `${projo.topic}`
+          }
+          ],
+          [{
+            border: [false, false, false, true],
+            text: 'Type Of Paper',
+            fillColor: '#eeffee'
+          },
+          {
+            border: [false, false, false, true],
+            text: `${projo.typeOfPaper.name}`,
+            fillColor: '#eeffee'
+          }
+          ],
+          [{
+            border: [false, false, false, true],
+            text: 'Subject'
+          },
+          {
+            border: [false, false, false, true],
+            text: `${projo.subject.name}`
+          }
+          ],
+          [{
+            border: [false, false, false, true],
+            text: 'Order Instructions',
+            fillColor: '#eeffee'
+          },
+          {
+            border: [false, false, false, true],
+            text: `${projo.orderInstructions}`,
+            fillColor: '#eeffee'
+          }
+          ],
+          [{
+            border: [false, false, false, true],
+            text: 'Style'
+          },
+          {
+            border: [false, false, false, true],
+            text: `${projo.style}`
+          }
+          ],
+          [{
+            border: [false, false, false, true],
+            text: 'Urgency',
+            fillColor: '#eeffee'
+          },
+          {
+            border: [false, false, false, true],
+            text: `${projo.urgency.name}`,
+            fillColor: '#eeffee'
+          }
+          ],
+          [{
+            border: [false, false, false, true],
+            text: 'Number of sources'
+          },
+          {
+            border: [false, false, false, true],
+            text: `${projo.numberOfSources}`
+          }
+          ],
+          [{
+            border: [false, false, false, true],
+            text: 'Academic Level',
+            fillColor: '#eeffee'
+          },
+          {
+            border: [false, false, false, true],
+            text: `${projo.academicLevel.name}`,
+            fillColor: '#eeffee'
+          }
+          ],
+        ]
+      },
+      layout: 'lightHorizontalLines'
+    }
+    ],
+    styles: {
+      header: {
+        fontSize: 18,
+        bold: true,
+        margin: [0, 0, 0, 10]
+      },
+      subheader: {
+        fontSize: 16,
+        bold: true,
+        margin: [0, 10, 0, 5]
+      },
+      noma: {
+        alignment: 'right'
+      },
+      tableExample: {
+        margin: [0, 5, 0, 15]
+      },
+      tableHeader: {
+        bold: true,
+        fontSize: 13,
+        color: 'black'
+      }
+    }
+  };
+
+  const pdfDoc = await printer.createPdfKitDocument(documentDefination);
+  pdfDoc.pipe(fs.createWriteStream(`${projo.id}.pdf`));
+  pdfDoc.end();
+  attachments = [
+    {
+      filename: 'document.pdf',
+      path: path.join(__dirname, '..', `${projo.id}.pdf`)
+    }
+  ]
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    attachments.push(
+      {
+        filename: `${file.filename}`,
+        path: `${file.path}`
+      })
+  }
+  await transporter
+    .sendMail({
+      // to: "jerrymuthomi@gmail.com",
+      to: "ireneruos@gmail.com",
+      from: "olivermuriithi11@gmail.com",
+      attachments: attachments,
+      subject: "New job!!!",
+      html: `
+              <h1>A new project from ${projo.ownerId.username}</h1>
+              <p>Attached is a file containing the details of the project attached by ${projo.ownerId.username}</p>
               `
-              })
-            res.redirect('/projects');
-          })
-          .catch((error) => {
-            console.log(error);
-          })
+    })
+  for (let i = 0; i < attachments.length; i++) {
+    fs.unlink(attachments[i].path, (err) => {
+      console.log(err);
+    })
+  }
+}
+
+exports.postSubmitWork = async (req, res, next) => {
+  // declare variables
+  let projectId = req.body.projectId;
+  let workLink = req.body.work;
+  let projectTopic;
+  let userId;
+  let toEmail;
+  // edit the project in the database
+
+  // If project link is blank
+  if (!workLink || workLink === '') {
+    return res.redirect('/projects');
+  }
+
+  let project = await Project.findById(projectId);
+  projectTopic = project.topic;
+  userId = project.ownerId;
+  let completed = {
+    value: true,
+    date: JSON.stringify(new Date())
+  }
+  project.completed = completed;
+  project.assignmentWork = workLink;
+  await project.save();
+  // send the user an email that their projo is complete
+  let user = await User.findById(userId);
+  toEmail = user.email;
+  transporter
+    .sendMail({
+      to: toEmail,
+      from: "olivermuriithi11@gmail.com",
+      subject: "Your job is complete!!!",
+      html: `
+              <h1>Your project titled '${projectTopic}' is complete</h1>
+              <p>Click this <a href="${workLink}">link</a> to access It</p>
+              `
+    })
+  //redirect the editor successfully
+  console.log(req.body);
+  res.redirect('/projects');
+}
+
+exports.postEditWork = async (req, res, next) => {
+  // declare variables
+  let projectId = req.params.projectId;
+  let workLink = req.body.work;
+  let projectTopic;
+  let userId;
+  let toEmail;
+  let completed;
+
+  // edit the project in the database
+  let project = await Project.findById(projectId);
+
+  // If project link is blank
+  if (!workLink || workLink === '') {
+    completed = {
+      value: null,
+      date: null
+    }
+    project.completed = completed;
+    project.assignmentWork = null;
+    await project.save();
+    return res.redirect('/projects');
+  }
+  // If project link contains some changes
+  else if (wordLink && wordLink !== project.assignmentWork) {
+    projectTopic = project.topic;
+    userId = project.ownerId;
+    completed = {
+      value: true,
+      date: JSON.stringify(new Date())
+    }
+    project.completed = completed;
+    project.assignmentWork = workLink;
+    await project.save();
+    // send the user an email that their projo is completed once more
+    let user = await User.findById(userId);
+    toEmail = user.email;
+    transporter
+      .sendMail({
+        to: toEmail,
+        from: "olivermuriithi11@gmail.com",
+        subject: "Some changes to your job submission",
+        html: `
+              <h1>Your project titled '${projectTopic}' has been changed</h1>
+              <p>Click this <a href="${workLink}">link</a> to access It</p>
+              `
       })
-      .catch((error) => {
-        console.log(error);
-      })
-  } catch (error) {
-    console.log(error);
+    //redirect the editor successfully
+    console.log(req.body);
+    return res.redirect('/projects');
+  }
+  else {
+    return res.redirect('/projects');
   }
 }

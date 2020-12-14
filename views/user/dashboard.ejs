@@ -94,7 +94,7 @@
                 </div>
                 <div class="category-section">
                     <h4>0</h4>
-                    <span>nessages</span>
+                    <span>messages</span>
                 </div>
                 <div class="category-section">
                     <h4> <%= review %></h4>
@@ -154,7 +154,7 @@
         exploreMenu.removeAttribute('data-show');
     }
 
-    const hideEvents = ['mouseleave', 'blur'];
+    const hideEvents = ['mouseleave', 'focusout'];
     const showEvents = ['click', 'mouseenter', 'focus'];
 
     showEvents.forEach(event => {
