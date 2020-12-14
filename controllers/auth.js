@@ -11,8 +11,8 @@ const { validationResult } = require('express-validator');
 const transporter = nodemailer.createTransport({
     service: 'SendinBlue',
     auth: {
-        user: 'olivermuriithi11@gmail.com',
-        pass: '7qMB5hsJLbcXdYEK'
+        user: 'jerrythewriterworks@gmail.com',
+        pass: 'DzOHaZ6Ag3y7GtQn'
     }
 });
 
@@ -142,7 +142,7 @@ exports.postSignUp = (req, res, next) => {
                         return transporter
                             .sendMail({
                                 to: email,
-                                from: "olivermuriithi11@gmail.com",
+                                from: "jerrythewriterworks@gmail.com",
                                 subject: "Signup succeeded",
                                 html: "<h1>Welcome on board</h1>"
                             })
@@ -284,7 +284,7 @@ exports.postReset = (req, res, next) => {
                 return transporter
                     .sendMail({
                         to: req.body.email,
-                        from: "olivermuriithi11@gmail.com",
+                        from: "jerrythewriterworks@gmail.com",
                         subject: "Password reset",
                         html: `
                     <h1>Reset your Password</h1>

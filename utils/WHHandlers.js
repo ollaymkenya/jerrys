@@ -9,8 +9,8 @@ const nodemailer = require('nodemailer');
 const transporter = nodemailer.createTransport({
   service: 'SendinBlue',
   auth: {
-    user: 'olivermuriithi11@gmail.com',
-    pass: '7qMB5hsJLbcXdYEK'
+    user: 'jerrythewriterworks@gmail.com',
+    pass: 'DzOHaZ6Ag3y7GtQn'
   }
 });
 
