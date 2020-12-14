@@ -73,7 +73,6 @@
     padding: .2rem;
     border-radius: 5px;
     border: 1px solid #9c9c9c;
-    min-width: 120px;
     cursor: pointer;
 }
 
@@ -130,8 +129,6 @@
 }
 
 .qanda-list__item-title__container {
-    display: flex;
-    align-items: center;
     margin-bottom: .5rem;
     border-bottom: 1px solid rgba(51, 51, 51, 0.5);
     padding-bottom: .5rem;
@@ -167,6 +164,7 @@
 
 .qanda-list__item-title__container button[type='submit']{
     min-width: fit-content !important;
+    max-width: fit-content !important;
     background-color: transparent;
     position: absolute;
     top: 0;
