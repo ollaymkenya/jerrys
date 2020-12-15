@@ -5,9 +5,9 @@
 <body>
     <%- include('../includes/navigation.ejs')%>
     <main>
-        <% if(user){  %> 
-            <div style="display: none;" id="isloggedin"></div>
-        <% }%> 
+        <% if(user){  %>
+        <div style="display: none;" id="isloggedin"></div>
+        <% }%>
         <div class="paper-container">
             <div class="paper-form__container">
                 <% if(errorMessage){ %>
@@ -48,16 +48,14 @@
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="topic">Topic</label>
-                                <input class="<%= oldLoginInput.errorField === 'topics' ? 'invalid' : '' %>"
-                                type="text" id="topic" name="topic" value="<%= oldLoginInput.topic %>">
+                                <input class="<%= oldLoginInput.errorField === 'topics' ? 'invalid' : '' %>" type="text"
+                                    id="topic" name="topic" value="<%= oldLoginInput.topic %>">
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="orderInstructions">Order Instructions</label>
-                                <textarea 
-                                class="<%= oldLoginInput.errorField === 'instructions' ? 'invalid' : '' %>"
-                                 name="orderInstructions" id="orderInstructions" cols="30"
-                                    rows="4"><%=oldLoginInput.orderInstructions%>
-                                </textarea>
+                                <textarea class="<%= oldLoginInput.errorField === 'instructions' ? 'invalid' : '' %>"
+                                    name="orderInstructions" id="orderInstructions" cols="30"
+                                    rows="4"><%=oldLoginInput.orderInstructions%></textarea>
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="service">Style</label>
@@ -232,7 +230,8 @@
                         <div id="signInDiv" class="paper-form__details-body new-user"></div>
 
                         <div class="center">
-                            <button class="submit-button  btn-opac" type="submit" id="submitBtn"disabled >Proceed to safe
+                            <button class="submit-button  btn-opac" type="submit" id="submitBtn" disabled>Proceed to
+                                safe
                                 payment</button>
                         </div>
                         <% } else {%>
@@ -243,8 +242,7 @@
                         <% } %>
                         <input type="hidden" name="checkedSwitcherReq" value="<%= oldLoginInput.checkedSwitcher %>">
                         <div class="agreement ">
-                            <input type="checkbox" style="cursor: pointer;" name="agree" id="agree"
-                                >
+                            <input type="checkbox" style="cursor: pointer;" name="agree" id="agree">
                             <label for="agree">
                                 <small>I agree with
                                     <a href="/terms" class="highlight-green">Terms of Use
@@ -396,13 +394,13 @@
 
         let signindiv = document.getElementById('signInDiv');
         window.onload = () => {
-            if(!document.getElementById('isloggedin')) {
+            if (!document.getElementById('isloggedin')) {
                 signindiv.innerHTML = document.querySelector('input[name="checkedSwitcherReq"]').value === 'on' ?
-                createlogInDiv : createSignIn;
-            if (document.querySelector('input[name="checkedSwitcherReq"]').value === 'on') {
-                document.querySelector('.unselect').classList.add('opac-0');
-                document.querySelector('.select').classList.remove('opac-0');
-            }
+                    createlogInDiv : createSignIn;
+                if (document.querySelector('input[name="checkedSwitcherReq"]').value === 'on') {
+                    document.querySelector('.unselect').classList.add('opac-0');
+                    document.querySelector('.select').classList.remove('opac-0');
+                }
             }
         }
 

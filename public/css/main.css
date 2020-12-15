@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
 
 * {
@@ -206,7 +206,7 @@ nav {
 .nav-container__list {
     display: flex;
     justify-content: space-between;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Khand', sans-serif;
     font-size: 1.1rem;
     align-items: center;
 }
@@ -228,7 +228,7 @@ nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Khand', sans-serif;
     font-size: 1.1rem;
     border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
@@ -599,7 +599,7 @@ footer {
 .justify-sub__title {
     color: #333333;
     padding: .5rem 0;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Khand', sans-serif;
     color: #EA4F16;
     font-size: 1.5rem;
 }
@@ -633,7 +633,7 @@ footer {
 .justify-center__sub-title {
     color: #333333;
     padding: .5rem 0;
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Khand', sans-serif;
     color: #EA4F16;
     font-size: 1.5rem;
 }
