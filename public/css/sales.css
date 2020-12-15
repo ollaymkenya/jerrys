@@ -57,8 +57,8 @@ big {
 .sales-nav button {
     height: 40px;
     width: 120px;
-    border: 3px solid #6025AA;
-    color:  #6025AA;
+    border: 3px solid #EA4F16;
+    color:  #EA4F16;
     font-size: 1rem;
     margin: 0 5px;
     background-color: #ffffff;
@@ -67,7 +67,7 @@ big {
 }
 
 .sales-nav button:hover {
-    background-color:  #6125aa;
+    background-color:  #EA4F16;
     color: white;
 }
 
@@ -98,7 +98,7 @@ big {
     align-items: center;
     justify-content: center;
     margin: 7rem auto;
-    color: #6025AA;
+    color: #EA4F16;
 }
 
 .sales-content__title,
@@ -117,11 +117,11 @@ big {
 }
 
 .green-highlight {
-    color:  #6025AA;
+    color:  #EA4F16;
 }
 
 .purple-highlight {
-    color: #6025AA;
+    color: #EA4F16;
 }
 
 .sales-sub__title {
@@ -363,7 +363,7 @@ big {
     position: absolute;
     bottom: .5rem;
     right: 45px;
-    border: 1.5px solid  #6025AA;
+    border: 1.5px solid  #EA4F16;
     border-radius: 3px;
     height: 78%;
     width: 120px;
@@ -392,7 +392,7 @@ big {
 }
 
 .sales-features__image {
-    background-color:  #6025AA;
+    background-color:  #EA4F16;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -472,7 +472,7 @@ big {
 
 .away {
     border: .5px solid #9c9c9c;
-    color: 6025aa;
+    color: #EA4F16;
     font-weight: 900;
 }
 
