@@ -73,7 +73,6 @@
     padding: .2rem;
     border-radius: 5px;
     border: 1px solid #9c9c9c;
-    min-width: 120px;
     cursor: pointer;
 }
 
@@ -130,8 +129,6 @@
 }
 
 .qanda-list__item-title__container {
-    display: flex;
-    align-items: center;
     margin-bottom: .5rem;
     border-bottom: 1px solid rgba(51, 51, 51, 0.5);
     padding-bottom: .5rem;
@@ -146,6 +143,19 @@
     max-width: 84%;
     word-break: break-all;
 }
+
+@media screen and (max-width: 1260px) {
+    .qanda-list__item-title__container h4 {
+        max-width: 80%;
+    }
+}
+
+@media screen and (max-width: 1027px) {
+    .qanda-list__item-title__container h4 {
+        max-width: 70%;
+    }
+}
+
 
 .qanda-list__item-title__container ion-icon{
     color:  #EA4F16;
@@ -167,6 +177,7 @@
 
 .qanda-list__item-title__container button[type='submit']{
     min-width: fit-content !important;
+    max-width: fit-content !important;
     background-color: transparent;
     position: absolute;
     top: 0;
@@ -175,7 +186,7 @@
 }
 
 .faq-qanda__list-item p {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.1rem;
     font-weight: 500;
     color: #6d6d7a;
@@ -192,7 +203,7 @@
     border: 1px solid #9c9c9c;
     border-radius: 5px;
     padding: .5rem;
-    font-family: Roboto;
+    font-family: Poppins;
     font-weight: 600;
     color: #6d6d7a;
     margin: 0 0 .7rem 0;

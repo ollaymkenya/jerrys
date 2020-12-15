@@ -63,12 +63,16 @@
                     </div>
                     <span class="tooltip projects-menu projects-menu" role="tooltip">
                         <ul class="projects-menu__list">
+                            <% if (accountType !== "Client") { %>
                             <% if (!completed) { %>
                             <li class="toggleSubmit" data-project-id="<%= project._id%>">Submit work</li>
                             <% } %>
+                            <% } %>
                             <% if (completed) { %>
                             <li class="toggleEdit" data-project-id="<%= project._id%>"
-                                data-work-link="<%=project.assignmentWork%>">Edit work</li>
+                                <% if (accountType !== "Client") { %> data-work-link="<%=project.assignmentWork%>">Edit
+                                work</li>
+                            <% } %>
                             <li><a href="<%=project.assignmentWork%>" target="_blank">See work</a></li>
                             <% } %>
                             <form action="/project-attachment" method="post">
@@ -187,7 +191,7 @@
     for (let i = 0; i < document.getElementsByClassName('projects-list__item').length; i++) {
         const projectsToggle = document.getElementsByClassName('projects-list__item')[i].lastElementChild;
         const projectsMenu = document.getElementsByClassName('projects-list__item')[i].parentElement.lastElementChild;
-        
+
         showEvents.forEach(event => {
             projectsToggle.addEventListener(event, () => {
                 projectsMenu.setAttribute('data-show', '');

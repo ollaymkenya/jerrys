@@ -20,7 +20,7 @@ big {
 }
 
 .sales-container {
-    font-family: Roboto;
+    font-family: Poppins;
     font-style: 1rem;
 }
 
@@ -192,7 +192,7 @@ big {
 
 .stats-container {
     color: #333;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Poppins', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;

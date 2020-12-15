@@ -9,16 +9,21 @@ const dayjs = require('dayjs');
 const LocalizedFormat = require("../node_modules/dayjs/plugin/localizedFormat");
 dayjs.extend(LocalizedFormat);
 
-exports.getDashboard = (req, res, next) => {
+exports.getDashboard = async (req, res, next) => {
     const user = req.user;
+    const messages = await Messages.find({ $and: [{ toId: user.id }, { receipt: 'sent' }] });
     let projects;
-    console.log(user);
     Project
-        .find({
-            ownerId: user.id
-        })
-        .then((project) => {
-            return project;
+        .find()
+        .then((projects) => {
+            if(!(JSON.stringify(user.accountType) !== JSON.stringify('5f971a68421e6d53753718c5') || JSON.stringify(user.accountType) !== JSON.stringify('5f971aa4421e6d53753718c6'))) {
+                for(let i = 0 ; i < projects.length; i++) {
+                    if(JSON.stringify(projects[i].ownerId) !==JSON.stringify(user.id)) {
+                        projects.splice(i, 1);
+                    }
+                }
+            }
+            return projects;
         })
         .then((result) => {
             projects = result;
@@ -34,8 +39,9 @@ exports.getDashboard = (req, res, next) => {
                 title: "My dashboard",
                 path: "/dashboard",
                 user: user,
-                projects: projects.length,
-                review: review
+                projects: projects,
+                review: review,
+                messages: messages
             });
         })
 };

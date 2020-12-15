@@ -37,19 +37,39 @@
                 <img src="/images/tiagojoaoreis-DRfpnABF_sY-unsplash.jpg" alt="">
                 <div class="user-messages__text">
                     <h4><%= user.username %></h4>
-                    <span class="online-status online" >online</span>
+                    <span class="online-status online">online</span>
                 </div>
             </div>
             <div class="chat-messages__body">
                 <ul class="messages-list">
                     <li class="message-item message-away">
-                        <p>Chat with someone</p>
-                        <span>7:00 pm</span>
+                        <div class="attachment" contenteditable="false">
+                            <div class="attachment-container">
+                                <small class="attachment-name">You</small>
+                                <small class="attachment-title">Your project</small>
+                            </div>
+                        </div>
+                        <p>You can attach a project. Checkout the projects page</p>
                     </li>
+                    <small class="read-receipt message-away">
+                        12:00 am
+                        <ion-icon
+                            style="font-size: 1rem; --ionicon-stroke-width: 40px; color: #0095F6; margin-bottom: -2px;"
+                            name="checkmark-done-outline" role="img" class="md hydrated"
+                            aria-label="checkmark done outline">
+                        </ion-icon>
+                    </small>
                     <li class="message-item message-home">
-                        <p>Chat with a friend</p>
-                        <span>7: 00pm</span>
+                        <p>Chat with a friend 😁😁</p>
                     </li>
+                    <small class="read-receipt message-home">
+                        12:01am
+                        <ion-icon
+                            style="font-size: 1rem; --ionicon-stroke-width: 40px; color: #0095F6; margin-bottom: -2px;"
+                            name="checkmark-done-outline" role="img" class="md hydrated"
+                            aria-label="checkmark done outline">
+                        </ion-icon>
+                    </small>
                 </ul>
             </div>
         </div>
@@ -57,8 +77,7 @@
     </div>
     <%- include('../includes/dashprofile.ejs')%>
 </main>
-<!-- <script src="/socket.io/socket.io.js"></script> -->
-<!-- <script src="/js/chats.js"></script> -->
+
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
 </body>

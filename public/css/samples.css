@@ -22,7 +22,7 @@ header {
     text-align: center;
     color: #ffffff;
     margin: 5rem auto;
-    font-family: 'Montserrat', 'sans-serif';
+    font-family: 'Poppins', 'sans-serif';
 }
 
 .samples-header__text h1 {
@@ -32,7 +32,7 @@ header {
 .samples-header__text p {
     font-size: 1.3rem;
     font-weight: 500;
-    font-family: 'Roboto', 'sans-serif';
+    font-family: 'Poppins', 'sans-serif';
 }
 
 .samples-content {
@@ -46,7 +46,7 @@ header {
 
 .sampels-list,
 .sampels-dashboard__list {
-    font-family: 'Roboto', 'sans-serif';
+    font-family: 'Poppins', 'sans-serif';
     width: 80%;
     margin: 2rem auto;
     color: #333333;
@@ -95,7 +95,7 @@ header {
 }
 
 .samples-list__item-meta small {
-    font-family: 'Khand', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
     font-weight: 600;
     font-size: 1rem;
 }

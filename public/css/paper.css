@@ -3,7 +3,7 @@ main {
     width: 100%;
     margin: auto;
     background-color: #fffefd;
-    font-family: Roboto;
+    font-family: Poppins;
     color: #313131;
 }
 
@@ -108,7 +108,7 @@ main {
     border: 1px solid #dfd5c2;
     display: block;
     width: 400px;
-    font-family: Montserrat;
+    font-family: Poppins;
     font-size: 1rem;
     font-weight: 400;
     padding: .5rem;

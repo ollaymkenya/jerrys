@@ -15,7 +15,7 @@ header {
 .contact-header__text {
     text-align: center;
     color: #333333;
-    font-family: 'Montserrat', 'sans-serif';
+    font-family: 'Poppins', 'sans-serif';
 }
 
 .contact-header__text h1 {
@@ -38,7 +38,7 @@ header {
     margin: auto;
     display: flex;
     padding: 3rem 0;
-    font-family: 'Montserrat', 'sans-serif';
+    font-family: 'Poppins', 'sans-serif';
 }
 
 .contact-box__left {
@@ -68,7 +68,7 @@ header {
 .contacts-form input,
 .contacts-form textarea {
     border: 1px solid #e3e9fd;
-    font-family: 'Montserrat', 'sans-serif';
+    font-family: 'Poppins', 'sans-serif';
     font-weight: 500;
     border-radius: 5px;
     padding: 1rem 1rem;
