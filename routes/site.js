@@ -29,7 +29,8 @@ router.post('/new-paper',[
     body('password', 'Your password should not be less than 3 characters')
         .isLength({ min: 5 })
         .isAlphanumeric()
-        .trim()
+        .trim(),
+       
 ]
 , siteControllers.postNewPaper);
 

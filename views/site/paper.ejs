@@ -5,6 +5,9 @@
 <body>
     <%- include('../includes/navigation.ejs')%>
     <main>
+        <% if(user){  %> 
+            <div style="display: none;" id="isloggedin"></div>
+        <% }%> 
         <div class="paper-container">
             <div class="paper-form__container">
                 <% if(errorMessage){ %>
@@ -45,12 +48,16 @@
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="topic">Topic</label>
-                                <input type="text" id="topic" name="topic" value="<%= oldLoginInput.topic %>">
+                                <input class="<%= oldLoginInput.errorField === 'topics' ? 'invalid' : '' %>"
+                                type="text" id="topic" name="topic" value="<%= oldLoginInput.topic %>">
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="orderInstructions">Order Instructions</label>
-                                <textarea name="orderInstructions" id="orderInstructions" cols="30"
-                                    rows="4"><%=oldLoginInput.orderInstructions%></textarea>
+                                <textarea 
+                                class="<%= oldLoginInput.errorField === 'instructions' ? 'invalid' : '' %>"
+                                 name="orderInstructions" id="orderInstructions" cols="30"
+                                    rows="4"><%=oldLoginInput.orderInstructions%>
+                                </textarea>
                             </div>
                             <div class="paper-form__form-item">
                                 <label for="service">Style</label>
@@ -397,11 +404,13 @@
 
         let signindiv = document.getElementById('signInDiv');
         window.onload = () => {
-            signindiv.innerHTML = document.querySelector('input[name="checkedSwitcherReq"]').value === 'on' ?
+            if(!document.getElementById('isloggedin')) {
+                signindiv.innerHTML = document.querySelector('input[name="checkedSwitcherReq"]').value === 'on' ?
                 createlogInDiv : createSignIn;
             if (document.querySelector('input[name="checkedSwitcherReq"]').value === 'on') {
                 document.querySelector('.unselect').classList.add('opac-0');
                 document.querySelector('.select').classList.remove('opac-0');
+            }
             }
         }
 
@@ -428,13 +437,6 @@
             }
             console.log(e.checked)
         });
-
-    //     function myfunction (){
-    //     if (oldLoginInput.agree === 'on') {
-    //         document.getElementById('submitBtn').disabled = false;
-    //         document.querySelector("#submitBtn").classList.remove('btn-opac')
-    //     }
-    // }
 
         const typeOfPaper = document.getElementById("typeOfPaper")
         const subject = document.getElementById("subject")

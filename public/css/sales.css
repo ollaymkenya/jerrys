@@ -117,7 +117,7 @@ big {
 }
 
 .green-highlight {
-    color: #00D287;
+    color:  #6025AA;
 }
 
 .purple-highlight {
@@ -363,7 +363,7 @@ big {
     position: absolute;
     bottom: .5rem;
     right: 45px;
-    border: 1.5px solid #00D287;
+    border: 1.5px solid  #6025AA;
     border-radius: 3px;
     height: 78%;
     width: 120px;
@@ -392,7 +392,7 @@ big {
 }
 
 .sales-features__image {
-    background-color: #00D287;
+    background-color:  #6025AA;
     border-radius: 50%;
     width: 60px;
     height: 60px;
