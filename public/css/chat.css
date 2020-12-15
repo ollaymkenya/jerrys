@@ -283,3 +283,50 @@ small.read-receipt {
 .online-status.offline {
     color: #9c9c9c;
 }
+
+.attachment {
+    position: relative;
+    margin-bottom: .2rem;
+}
+
+.attachment-container {
+    display: flex;
+    flex-direction: column;
+    background-color: #FBFBFB;
+    padding: .2rem;
+    margin: .2rem;
+    border-left: 2px #0095F6 solid;
+    border-radius: 3px;
+    user-select: none;
+    pointer-events: none;
+    width: 99%;
+    align-self: center;
+}
+
+.close-attachment {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.5rem;
+    background-color: #ffffff;
+    padding: .2rem;
+    border-radius: 50%;
+    color: #8b8b8b;
+    cursor: pointer;
+}
+
+.close-attachment ion-icon{
+    user-select: none;
+    pointer-events: none;
+}
+
+.attachment-name {
+    color: #0095F6;
+    font-size: .8rem;
+    margin: 0.2rem 0;
+    font-weight: 700;
+}
+
+.attachment-title {
+    margin: 0.1rem 0;
+    color: #8b8b8b;
+}
