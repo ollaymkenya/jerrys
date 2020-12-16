@@ -17,6 +17,11 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.getLogin = (req, res, next) => {
+    let successMessage;
+    if(req.session.successContact) {
+        successMessage = req.session.successContact;
+        req.session.successContact = null;
+    }
     let message = req.flash("error");
     if (message.length > 0) {
         message = message[0];
@@ -29,15 +34,11 @@ exports.getLogin = (req, res, next) => {
         path: "/login",
         errorMessage: message,
         validationErrors: [],
-        oldSignupInput: {
-            username: '',
-            email: '',
-            password: '',
-        },
         oldLoginInput: {
             email: '',
             password: '',
-        }
+        },
+        successMessage
     });
 
 };
@@ -280,6 +281,10 @@ exports.postReset = (req, res, next) => {
                 return user.save();
             })
             .then((result) => {
+                req.session.successContact = {
+                    message: 'Check your email to get a link to change your password',
+                    messageType: 'success'
+                }
                 res.redirect("/login");
                 return transporter
                     .sendMail({

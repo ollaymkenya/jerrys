@@ -17,7 +17,7 @@ header {
     text-align: center;
     color: #333333;
     width: 80%;
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
 }
 
 .faq-header__text h1 {
@@ -54,7 +54,7 @@ header {
 .faq-search input {
     margin: 0 0.5rem;
     border: 1px solid #e3e9fd;
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
     font-weight: 500;
     border-radius: 5px;
     padding: 1rem 1rem;
@@ -82,7 +82,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
     font-weight: 500;
     color: #333333;
     margin: 1rem auto;
@@ -200,7 +200,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
 }
 
 .faq-qanda__list {
@@ -234,7 +234,7 @@ header {
 }
 
 .faq-qanda__list-item p {
-    font-family: 'Roboto Condensed', sans-serif;
+    font-family: 'Khand', sans-serif;
     font-size: 1.1rem;
     font-weight: 600;
     color: #6d6d7a;

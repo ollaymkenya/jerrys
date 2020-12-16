@@ -7,6 +7,14 @@
     </header>
     <div class="main login">
         <div class="form-container log-in-container">
+            <% if(successMessage) { %>
+                <div class="message-alert message-alert__<%= successMessage.messageType %>">
+                    <span>
+                        <ion-icon name="information-circle-outline"></ion-icon>
+                    </span>
+                    <span> <%= successMessage.message %> </span>
+                </div>
+            <% } %>
             <% if(errorMessage){ %>
             <div class="flash-message flash-message-danger"><span class="bold">Oh snap!</span><%= errorMessage %></div>
             <% } %>
@@ -38,5 +46,12 @@
             </form>
         </div>
     </div>
+    <script>
+        if(document.querySelector('.message-alert')) {
+            setTimeout(() => {
+                document.querySelector('.message-alert').remove();
+            }, 5000);
+        }
+    </script>
     <%- include('../includes/footer.ejs')%>
     <%- include('../includes/end.ejs')%>

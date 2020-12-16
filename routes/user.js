@@ -15,8 +15,6 @@ router.get('/projects-newProject', Auth.isAuth, userControllers.getDashboardNewP
 
 router.get('/projects', Auth.isAuth, userControllers.getProjects);
 
-router.get('/projects/:projectId', Auth.isAuth, userControllers.getProject);
-
 router.get('/content-testimonials', Auth.isAuth, Auth.isClientAdmin, userControllers.getDashboardTestimonials);
 
 router.post('/add-testimonial', Auth.isAuth, Auth.isClientAdmin, userControllers.postAddTestimonail);

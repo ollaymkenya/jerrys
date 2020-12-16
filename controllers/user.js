@@ -16,9 +16,9 @@ exports.getDashboard = async (req, res, next) => {
     Project
         .find()
         .then((projects) => {
-            if(!(JSON.stringify(user.accountType) !== JSON.stringify('5f971a68421e6d53753718c5') || JSON.stringify(user.accountType) !== JSON.stringify('5f971aa4421e6d53753718c6'))) {
-                for(let i = 0 ; i < projects.length; i++) {
-                    if(JSON.stringify(projects[i].ownerId) !==JSON.stringify(user.id)) {
+            if (!(JSON.stringify(user.accountType) !== JSON.stringify('5f971a68421e6d53753718c5') || JSON.stringify(user.accountType) !== JSON.stringify('5f971aa4421e6d53753718c6'))) {
+                for (let i = 0; i < projects.length; i++) {
+                    if (JSON.stringify(projects[i].ownerId) !== JSON.stringify(user.id)) {
                         projects.splice(i, 1);
                     }
                 }
@@ -142,6 +142,11 @@ exports.getDashboardNewProjects = (req, res, next) => {
 };
 
 exports.getProjects = async (req, res, next) => {
+    let successMessage;
+    if (req.session.successContact) {
+        successMessage = req.session.successContact;
+        req.session.successContact = null;
+    }
     const user = req.user;
     const projects = await Project
         .find()
@@ -153,18 +158,10 @@ exports.getProjects = async (req, res, next) => {
         title: "Projects",
         path: "/projects",
         user: user,
-        projects: projects
+        projects: projects,
+        successMessage: successMessage
     });
     //console.log(user.username);
-};
-
-exports.getProject = (req, res, next) => {
-    const user = req.user;
-    res.render("user/project", {
-        title: "Projects",
-        path: "/projects",
-        user: user,
-    });
 };
 
 exports.getDashboardTestimonials = async (req, res, next) => {

@@ -338,7 +338,12 @@ exports.postCreatePaper = async (req, res) => {
     ownerId: req.user._id
   })
   // saving paper to db
+  req.session.successContact = {
+    message: 'Your project has been received, check your email',
+    messageType: 'success'
+}
   let projectResult = await project.save();
+
   res.redirect('/projects');
   // creating the content of pdf document
   let projo = await Project.findById(projectResult.id).populate('typeOfPaper').populate('subject').populate('urgency').populate('academicLevel').populate('ownerId').exec();
@@ -504,7 +509,7 @@ exports.postCreatePaper = async (req, res) => {
   
   await transporter
     .sendMail({
-      to: "jerrymuthomi@gmail.com",
+      to: "smartwriterskenya@gmail.com",
       from: "jerrythewriterworks@gmail.com",
       attachments: attachments,
       subject: "New job!!!",

@@ -18,6 +18,14 @@
             </ul>
         </div>
         <div class="projects">
+            <% if(successMessage) { %>
+                <div class="message-alert message-alert__<%= successMessage.messageType %>">
+                    <span>
+                        <ion-icon name="information-circle-outline"></ion-icon>
+                    </span>
+                    <span> <%= successMessage.message %> </span>
+                </div>
+            <% } %>
             <div class="projects-header">
                 <h4>Projects</h4>
                 <span>
@@ -232,6 +240,12 @@
     modalClose1.addEventListener('click', () => {
         modalBg.classList.remove('bg-active');
     })
+
+    if (document.querySelector('.message-alert')) {
+        setTimeout(() => {
+            document.querySelector('.message-alert').remove();
+        }, 5000);
+    }
 </script>
 </body>
 

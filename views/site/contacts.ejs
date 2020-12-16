@@ -15,13 +15,22 @@
         <div class="contacts-wrapper">
             <div class="contacts-box">
                 <div class="contact-box__left">
-                    <form action="/contacts" method = 'POST' class="contacts-form">
-                        <% if(errorMessage){ %>
-                            <div class="flash-message flash-message-danger"><span class="bold">Oh snap!</span><%= errorMessage %>
+                    <form action="/contacts" method='POST' class="contacts-form">
+                        <% if(successMessage) { %>
+                            <div class="message-alert message-alert__<%= successMessage.messageType %>">
+                                <span>
+                                    <ion-icon name="information-circle-outline"></ion-icon>
+                                </span>
+                                <span> <%= successMessage.message %> </span>
                             </div>
                         <% } %>
+                        <% if(errorMessage){ %>
+                        <div class="flash-message flash-message-danger"><span class="bold">Oh
+                                snap!</span><%= errorMessage %>
+                        </div>
+                        <% } %>
                         <label for="email">Your name</label>
-                        <input type="text" name="name" id="name">
+                        <input type="text" name="name" id="name">                        
                         <label for="email">Your email address</label>
                         <input type="email" name="email" id="email">
                         <label for="question">How can I help you?</label>
@@ -88,5 +97,12 @@
             </div>
         </div>
     </main>
+    <script>
+        if(document.querySelector('.message-alert')) {
+            setTimeout(() => {
+                document.querySelector('.message-alert').remove();
+            }, 5000);
+        }
+    </script>
     <%- include('../includes/footer.ejs')%>
     <%- include('../includes/end.ejs')%>
