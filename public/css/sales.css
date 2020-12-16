@@ -57,8 +57,8 @@ big {
 .sales-nav button {
     height: 40px;
     width: 120px;
-    border: 3px solid #EA4F16;
-    color:  #EA4F16;
+    border: 3px solid #333333;
+    color:  #333333;
     font-size: 1rem;
     margin: 0 5px;
     background-color: #ffffff;
@@ -67,7 +67,7 @@ big {
 }
 
 .sales-nav button:hover {
-    background-color:  #EA4F16;
+    background-color:  #333333;
     color: white;
 }
 
@@ -121,7 +121,11 @@ big {
 }
 
 .purple-highlight {
-    color: #EA4F16;
+    color: #6025aa;
+}
+
+.green-highlight {
+    color:#6025aa;
 }
 
 .sales-sub__title {
@@ -363,7 +367,7 @@ big {
     position: absolute;
     bottom: .5rem;
     right: 45px;
-    border: 1.5px solid  #EA4F16;
+    border: 1.5px solid  #00D287;
     border-radius: 3px;
     height: 78%;
     width: 120px;
@@ -392,7 +396,7 @@ big {
 }
 
 .sales-features__image {
-    background-color:  #EA4F16;
+    background-color: #00D287;
     border-radius: 50%;
     width: 60px;
     height: 60px;
@@ -472,8 +476,8 @@ big {
 
 .away {
     border: .5px solid #9c9c9c;
-    color: #EA4F16;
-    font-weight: 900;
+    color: #444d56;
+    font-weight: 700;
 }
 
 #phoneImage{

@@ -58,6 +58,7 @@ exports.getContacts = (req, res, next) => {
 
 exports.postContacts = (req, res, next) => {
     //console.log(req.body);
+    let name = req.body.name;
     let email = req.body.email;
     let question = req.body.question;
     let questionContent = req.body.questionContent;
@@ -79,6 +80,16 @@ exports.postContacts = (req, res, next) => {
                     <br>
                     <br>
                     <small><i>This is an email sent from JTW's contacts page</i></small>
+                `
+        })
+        transporter
+        .sendMail({
+            to: req.body.email,
+            from: "jerrythewriterworks@gmail.com",
+            subject: `Hi ${req.body.name}`,
+            html: `
+                    <h1>RE:JTW contact's page submission</h1>
+                    <p>We've received your question and we  will get in touch with you ASAP</p> 
                 `
         })
     res.redirect('/contacts');
