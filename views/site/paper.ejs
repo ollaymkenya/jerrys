@@ -110,7 +110,7 @@
                                 <label for="inputFiles">Add new files</label>
                                 <div class="file-wrapper">
                                     <div class="upload-btn-wrapper">
-                                        <button class="upload-file">
+                                        <button class="upload-file" type="button">
                                             <% if( oldLoginInput.resources !== '') { %>
                                             <%= oldLoginInput.resources %>
                                             <% } else { %>
@@ -119,7 +119,7 @@
                                                 Drop your file here or <span class="highlight-green">Browse disk</span>
                                             </span>
                                             <div class="upload-secret-button d-block" id="blankFile">
-                                                Supports PDF, DOC, WORD
+                                                Supports docs and images. Max of 2mb and 12 files
                                             </div>
                                             <span class="success">
                                                 <ion-icon name="checkmark-circle-outline"></ion-icon>
@@ -245,12 +245,12 @@
                             <input type="checkbox" style="cursor: pointer;" name="agree" id="agree">
                             <label for="agree">
                                 <small>I agree with
-                                    <a href="/terms" class="highlight-green">Terms of Use
+                                    <a href="/terms" target="_blank" class="highlight-green">Terms of Use
                                     </a> ,
-                                    <a href="/guarantee" class="highlight-green">Money Back Guarantee
+                                    <a href="/guarantee" target="_blank" class="highlight-green">Money Back Guarantee
                                     </a>
                                     and
-                                    <a href="/policy" class="highlight-green">Privacy Policy
+                                    <a href="/policy" target="_blank" class="highlight-green">Privacy Policy
                                     </a>
                                     Hereby, I understand my personal information or vulnerable data not to be
                                     transferred
@@ -443,12 +443,27 @@
 
         document.getElementById('selectfile').onchange = function () {
             console.log(this.files)
+            if (this.files.length === 0) {
+                document.querySelector('.attachedDocList').remove();
+                let noInfo = document.createElement('span');
+                noInfo.className = 'upload-btn d-block';
+                noInfo.id = 'info'
+                noInfo.innerHTML =
+                    `<ion-icon name="document-attach-outline"></ion-icon>Drop your file here or <span class="highlight-green">Browse disk</span>`;
+                document.getElementById('blankFile').appendChild(noInfo);
+                return;
+            }
+            if(document.querySelector(".attachedDocList")) {
+                document.querySelector(".attachedDocList").remove();
+            }
             let attachedDocList = document.createElement('ul');
+            attachedDocList.className = "attachedDocList";
             let attachedDocsListItem;
             for (let i = 0; i < this.files.length; i++) {
                 attachedDocsListItem = document.createElement('li');
+                attachedDocsListItem.className = 'attachedDocsListItem';
                 attachedDocsListItem.innerHTML =
-                    `<span class='highlight-green'><ion-icon name="document-attach-outline"></ion-icon> ${this.files[i].name}</span> <br>`;
+                    `<span class='highlight-green__attachment'><ion-icon name="document-attach-outline"></ion-icon> <span class ="filename">${this.files[i].name}</span></span> <br>`;
                 attachedDocList.appendChild(attachedDocsListItem);
             }
             document.getElementById('blankFile').appendChild(attachedDocList);

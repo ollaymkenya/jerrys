@@ -26,7 +26,7 @@ header {
 .about-header__text {
     text-align: center;
     color: #f7f7f7;
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
     margin: auto;
 }
 
@@ -41,7 +41,7 @@ header {
 }
 
 .intro {
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -103,7 +103,7 @@ header {
 }
 
 .unique-text {
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
     color: #333333;
     margin: auto;
 }

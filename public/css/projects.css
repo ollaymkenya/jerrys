@@ -14,18 +14,18 @@
     align-items: center;
 }
 
-.projects-header h4{
+.projects-header h4 {
     font-size: 1.5rem;
 }
 
-.projects-list{
+.projects-list {
     height: 90%;
     display: flex;
     flex-direction: column;
     overflow: auto;
 }
 
-.projects-list li{
+.projects-list li {
     margin: .2rem auto;
     padding: .5rem;
     border-radius: 7px;
@@ -34,52 +34,52 @@
     border: .5px solid #9c9c9c;
 }
 
-.projects-list__item{
+.projects-list__item {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.projects-information{
+.projects-information {
     width: 95%;
 }
 
-.projects-information__header{
+.projects-information__header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.projects-information__header h4{
+.projects-information__header h4 {
     font-size: 1.2rem;
     color: #313131;
 }
 
-.projects-information__header span{
-    font-family: Poppins;
+.projects-information__header span {
+    font-family: Montserrat;
     font-size: .8rem;
 }
 
-.projects-information__body{
+.projects-information__body {
     display: flex;
     justify-content: space-between;
 }
 
-.projects-information__body span{
-    font-family: Poppins;
+.projects-information__body span {
+    font-family: Montserrat;
     font-size: .8rem;
 }
 
-.projects-information__body span:first-child{
+.projects-information__body span:first-child {
     color: #6901e1;
 }
 
-.projects-information__body span:last-child{
+.projects-information__body span:last-child {
     color: green;
 }
 
 /* the project attachment buttton */
-.projects-menu__list li button{
+.projects-menu__list li button {
     background-color: transparent;
     border: none;
     outline: none;
@@ -88,4 +88,8 @@
     height: 100%;
     cursor: pointer;
     text-align: start;
+}
+
+.projects-toggle {
+    cursor: pointer;
 }

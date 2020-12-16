@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Khand:wght@300;400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400&display=swap');
 
 * {
@@ -356,7 +357,7 @@ nav {
 /* footer */
 footer {
     background-color: #f1f1f1;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: flex;
     justify-content: center;
     min-height: 60vh;
@@ -552,7 +553,7 @@ footer {
 .justify-container,
 .justify-center__container {
     color: #333;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -752,10 +753,6 @@ footer {
         align-self: stretch;
     }
 
-    .wrapper .testi .client .say h3 {
-        transform: translateY(-250px);
-    }
-
     .wrapper .testi .client.show .say h3 {
         transform: translateY(0);
     }
@@ -805,4 +802,26 @@ footer {
     justify-content: space-around;
     width: 100%;
     margin-top: 2rem;
+}
+
+.message-alert{
+    width: 85%;
+    margin: 0 auto;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    padding: .75rem 1.25rem;
+    font-weight: 500;
+    font-family: Roboto;
+}
+
+.message-alert span:first-child ion-icon{
+    margin-bottom: -4px;
+    font-size: 1.25rem;
+}
+
+.message-alert__success{
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
 }

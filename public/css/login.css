@@ -1,11 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
-
-* {
-    user-select: none;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-}
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
 .main {
     min-height: 100vh;
@@ -13,7 +6,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 .form-container {
@@ -36,7 +29,7 @@
 
 .form-container form p,
 .form-container form p {
-    font-family: Poppins;
+    font-family: Montserrat;
     font-size: .9rem;
 }
 
@@ -73,6 +66,8 @@
 }
 
 .form-footer {
-    font-family: Poppins;
+    font-family: Montserrat;
     font-size: .9rem;
 }
+
+

@@ -22,7 +22,7 @@ header {
     text-align: center;
     color: #ffffff;
     margin: 5rem auto;
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
 }
 
 .samples-header__text h1 {
@@ -32,7 +32,7 @@ header {
 .samples-header__text p {
     font-size: 1.3rem;
     font-weight: 500;
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
 }
 
 .samples-content {
@@ -46,7 +46,7 @@ header {
 
 .sampels-list,
 .sampels-dashboard__list {
-    font-family: 'Poppins', 'sans-serif';
+    font-family: 'Montserrat', 'sans-serif';
     width: 80%;
     margin: 2rem auto;
     color: #333333;

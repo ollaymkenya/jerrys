@@ -10,7 +10,7 @@ main {
     grid-template-rows: 100%;
     height: 100vh;
     overflow: hidden;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 @media screen and (max-width: 768px) {
@@ -128,7 +128,7 @@ main {
 }
 
 .profile-heading {
-    font-family: 'Poppins', bold, sans-serif;
+    font-family: 'Montserrat', bold, sans-serif;
     color: #313131;
     font-weight: 800;
 }
@@ -247,7 +247,7 @@ main {
     padding: .5rem 0;
     border-radius: 7px;
     position: relative;
-    font-family: Poppins;
+    font-family: Montserrat;
 }
 
 .user-form {

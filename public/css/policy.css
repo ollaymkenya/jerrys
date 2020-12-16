@@ -1,12 +1,12 @@
 .policy-container {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     width: 100%;
     font-size: 1.2rem;
 }
 
 
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
 
 .policy-container__header {
     height: 60vh;
@@ -36,7 +36,7 @@
 }
 
 .policy-container__header h1 {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #ffffff;
 }
 
@@ -48,6 +48,6 @@
 }
 
 .policy-content__title {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: #313131;
 }

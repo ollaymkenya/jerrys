@@ -49,10 +49,16 @@ exports.getAbout = async (req, res, next) => {
 }
 
 exports.getContacts = (req, res, next) => {
+    let successMessage;
+    if(req.session.successContact) {
+        successMessage = req.session.successContact;
+        req.session.successContact = null;
+    }
     res.render('site/contacts', {
         title: 'Contact Me',
         path: '/contacts',
-        errorMessage: ''
+        errorMessage: '',
+        successMessage: successMessage
     });
 }
 
@@ -81,6 +87,10 @@ exports.postContacts = (req, res, next) => {
                     <small><i>This is an email sent from JTW's contacts page</i></small>
                 `
         })
+    req.session.successContact = {
+        message: 'Your email has been received, we will get back to you ASAP',
+        messageType: 'success'
+    }
     res.redirect('/contacts');
 }
 
@@ -199,7 +209,7 @@ exports.postNewPaper = async (req, res, next) => {
     let paper = req.body;
 
     //if no topic as a use
-    if(checkedSwitcher==='loggedIn'){
+    if (checkedSwitcher === 'loggedIn') {
         if (topic.length < 2) {
             resources = resources.length < 1 ? '' : 'Files already saved';
             return res.status(422).render("site/paper", {
@@ -218,7 +228,7 @@ exports.postNewPaper = async (req, res, next) => {
                     urgency: urgency,
                     discountCode: discountCode,
                     typeOfPaper: typeOfPaper,
-                    checkedSwitcher:'loggedIn',
+                    checkedSwitcher: 'loggedIn',
                     resources: resources,
                     service: service,
                     agree: agree,
@@ -229,8 +239,8 @@ exports.postNewPaper = async (req, res, next) => {
                 user
             })
         }
-      //if no order instruction as a user
-          if (!orderInstructions) {
+        //if no order instruction as a user
+        if (!orderInstructions) {
             resources = resources.length < 1 ? '' : 'Files already saved';
             console.log(errors.array());
             return res.status(422).render("site/paper", {
@@ -249,7 +259,7 @@ exports.postNewPaper = async (req, res, next) => {
                     urgency: urgency,
                     discountCode: discountCode,
                     typeOfPaper: typeOfPaper,
-                    checkedSwitcher:checkedSwitcher,
+                    checkedSwitcher: checkedSwitcher,
                     resources: resources,
                     service: service,
                     agree: agree,
@@ -258,76 +268,76 @@ exports.postNewPaper = async (req, res, next) => {
                 validationErrors: errors.array(),
                 parameters,
                 user
-               
+
             })
         }
-    
+
     }
-    
+
     if (checkedSwitcher === 'on') {
         mode = 'login';
-    
-    if (topic.length < 2) {
-        resources = resources.length < 1 ? '' : 'Files already saved';
-        return res.status(422).render("site/paper", {
-            title: "Paper",
-            path: "/paper",
-            errorMessage: 'Topic should contain atleast 2 characters',
-            oldLoginInput: {
-                email: email,
-                password: password,
-                subject: subject,
-                topic: topic,
-                orderInstructions: orderInstructions,
-                nofSources: nofSources,
-                noOfPages: noOfPages,
-                urgency: urgency,
-                discountCode: discountCode,
-                typeOfPaper: typeOfPaper,
-                checkedSwitcher: 'on',
-                resources: resources,
-                service: service,
-                agree: agree,
-                errorField: "topics"
-            },
-            validationErrors: errors.array(),
-            parameters,
-            user
-        })
-    }
 
-    //if no order instructions
-    if (!orderInstructions) {
-        resources = resources.length < 1 ? '' : 'Files already saved';
-        console.log(errors.array());
-        return res.status(422).render("site/paper", {
-            title: "Paper",
-            path: "/paper",
-            errorMessage: 'Order Instruction should contain atleast 2 characters',
-            oldLoginInput: {
-                email: email,
-                password: password,
-                subject: subject,
-                topic: topic,
-                orderInstructions: orderInstructions,
-                nofSources: nofSources,
-                noOfPages: noOfPages,
-                urgency: urgency,
-                discountCode: discountCode,
-                typeOfPaper: typeOfPaper,
-                checkedSwitcher: 'on',
-                resources: resources,
-                service: service,
-                agree: agree,
-                errorField: "instructions"
-            },
-            validationErrors: errors.array(),
-            parameters,
-            user
-        })
-    }
+        if (topic.length < 2) {
+            resources = resources.length < 1 ? '' : 'Files already saved';
+            return res.status(422).render("site/paper", {
+                title: "Paper",
+                path: "/paper",
+                errorMessage: 'Topic should contain atleast 2 characters',
+                oldLoginInput: {
+                    email: email,
+                    password: password,
+                    subject: subject,
+                    topic: topic,
+                    orderInstructions: orderInstructions,
+                    nofSources: nofSources,
+                    noOfPages: noOfPages,
+                    urgency: urgency,
+                    discountCode: discountCode,
+                    typeOfPaper: typeOfPaper,
+                    checkedSwitcher: 'on',
+                    resources: resources,
+                    service: service,
+                    agree: agree,
+                    errorField: "topics"
+                },
+                validationErrors: errors.array(),
+                parameters,
+                user
+            })
+        }
 
-    if (!errors.isEmpty()) {
+        //if no order instructions
+        if (!orderInstructions) {
+            resources = resources.length < 1 ? '' : 'Files already saved';
+            console.log(errors.array());
+            return res.status(422).render("site/paper", {
+                title: "Paper",
+                path: "/paper",
+                errorMessage: 'Order Instruction should contain atleast 2 characters',
+                oldLoginInput: {
+                    email: email,
+                    password: password,
+                    subject: subject,
+                    topic: topic,
+                    orderInstructions: orderInstructions,
+                    nofSources: nofSources,
+                    noOfPages: noOfPages,
+                    urgency: urgency,
+                    discountCode: discountCode,
+                    typeOfPaper: typeOfPaper,
+                    checkedSwitcher: 'on',
+                    resources: resources,
+                    service: service,
+                    agree: agree,
+                    errorField: "instructions"
+                },
+                validationErrors: errors.array(),
+                parameters,
+                user
+            })
+        }
+
+        if (!errors.isEmpty()) {
             resources = resources.length < 1 ? '' : 'Files already saved';
             console.log(errors.array());
             return res.status(422).render("site/paper", {
@@ -392,7 +402,7 @@ exports.postNewPaper = async (req, res, next) => {
         req.session.paper = paper;
         req.session.files = resources;
         return res.redirect('/checkout');
-    } else if (!checkedSwitcher || checkedSwitcher === ''){
+    } else if (!checkedSwitcher || checkedSwitcher === '') {
         mode = 'signup';
         let accountType = 'client';
         let redirectPage = '/checkout';
@@ -559,9 +569,9 @@ exports.postNewPaper = async (req, res, next) => {
         req.session.files = resources;
     } else {
         //if no topic
-        
+
         //if no order instructions
-      
+
         try {
             req.session.paper = paper;
             req.session.files = resources;
