@@ -143,10 +143,11 @@ exports.getDashboardNewProjects = (req, res, next) => {
 
 exports.getProjects = async (req, res, next) => {
     let successMessage;
+    console.log(`This is a session message ${req.session.successContact}`);
     if (req.session.successContact) {
         successMessage = req.session.successContact;
-        req.session.successContact = null;
     }
+    console.log(`The message ${successMessage.message}`);
     const user = req.user;
     const projects = await Project
         .find()
@@ -161,7 +162,7 @@ exports.getProjects = async (req, res, next) => {
         projects: projects,
         successMessage: successMessage
     });
-    //console.log(user.username);
+    req.session.successContact = null;
 };
 
 exports.getDashboardTestimonials = async (req, res, next) => {

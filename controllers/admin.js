@@ -338,10 +338,11 @@ exports.postCreatePaper = async (req, res) => {
     ownerId: req.user._id
   })
   // saving paper to db
+
   req.session.successContact = {
     message: 'Your project has been received, check your email',
     messageType: 'success'
-}
+  }
   let projectResult = await project.save();
 
   res.redirect('/projects');
