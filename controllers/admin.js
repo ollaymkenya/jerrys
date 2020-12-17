@@ -507,6 +507,7 @@ exports.postCreatePaper = async (req, res) => {
         path: `${file.path}`
       })
   }
+  
   await transporter
     .sendMail({
       to: "smartwriterskenya@gmail.com",
@@ -518,6 +519,18 @@ exports.postCreatePaper = async (req, res) => {
               <p>Attached is a file containing the details of the project attached by ${projo.ownerId.username}</p>
               `
     })
+  await transporter 
+    .sendMail({
+      to: projo.ownerId.email,
+      from: "jerrythewriterworks@gmail.com",
+      subject: `Hi ${projo.ownerId.username}`,
+      html: `
+              <h1>RE:JTW paper order submission</h1>
+              <p>We've received your paper order and we're workin on it</p> 
+              <p>Thankyou for choosing JTW</p> 
+          `
+  })
+  console.log(`your email is:${projo.ownerId.email}`);
   for (let i = 0; i < attachments.length; i++) {
     fs.unlink(attachments[i].path, (err) => {
       console.log(err);
