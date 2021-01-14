@@ -6,28 +6,29 @@
     <%- include('../includes/dashnav.ejs')%>
     <div class="users-container main">
         <div class="projects-nav">
-            
+
             <ul class="projects-nav__list">
                 <% if (accountType === "Admin") { %>
                 <a href="/content-faq">
-                <li class="<%= path === '/content-faq' ? 'active' : '' %>">
-                   <span>faq</span>
-                </li>
-            </a>
-            <% } %>
-            <% if (accountType === "Admin") { %>
+                    <li class="<%= path === '/content-faq' ? 'active' : '' %>">
+                        <span>faq</span>
+                    </li>
+                </a>
+                <% } %>
+                <% if (accountType === "Admin") { %>
                 <a href="/content-users">
-                <li class="<%= path === '/content-users' ? 'active' : '' %>">
-                   <span>users</span>
-                </li>
-            </a>
-            <% } %> 
-            <% if (accountType === "Admin") { %>
-                <a href="/content-sample"><li class="<%= path === '/content-sample' ? 'active' : '' %>">
-                <span>samples</span>
-                </li>
-            </a>
-            <% } %> 
+                    <li class="<%= path === '/content-users' ? 'active' : '' %>">
+                        <span>users</span>
+                    </li>
+                </a>
+                <% } %>
+                <% if (accountType === "Admin") { %>
+                <a href="/content-sample">
+                    <li class="<%= path === '/content-sample' ? 'active' : '' %>">
+                        <span>samples</span>
+                    </li>
+                </a>
+                <% } %>
             </ul>
         </div>
         <div class="users">
@@ -53,6 +54,7 @@
             </div>
             <ul class="users-list">
                 <% for (let i = 0; i < users.length; i++) { %>
+                <% if((JSON.stringify(users[i].accountType._id) !== JSON.stringify("5f971a68421e6d53753718c5") && JSON.stringify(users[i].accountType._id) !== JSON.stringify("5fd1b09ee2ea8eafb0f382e5"))) { %>
                 <li class="uli" data-accouttypeId="<%= users[i].accountType.id %>">
                     <div class="users-list__item">
                         <div class="user-header">
@@ -75,6 +77,7 @@
                         </div>
                     </div>
                 </li>
+                <% } %>
                 <% } %>
             </ul>
         </div>

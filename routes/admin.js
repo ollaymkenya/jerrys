@@ -23,13 +23,13 @@ router.get('/content-faq', Auth.isAuth,Auth.isClientAdmin, adminControllers.getA
 
 router.post('/content-faq', Auth.isAuth, Auth.isClientAdmin, adminControllers.postAdminFaq);
 
-router.post('/delete_faq', Auth.isAuth, isAdmin, adminControllers.postDeletefaq)
+router.post('/delete_faq', Auth.isAuth, isAdmin, adminControllers.postDeletefaq);
 
-router.get('/content-sample', Auth.isAuth, isAdmin, adminControllers.getAdminSample)
+router.get('/content-sample', Auth.isAuth, isAdmin, adminControllers.getAdminSample);
 
-router.post('/content-sample', Auth.isAuth, isAdmin, adminControllers.postAdminSample)
+router.post('/content-sample', Auth.isAuth, isAdmin, adminControllers.postAdminSample);
 
-router.post('/delete-sample', Auth.isAuth, isAdmin, adminControllers.postDeleteSample)
+router.post('/delete-sample', Auth.isAuth, isAdmin, adminControllers.postDeleteSample);
 
 router.get('/content-users', Auth.isAuth, isAdmin, adminControllers.getAdminUsers);
 
@@ -40,6 +40,8 @@ router.post('/add-editor', Auth.isAuth, isAdmin, adminControllers.postAddEditor)
 router.get('/checkout', Auth.isAuth, adminControllers.getCheckout);
 
 router.post('/createPaper', Auth.isAuth, adminControllers.postCreatePaper);
+
+router.get('/redirectToPaper', Auth.isAuth, adminControllers.getRedirectToPaper);
 
 router.post('/submit-work', Auth.isAuth, adminControllers.postSubmitWork);
 

@@ -17,14 +17,9 @@
                 <% } %>
             </ul>
         </div>
-        <% if (successMessage) { %>
-        <div class="message-alert message-alert__<%= successMessage.messageType %> %>">
-            <span>
-                <ion-icon name="information-circle-outline"></ion-icon>
-            </span>
-            <span><%= successMessage.message %> </span>
+        <div class="projects-search">
+            <input type="search" name="search" id="search" placeholder="search by order number">
         </div>
-        <% } %>
         <div class="projects">
             <div class="projects-header">
                 <h4>Projects</h4>
@@ -122,6 +117,11 @@
                                     <%= completed ? 'Completed': 'Incomplete'%>
                                 </span>
                             </div>
+                            <div class="projects-information__body">
+                                <span>
+                                    Order Number: # <span class="order-number"><%= project.orderNumber %></span>
+                                </span>
+                            </div>
                         </div>
                         <div class="projects-toggle">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
@@ -176,6 +176,7 @@
         </span>
     </div>
 </div>
+<script src="/js/projets.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
 <script src="https://unpkg.com/@popperjs/core@2"></script>

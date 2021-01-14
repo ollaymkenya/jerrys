@@ -29,7 +29,7 @@ async function validateUser(mode, email, password, confirmPassword = null) {
     });
 }
 
-function signUser(username, email, password, accountType, redirectPage, req, res) {
+function signUser(username, email, password, telephone, accountType, redirectPage, req, res) {
     let accType = accountTypeVerifier(accountType);
     new Promise(function (resolve, reject) {
         bcrypt
@@ -39,7 +39,8 @@ function signUser(username, email, password, accountType, redirectPage, req, res
                     username: username,
                     email: email,
                     password: hashedPassword,
-                    accountType: accType
+                    accountType: accType,
+                    telephone: telephone
                 });
                 return user.save()
             })

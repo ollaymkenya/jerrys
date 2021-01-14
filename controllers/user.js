@@ -62,6 +62,7 @@ exports.getDashboardChat = (req, res, next) => {
                 const user = await User.findById(contactsid);
                 contacts.push(user);
             }
+            console.log(contacts);
             res.render("user/chat", {
                 title: "Chat",
                 path: "/dash/chat",
@@ -142,11 +143,6 @@ exports.getDashboardNewProjects = (req, res, next) => {
 };
 
 exports.getProjects = async (req, res, next) => {
-    let successMessage;
-    if (req.session.successContact) {
-        successMessage = req.session.successContact;
-        req.session.successContact = null;
-    }
     const user = req.user;
     const projects = await Project
         .find()
@@ -158,8 +154,7 @@ exports.getProjects = async (req, res, next) => {
         title: "Projects",
         path: "/projects",
         user: user,
-        projects: projects,
-        successMessage: successMessage
+        projects: projects
     });
 };
 

@@ -1,6 +1,19 @@
 <%- include('../includes/head.ejs')%>
 <link rel="stylesheet" href="/css/paper.css">
+<link rel="stylesheet" href="/phonelib/css/intlTelInput.min.css">
 </head>
+<style>
+    .iti__flag {
+        background-image: url("/phonelib/img/flags.png");
+    }
+
+    @media (-webkit-min-device-pixel-ratio: 2),
+    (min-resolution: 192dpi) {
+        .iti__flag {
+            background-image: url("/phonelib/img/flags@2x.png");
+        }
+    }
+</style>
 
 <body>
     <%- include('../includes/navigation.ejs')%>
@@ -364,6 +377,16 @@
             placeholder="Confirm your password" value="<%= oldLoginInput.confirmPassword %>"
             >
         </div>
+        <div class="paper-form__form-item">
+            <label for="phone">Telephone Number</label>
+            <input 
+            id="phone"
+            name="phone"
+            class="<%= oldLoginInput.errorField === 'telephone' ? 'invalid' : '' %>"
+            type="tel"
+            value="<%= oldLoginInput.telephone %>"
+            >
+        </div>
         `
 
         //creation  of a login page on checked
@@ -392,19 +415,8 @@
         </div>
         `
 
-        let signindiv = document.getElementById('signInDiv');
-        window.onload = () => {
-            if (!document.getElementById('isloggedin')) {
-                signindiv.innerHTML = document.querySelector('input[name="checkedSwitcherReq"]').value === 'on' ?
-                    createlogInDiv : createSignIn;
-                if (document.querySelector('input[name="checkedSwitcherReq"]').value === 'on') {
-                    document.querySelector('.unselect').classList.add('opac-0');
-                    document.querySelector('.select').classList.remove('opac-0');
-                }
-            }
-        }
-
         document.querySelector('#checkedSwitcher').addEventListener('click', (e) => {
+            let signindiv = document.getElementById('signInDiv');
             if (e.target.checked) {
                 signindiv.innerHTML = createlogInDiv
                 document.querySelector('.unselect').classList.add('opac-0');
@@ -413,6 +425,11 @@
                 signindiv.innerHTML = createSignIn
                 document.querySelector('.unselect').classList.remove('opac-0');
                 document.querySelector('.select').classList.add('opac-0');
+                var input = document.querySelector("#phone");
+                window.intlTelInput(input, {
+                    hiddenInput: "full_phone",
+                    utilsScript: "/phonelib/js/utils.js",
+                });
             }
         })
         //Enable button after accepting an agreement
@@ -453,7 +470,7 @@
                 document.getElementById('blankFile').appendChild(noInfo);
                 return;
             }
-            if(document.querySelector(".attachedDocList")) {
+            if (document.querySelector(".attachedDocList")) {
                 document.querySelector(".attachedDocList").remove();
             }
             let attachedDocList = document.createElement('ul');
@@ -551,6 +568,30 @@
                 el.innerHTML = `$${newTotal.toPrecision(4)}`;
             }
             console.log(newTotal);
+        }
+    </script>
+    <!-- phone lib -->
+    <script src="/phonelib/js/intlTelInput.min.js"></script>
+    <script>
+        window.onload = () => {
+            let signindiv = document.getElementById('signInDiv');
+            if (!document.getElementById('isloggedin')) {
+                signindiv.innerHTML = document.querySelector('input[name="checkedSwitcherReq"]').value ===
+                    'on' ?
+                    createlogInDiv : createSignIn;
+                if (document.querySelector('input[name="checkedSwitcherReq"]').value === 'on') {
+                    document.querySelector('.unselect').classList.add('opac-0');
+                    document.querySelector('.select').classList.remove('opac-0');
+                }
+            }
+
+            if (document.getElementById('signInDiv')) {
+                var input = document.querySelector("#phone");
+                window.intlTelInput(input, {
+                    hiddenInput: "full_phone",
+                    utilsScript: "/phonelib/js/utils.js",
+                });
+            }
         }
     </script>
     <%- include('../includes/end.ejs')%>
