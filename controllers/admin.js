@@ -613,7 +613,7 @@ exports.postEditWork = async (req, res, next) => {
     return res.redirect('/projects');
   }
   // If project link contains some changes
-  else if (wordLink && wordLink !== project.assignmentWork) {
+  else if (workLink && workLink !== project.assignmentWork) {
     projectTopic = project.topic;
     userId = project.ownerId;
     completed = {

@@ -74,10 +74,6 @@
     color: #6901e1;
 }
 
-.projects-information__body span:last-child {
-    color: green;
-}
-
 /* the project attachment buttton */
 .projects-menu__list li button {
     background-color: transparent;
