@@ -48,7 +48,7 @@
                                 <span><%= username %></span>
                             </div>
                             <div class="projects-information__body">
-                                <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
+                                <span style='<%= completed ? "color: green;": "color:red;"%>'>
                                     <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
                                 </span>
                                 <span style='<%= completed ? "color: green;": "color:red;"%>'>
@@ -115,7 +115,7 @@
                                 <span><%= username %></span>
                             </div>
                             <div class="projects-information__body">
-                                <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
+                                <span style='<%= completed ? "color: green;": "color:red;"%>'>
                                     <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
                                 </span>
                                 <span style='<%= completed ? "color: green;": "color:red;"%>'>

@@ -70,7 +70,7 @@
     font-size: .8rem;
 }
 
-.projects-information__body span:first-child {
+.projects-information__body span:last-child {
     color: #6901e1;
 }
 
