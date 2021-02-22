@@ -19,4 +19,5 @@ document.querySelector("#redirect-button").addEventListener('click', () => redir
 function redirect() {
     counter = 0;
     window.location.replace("https://jerrythewriter.com/projects");
+    // window.location.replace("http://localhost:3000/projects");
 }

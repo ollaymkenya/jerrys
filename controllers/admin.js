@@ -325,7 +325,7 @@ exports.postCreatePaper = async (req, res) => {
   const paper = JSON.parse(req.body.data);
   const files = JSON.parse(req.body.files);
   let attachments;
-  let date = `${new Date().getDate()}/ ${new Date().getMonth()} + 1/ ${new Date().getFullYear()}`
+  let date = `${new Date().getDate()}/ ${new Date().getMonth() + 1}/ ${new Date().getFullYear()}`
   // creating a new paper
   const project = new Project({
     typeOfPaper: paper.typeOfPaper,

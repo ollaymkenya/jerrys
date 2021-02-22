@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 
 exports.getLogin = (req, res, next) => {
     let successMessage;
-    if(req.session.successContact) {
+    if (req.session.successContact) {
         successMessage = req.session.successContact;
         req.session.successContact = null;
     }
@@ -124,7 +124,7 @@ exports.postSignUp = (req, res, next) => {
                     })
                     .then((uzer) => {
                         User
-                            .findOne({ accountType: '5f971a68421e6d53753718c5'})
+                            .findOne({ accountType: '5f971a68421e6d53753718c5' })
                             .then((user) => {
                                 const chatroom = new Chatroom({
                                     userId: user.id,
@@ -163,23 +163,20 @@ exports.postLogin = (req, res, next) => {
     const email = req.body.email;
     const password = req.body.password;
     const errors = validationResult(req);
-    
+    let successMessage;
+
     if (!errors.isEmpty()) {
         console.log(errors.array());
         return res.status(422).render("auth/login", {
-            title: "Sign Up/Login",
+            title: "Login",
             path: "/login",
             errorMessage: errors.array()[0].msg,
             oldLoginInput: {
                 email: email,
                 password: password,
             },
-            oldSignupInput: {
-                username: '',
-                email: '',
-                password: '',
-            },
-            validationErrors: errors.array()
+            validationErrors: errors.array(),
+            successMessage
         })
     }
     User.findOne({ email: email })
@@ -189,7 +186,7 @@ exports.postLogin = (req, res, next) => {
                 return res.status(422).render("auth/login", {
                     title: "Sign Up/Login",
                     path: "/login",
-                    errorMessage:result.message,
+                    errorMessage: result.message,
                     validationErrors: [],
                     oldSignupInput: {
                         username: '',
