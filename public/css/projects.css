@@ -27,6 +27,12 @@
 
 @media screen and (max-width: 400px) {
     .projects-list {
+        height: 80%;
+    }
+}
+
+@media screen and (max-width: 300px) {
+    .projects-list {
         height: 70%;
     }
 }
