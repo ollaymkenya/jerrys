@@ -27,7 +27,7 @@ var fonts = {
     boldItalics: path.join(__dirname, '..', 'pdfmake', 'fonts', 'Roboto', 'Roboto-MediumItalic.ttf')
   }
 }
-const pdfPrinter = require('pdfmake')
+const pdfPrinter = require('pdfmake');
 var printer = new pdfPrinter(fonts);
 
 const transporter = nodemailer.createTransport({
@@ -320,10 +320,12 @@ exports.getCheckout = async (req, res, next) => {
 }
 
 exports.postCreatePaper = async (req, res) => {
+  let orderNumber = await crypto.randomBytes(12);
+  orderNumber = orderNumber.toString('hex');
   const paper = JSON.parse(req.body.data);
   const files = JSON.parse(req.body.files);
   let attachments;
-  let date = `${new Date().getDate()}/ ${new Date().getMonth()}/ ${new Date().getFullYear()}`
+  let date = `${new Date().getDate()}/ ${new Date().getMonth()} + 1/ ${new Date().getFullYear()}`
   // creating a new paper
   const project = new Project({
     typeOfPaper: paper.typeOfPaper,
@@ -335,16 +337,14 @@ exports.postCreatePaper = async (req, res) => {
     numberOfSources: paper.nofSources,
     academicLevel: paper.academicLevel,
     numberOfPages: parseInt(paper.noOfPages),
-    ownerId: req.user._id
+    ownerId: req.user._id,
+    orderNumber: orderNumber
   })
+
   // saving paper to db
-  req.session.successContact = {
-    message: 'Your project has been received, check your email',
-    messageType: 'success'
-}
   let projectResult = await project.save();
 
-  res.redirect('/projects');
+  res.redirect('/redirectToPaper');
   // creating the content of pdf document
   let projo = await Project.findById(projectResult.id).populate('typeOfPaper').populate('subject').populate('urgency').populate('academicLevel').populate('ownerId').exec();
 
@@ -361,6 +361,7 @@ exports.postCreatePaper = async (req, res) => {
       ],
       style: 'header'
     },
+    `Order Number: ${orderNumber}\n\n`,
     {
       style: 'tableExample',
       table: {
@@ -506,7 +507,7 @@ exports.postCreatePaper = async (req, res) => {
         path: `${file.path}`
       })
   }
-  
+
   await transporter
     .sendMail({
       to: "smartwriterskenya@gmail.com",
@@ -518,7 +519,7 @@ exports.postCreatePaper = async (req, res) => {
               <p>Attached is a file containing the details of the project attached by ${projo.ownerId.username}</p>
               `
     })
-  await transporter 
+  await transporter
     .sendMail({
       to: projo.ownerId.email,
       from: "jerrythewriterworks@gmail.com",
@@ -528,13 +529,22 @@ exports.postCreatePaper = async (req, res) => {
               <p>We've received your paper order and we're workin on it</p> 
               <p>Thankyou for choosing JTW</p> 
           `
-  })
+    })
   console.log(`your email is:${projo.ownerId.email}`);
   for (let i = 0; i < attachments.length; i++) {
     fs.unlink(attachments[i].path, (err) => {
       console.log(err);
     })
   }
+}
+
+exports.getRedirectToPaper = async (req, res, next) => {
+  let user = req.user;
+  res.render("admin/redirectToPaper", {
+    title: "redirect",
+    path: "/redirect",
+    user
+  })
 }
 
 exports.postSubmitWork = async (req, res, next) => {
@@ -603,7 +613,7 @@ exports.postEditWork = async (req, res, next) => {
     return res.redirect('/projects');
   }
   // If project link contains some changes
-  else if (wordLink && wordLink !== project.assignmentWork) {
+  else if (workLink && workLink !== project.assignmentWork) {
     projectTopic = project.topic;
     userId = project.ownerId;
     completed = {

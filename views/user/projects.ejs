@@ -17,15 +17,10 @@
                 <% } %>
             </ul>
         </div>
+        <div class="projects-search">
+            <input type="search" name="search" id="search" placeholder="search by order number">
+        </div>
         <div class="projects">
-            <% if(successMessage) { %>
-                <div class="message-alert message-alert__<%= successMessage.messageType %>">
-                    <span>
-                        <ion-icon name="information-circle-outline"></ion-icon>
-                    </span>
-                    <span> <%= successMessage.message %> </span>
-                </div>
-            <% } %>
             <div class="projects-header">
                 <h4>Projects</h4>
                 <span>
@@ -53,11 +48,16 @@
                                 <span><%= username %></span>
                             </div>
                             <div class="projects-information__body">
-                                <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
+                                <span style='<%= completed ? "color: green;": "color:red;"%>'>
                                     <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
                                 </span>
                                 <span style='<%= completed ? "color: green;": "color:red;"%>'>
                                     <%= completed ? 'Completed': 'Incomplete'%>
+                                </span>
+                            </div>
+                            <div class="projects-information__body">
+                                <span>
+                                    Order Number: # <span class="order-number"><%= project.orderNumber %></span>
                                 </span>
                             </div>
                         </div>
@@ -115,11 +115,16 @@
                                 <span><%= username %></span>
                             </div>
                             <div class="projects-information__body">
-                                <span style='<%= completed ? "color: #6901e1;": "color:red;"%>'>
+                                <span style='<%= completed ? "color: green;": "color:red;"%>'>
                                     <%= completed ? `Submitted on: ${new Date(JSON.parse(completedDate)).getDate()} / ${new Date(JSON.parse(completedDate)).getMonth() + 1} / ${new Date(JSON.parse(completedDate)).getFullYear()}` : 'Not submitted' %>
                                 </span>
                                 <span style='<%= completed ? "color: green;": "color:red;"%>'>
                                     <%= completed ? 'Completed': 'Incomplete'%>
+                                </span>
+                            </div>
+                            <div class="projects-information__body">
+                                <span>
+                                    Order Number: # <span class="order-number"><%= project.orderNumber %></span>
                                 </span>
                             </div>
                         </div>
@@ -176,10 +181,19 @@
         </span>
     </div>
 </div>
+<script src="/js/projets.js"></script>
 <script type="module" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.esm.js"></script>
 <script nomodule="" src="https://unpkg.com/ionicons@5.1.2/dist/ionicons/ionicons.js"></script>
 <script src="https://unpkg.com/@popperjs/core@2"></script>
 <script>
+    window.onload = () => {
+        if (document.querySelector('.message-alert')) {
+            setTimeout(() => {
+                document.querySelector('.message-alert').remove();
+            }, 5000);
+        }
+    }
+
     for (let i = 0; i < document.getElementsByClassName('projects-list__item').length; i++) {
         const projectsToggle = document.getElementsByClassName('projects-list__item')[i].lastElementChild;
         const projectsMenu = document.getElementsByClassName('projects-list__item')[i].parentElement.lastElementChild;
@@ -240,12 +254,6 @@
     modalClose1.addEventListener('click', () => {
         modalBg.classList.remove('bg-active');
     })
-
-    if (document.querySelector('.message-alert')) {
-        setTimeout(() => {
-            document.querySelector('.message-alert').remove();
-        }, 5000);
-    }
 </script>
 </body>
 

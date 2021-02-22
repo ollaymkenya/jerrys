@@ -50,7 +50,7 @@ exports.getAbout = async (req, res, next) => {
 
 exports.getContacts = (req, res, next) => {
     let successMessage;
-    if(req.session.successContact) {
+    if (req.session.successContact) {
         successMessage = req.session.successContact;
         req.session.successContact = null;
     }
@@ -88,7 +88,7 @@ exports.postContacts = (req, res, next) => {
                     <small><i>This is an email sent from JTW's contacts page</i></small>
                 `
         })
-        transporter
+    transporter
         .sendMail({
             to: req.body.email,
             from: "jerrythewriterworks@gmail.com",
@@ -213,7 +213,8 @@ exports.postNewPaper = async (req, res, next) => {
     const discountCode = req.body.discountCode;
     const confirmPassword = req.body.confirmPassword;
     const service = req.body.service;
-    const agree = req.body.agree
+    const agree = req.body.agree;
+    const telephone = req.body.full_phone;
 
     let parameters = await Parameter.find().populate('category');
     let mode;
@@ -441,7 +442,8 @@ exports.postNewPaper = async (req, res, next) => {
                     resources: resources,
                     service: service,
                     agree: agree,
-                    errorField: "topics"
+                    errorField: "topics",
+                    telephone: telephone
                 },
                 validationErrors: errors.array(),
                 parameters,
@@ -472,14 +474,15 @@ exports.postNewPaper = async (req, res, next) => {
                     resources: resources,
                     service: service,
                     agree: agree,
-                    errorField: "instructions"
+                    errorField: "instructions",
+                    telephone: telephone
                 },
                 validationErrors: errors.array(),
                 parameters,
                 user
             })
         }
-        // if no username:
+        // if no username
         if (!username || username.length < 3) {
             resources = resources.length < 1 ? '' : 'Files already saved';
             return res.status(422).render("site/paper", {
@@ -503,16 +506,45 @@ exports.postNewPaper = async (req, res, next) => {
                     resources: resources,
                     service: service,
                     errorField: 'password',
-                    agree: agree
+                    agree: agree,
+                    telephone: telephone
                 },
                 validationErrors: errors.array(),
                 parameters,
                 user
             })
         }
-        // If agreement is not checked
-
-
+        if (!telephone) {
+            resources = resources.length < 1 ? '' : 'Files already saved';
+            return res.status(422).render("site/paper", {
+                title: "Paper",
+                path: "/paper",
+                errorMessage: 'Please input your telephone number for communication purposes',
+                oldLoginInput: {
+                    subject: subject,
+                    topic: topic,
+                    orderInstructions: orderInstructions,
+                    nofSources: nofSources,
+                    noOfPages: noOfPages,
+                    urgency: urgency,
+                    discountCode: discountCode,
+                    typeOfPaper: typeOfPaper,
+                    username: username,
+                    email: email,
+                    password: password,
+                    confirmPassword: confirmPassword,
+                    checkedSwitcher: '',
+                    resources: resources,
+                    service: service,
+                    errorField: 'telephone',
+                    agree: agree,
+                    telephone: telephone
+                },
+                validationErrors: errors.array(),
+                parameters,
+                user
+            })
+        }
         // If any errors redirect back to paper page
         if (!errors.isEmpty()) {
             resources = resources.length < 1 ? '' : 'Files already saved';
@@ -538,7 +570,8 @@ exports.postNewPaper = async (req, res, next) => {
                     resources: resources,
                     service: service,
                     agree: agree,
-                    errorField: ""
+                    errorField: "",
+                    telephone: telephone
                 },
                 validationErrors: errors.array(),
                 parameters,
@@ -568,14 +601,15 @@ exports.postNewPaper = async (req, res, next) => {
                     resources: resources,
                     service: service,
                     agree: agree,
-                    errorField: "confirm password"
+                    errorField: "confirm password",
+                    telephone: telephone
                 },
                 validationErrors: [],
                 parameters,
                 user
             })
         }
-        signUser(username, email, password, accountType, redirectPage, req, res);
+        signUser(username, email, password, telephone, accountType, redirectPage, req, res);
         req.session.paper = paper;
         req.session.files = resources;
     } else {

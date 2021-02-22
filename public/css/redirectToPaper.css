@@ -1,0 +1,79 @@
+main {
+    background-color: #f7f7f7;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+    color: #333333;
+}
+
+.redirect-container {
+    border: 1rem solid #f7e968;
+    background-color: #ffffff;
+    padding: 5rem;
+}
+
+@media screen and (max-width: 768px) {
+    .redirect-container {
+        height: 100vh;
+        border: 1rem solid #f7e968;
+        background-color: #ffffff;
+        padding: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+    }
+}
+
+.redirect-title,
+.redirect-text,
+.redirect-message,
+.redirect-button {
+    margin: .5rem 0;
+}
+
+.redirect-title {
+    font-size: 3rem;
+}
+
+@media screen and (max-width: 768px) {
+    .redirect-title {
+        font-size: 2rem;
+    }
+}
+
+.redirect-message {
+    color: blue;
+}
+
+span.highlight-message {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #000086;
+}
+
+.redirect-button {
+    margin: .5rem 0;
+    border: none;
+    border: 2px solid #0000d3;
+    background-color: transparent;
+    padding: .5rem;
+    color: #333333;
+    font-weight: 500;
+    cursor: pointer;
+    transition: .5s ease;
+    width: 160px;
+    font-size: .9rem;
+}
+
+.redirect-button:hover {
+    margin: .5rem 0;
+    background-color: #0000d3;
+    color: #ffffff;
+}
+
+.redirect-message {
+    display: block;
+}

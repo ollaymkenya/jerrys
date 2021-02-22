@@ -17,6 +17,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    telephone: {
+      type: String,
+      required: true
+    },
     resetToken: String,
     resetTokenExpiration: Date,
     addedUserToken: String,
