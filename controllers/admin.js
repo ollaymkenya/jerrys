@@ -254,7 +254,7 @@ exports.postAddEditor = (req, res, next) => {
             html: `
                 <h1>Click the link to create an account</h1>
                 <p>You have been granted access to be an editor</p>
-                // <p>Click this <a href='https://www.jerrythewriter.com:3000/signup/${token}'>link</a> to create a new account !</p>
+                // <p>Click this <a href='https://www.jerrythewriter.com/signup/${token}'>link</a> to create a new account !</p>
             `
           })
           .catch((err) => {
