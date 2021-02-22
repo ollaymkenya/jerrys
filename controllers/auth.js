@@ -105,7 +105,8 @@ exports.postSignUp = (req, res, next) => {
                             username: username,
                             email: email,
                             password: hashedPassword,
-                            accountType: '5f971aa4421e6d53753718c6'
+                            accountType: '5f971aa4421e6d53753718c6',
+                            telephone: "editor N/A"
                         });
                         return user.save()
                     })
