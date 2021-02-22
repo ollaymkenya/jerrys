@@ -22,6 +22,7 @@ exports.getLogin = (req, res, next) => {
         successMessage = req.session.successContact;
         req.session.successContact = null;
     }
+    console.log(`The req.session is ${successMessage}`);
     let message = req.flash("error");
     if (message.length > 0) {
         message = message[0];
@@ -71,12 +72,14 @@ exports.getSignup = (req, res, next) => {
 };
 
 exports.postSignUp = (req, res, next) => {
+    console.log(req);
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
     const token = req.body.token;
     const errors = validationResult(req);
     let newUser;
+    console.log(username);
     if (!errors.isEmpty()) {
         console.log(errors.array());
         return res.status(422).render("auth/signup", {
@@ -105,6 +108,7 @@ exports.postSignUp = (req, res, next) => {
                             username: username,
                             email: email,
                             password: hashedPassword,
+                            telephone:"null",
                             accountType: '5f971aa4421e6d53753718c6'
                         });
                         return user.save()
